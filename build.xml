@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project default='compile' name='qcrg-scoreboard'>
+  <property name='FLEX_HOME' location='/opt/flex'/>
+
+  <property name='app.main' value='QCRGScoreboard'/>
+  <property name='app.name' value='QCRG Scoreboard'/>
+
+  <property name='build'    location='build'/>
+  <property name='dist'     location='dist' />
+  <property name='etc'      location='etc'  />
+  <property name='rsrc'     location='rsrc' />
+  <property name='src'      location='src'  />
+
+  <property environment='env'/>
+  <taskdef classpath='${FLEX_HOME}/ant/lib/flexTasks.jar'
+           file='${FLEX_HOME}/ant/flexTasks.tasks'/>
+
+  <target name='clean'>
+    <delete failonerror='false' includeemptydirs='true'>
+      <fileset dir='${build}'/>
+      <fileset dir='${dist}'/>
+    </delete>
+  </target>
+
+  <target name='compile'>
+    <mkdir dir='${build}'/>
+    <mxmlc file='${src}/${app.main}.mxml' output='${build}/${app.main}.swf'>
+      <load-config filename='${FLEX_HOME}/frameworks/air-config.xml'/>
+      <load-config filename='${etc}/config.xml'/>
+      <source-path path-element='${etc}'/>
+    </mxmlc>
+    <copy todir='${build}'>
+      <fileset dir='${rsrc}'/>
+    </copy>
+  </target>
+
+  <target depends='compile' name='debug'>
+    <exec executable='${FLEX_HOME}/bin/adl'>
+      <arg value='${etc}/${app.main}.xml'/>
+      <arg value='${build}'/>
+    </exec>
+  </target>
+
+  <target name='package' depends='compile'>
+    <input addproperty='password' message='Password:'>
+      <handler type='secure'/>
+    </input>
+    <delete file='${build}/${app.main}.swf.cache'/>
+    <mkdir dir='${dist}'/>
+    <java failonerror='true' fork='true' jar='${FLEX_HOME}/lib/adt.jar'>
+      <arg value='-package'/>
+      <arg value='-keystore'/>
+      <arg value='${etc}/${env.USER}.p12'/>
+      <arg value='-storepass'/>
+      <arg value='${password}'/>
+      <arg value='-storetype'/>
+      <arg value='pkcs12'/>
+      <arg value='${dist}/${app.main}.air'/>
+      <arg value='${etc}/${app.main}.xml'/>
+      <arg value='-C'/>
+      <arg value='${build}'/>
+      <arg value='.'/>
+    </java>
+  </target>
+</project>
+

@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='utf-8'?>
+<s:WindowedApplication height='324' minHeight='324' minWidth='320'
+    resize='onResize(event)' showStatusBar='false' width='320'
+    windowResize='onWindowResize(event)'
+    xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:mx='library://ns.adobe.com/flex/mx' xmlns:qcrg='qcrg.*'
+    xmlns:s='library://ns.adobe.com/flex/spark'>
+  <fx:Script source='QCRGScoreboard.mxml.as'/>
+  <fx:Style source='QCRGScoreboard.css'/>
+  <s:layout><s:VerticalLayout horizontalAlign='center'/></s:layout>
+  <s:menu>
+    <qcrg:NativeMenu>
+      <qcrg:Menu label='File'>
+        <qcrg:MenuItem itemClick='onQuit(event)' controlKey='true'
+            keyEquivalent='q' label='Quit'/>
+      </qcrg:Menu>
+    </qcrg:NativeMenu>
+  </s:menu>
+  <s:BorderContainer height='240' width='320'/>
+  <mx:Grid paddingBottom='2'>
+    <mx:GridRow>
+      <mx:GridItem width='52'><s:Label text='Clock:'/></mx:GridItem>
+      <mx:GridItem width='96'>
+        <s:TextInput text='20:00' width='100%'/>
+      </mx:GridItem>
+      <mx:GridItem width='52'><s:Label text='Jam:'/></mx:GridItem>
+      <mx:GridItem width='96'>
+        <s:TextInput text='2:00' width='100%'/>
+      </mx:GridItem>
+    </mx:GridRow>
+    <mx:GridRow>
+      <mx:GridItem width='52'><s:Label text='Period #:'/></mx:GridItem>
+      <mx:GridItem width='96'>
+        <s:TextInput text='1' width='100%'/>
+      </mx:GridItem>
+      <mx:GridItem width='52'><s:Label text='Lineup:'/></mx:GridItem>
+      <mx:GridItem width='96'>
+        <s:TextInput text='0:00' width='100%'/>
+      </mx:GridItem>
+    </mx:GridRow>
+    <mx:GridRow>
+      <mx:GridItem width='52'><s:Label text='Jam #:'/></mx:GridItem>
+      <mx:GridItem width='96'>
+        <s:TextInput text='1' width='100%'/>
+      </mx:GridItem>
+      <mx:GridItem width='52'><s:Label text='Timeout:'/></mx:GridItem>
+      <mx:GridItem width='96'>
+        <s:TextInput text='0:00' width='100%'/>
+      </mx:GridItem>
+    </mx:GridRow>
+  </mx:Grid>
+</s:WindowedApplication>

@@ -1,0 +1,23 @@
+@namespace mx 'library://ns.adobe.com/flex/mx';
+@namespace s  'library://ns.adobe.com/flex/spark';
+
+@font-face {
+  fontFamily: Arial;
+  src:        url('/assets/Arial.ttf');
+}
+
+@font-face {
+  fontFamily: Arial;
+  fontWeight: bold;
+  src:        url('/assets/ArialBold.ttf');
+}
+
+mx|GridItem {
+  horizontalAlign: right;
+  verticalAlign:   middle;
+}
+
+s|Label {
+  fontWeight: bold;
+}
+

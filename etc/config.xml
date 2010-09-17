@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<flex-config>
+  <compiler>
+    <incremental>true</incremental>
+    <omit-trace-statements>false</omit-trace-statements>
+    <optimize>true</optimize>
+    <theme>
+      <filename>${flexlib}/themes/Spark/spark.css</filename>
+      <filename>${flexlib}/projects/spark/MXFTEText.css</filename>
+    </theme>
+  </compiler>
+  <default-size>
+    <height>528</height>
+    <width>798</width>
+  </default-size>
+  <static-link-runtime-shared-libraries>false</static-link-runtime-shared-libraries>
+</flex-config>
+
