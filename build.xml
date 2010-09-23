@@ -9,6 +9,7 @@
   <property name='dist'     location='dist' />
   <property name='etc'      location='etc'  />
   <property name='rsrc'     location='rsrc' />
+  <property name='share'    location='share'/>
   <property name='src'      location='src'  />
 
   <property environment='env'/>
@@ -61,6 +62,12 @@
       <arg value='${build}'/>
       <arg value='.'/>
     </java>
+    <copy includeEmptyDirs='false' todir='${dist}'>
+      <fileset dir='${share}'>
+        <exclude name='**/*.cache'/>
+        <exclude name='**/*.swz'/>
+      </fileset>
+    </copy>
   </target>
 </project>
 
