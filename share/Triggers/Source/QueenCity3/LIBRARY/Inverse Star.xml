@@ -1,0 +1,38 @@
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="Inverse Star" itemID="4c9e07ef-0000025a" sourceLibraryItemHRef="Symbol 1" lastModified="1286030553">
+  <timeline>
+    <DOMTimeline name="Inverse Star">
+      <layers>
+        <DOMLayer name="Layer 2" color="#9933CC" current="true" isSelected="true">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <Actionscript>
+                <script><![CDATA[function rotate(event:Event) {	if (parent && parent.visible)		rotationY = (rotationY + 18) % 360}addEventListener(Event.ENTER_FRAME, rotate, false, 0, true)]]></script>
+              </Actionscript>
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="Layer 1" color="#4FFF4F">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMShape>
+                  <fills>
+                    <FillStyle index="1">
+                      <SolidColor color="#FFFF00"/>
+                    </FillStyle>
+                  </fills>
+                  <edges>
+                    <Edge fillStyle0="1" edges="!405 -451[1288 -440 1349 -436!1349 -436|1187 -314!1187 -314[759 17 546 186!546 186[546 204 841 1150!841 1150|6 579!6 579[-1 579 -822 1158!-822 1158|-538 190!-538 190|-1351 -422!-1351 -422|-379 -451!-379 -451[-325 -451 -313 -498!-313 -498
+|-286 -595!-286 -595[-88 -1157 -5 -1408!-5 -1408|333 -458!333 -458|405 -451!2 -1444[-598 -1444 -1022 -1025!-1022 -1025[-1445 -605 -1445 -4!-1445 -4[-1445 593 -1024 1016!-1024 1016[-602 1438 -1 1438!-1 1438[595 1438 1019 1020!1019 1020
+[1442 600 1442 -4!1442 -4[1442 -601 1023 -1023!1023 -1023[604 -1444 2 -1444"/>
+                  </edges>
+                </DOMShape>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+      </layers>
+    </DOMTimeline>
+  </timeline>
+</DOMSymbolItem>
