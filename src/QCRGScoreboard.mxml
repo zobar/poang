@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<s:WindowedApplication height='324' minHeight='324' minWidth='320'
-    resize='onResize(event)' showStatusBar='false' width='320'
+<s:WindowedApplication height='326' minHeight='326' minWidth='322'
+    resize='onResize(event)' showStatusBar='false' width='322'
     windowResize='onWindowResize(event)'
-    xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:dpk='dpk.*' xmlns:fx='http://ns.adobe.com/mxml/2009'
     xmlns:mx='library://ns.adobe.com/flex/mx' xmlns:qcrg='qcrg.*'
     xmlns:s='library://ns.adobe.com/flex/spark'>
   <fx:Script source='QCRGScoreboard.mxml.as'/>
@@ -16,8 +16,13 @@
       </qcrg:Menu>
     </qcrg:NativeMenu>
   </s:menu>
-  <s:BorderContainer height='240' width='320'/>
-  <mx:Grid paddingBottom='2'>
+  <s:Group height='100%' width='100%'>
+    <s:layout>
+      <dpk:AspectRatioLayout adjustHeight='2' adjustWidth='2'/>
+    </s:layout>
+    <s:BorderContainer height='100%' width='100%'/>
+  </s:Group>
+  <mx:Grid>
     <mx:GridRow>
       <mx:GridItem width='52'><s:Label text='Clock:'/></mx:GridItem>
       <mx:GridItem width='96'>
