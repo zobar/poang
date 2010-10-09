@@ -22,36 +22,25 @@
     </s:layout>
     <s:BorderContainer height='100%' width='100%'/>
   </s:Group>
-  <mx:Grid>
-    <mx:GridRow>
-      <mx:GridItem width='52'><s:Label text='Clock:'/></mx:GridItem>
-      <mx:GridItem width='96'>
-        <s:TextInput text='20:00' width='100%'/>
-      </mx:GridItem>
-      <mx:GridItem width='52'><s:Label text='Jam:'/></mx:GridItem>
-      <mx:GridItem width='96'>
-        <s:TextInput text='2:00' width='100%'/>
-      </mx:GridItem>
-    </mx:GridRow>
-    <mx:GridRow>
-      <mx:GridItem width='52'><s:Label text='Period #:'/></mx:GridItem>
-      <mx:GridItem width='96'>
-        <s:TextInput text='1' width='100%'/>
-      </mx:GridItem>
-      <mx:GridItem width='52'><s:Label text='Lineup:'/></mx:GridItem>
-      <mx:GridItem width='96'>
-        <s:TextInput text='0:00' width='100%'/>
-      </mx:GridItem>
-    </mx:GridRow>
-    <mx:GridRow>
-      <mx:GridItem width='52'><s:Label text='Jam #:'/></mx:GridItem>
-      <mx:GridItem width='96'>
-        <s:TextInput text='1' width='100%'/>
-      </mx:GridItem>
-      <mx:GridItem width='52'><s:Label text='Timeout:'/></mx:GridItem>
-      <mx:GridItem width='96'>
-        <s:TextInput text='0:00' width='100%'/>
-      </mx:GridItem>
-    </mx:GridRow>
-  </mx:Grid>
+  <s:Group maxWidth='320' width='100%'>
+    <s:layout><s:HorizontalLayout verticalAlign='middle'/></s:layout>
+    <s:Label text='Clock:' width='52'/>
+    <s:TextInput text='30:00' width='50%'/>
+    <s:Label text='Jam:' width='52'/>
+    <s:TextInput text='2:00' width='50%'/>
+  </s:Group>
+  <s:Group maxWidth='320' width='100%'>
+    <s:layout><s:HorizontalLayout verticalAlign='middle'/></s:layout>
+    <s:Label text='Period #:' width='52'/>
+    <s:TextInput text='1' width='50%'/>
+    <s:Label text='Lineup:' width='52'/>
+    <s:TextInput text='0:00' width='50%'/>
+  </s:Group>
+  <s:Group maxWidth='320' width='100%'>
+    <s:layout><s:HorizontalLayout verticalAlign='middle'/></s:layout>
+    <s:Label text='Jam #:' width='52'/>
+    <s:TextInput text='1' width='50%'/>
+    <s:Label text='Timeout:' width='52'/>
+    <s:TextInput text='0:00' width='50%'/>
+  </s:Group>
 </s:WindowedApplication>

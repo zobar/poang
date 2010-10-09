@@ -12,12 +12,8 @@
   src:        url('/assets/ArialBold.ttf');
 }
 
-mx|GridItem {
-  horizontalAlign: right;
-  verticalAlign:   middle;
-}
-
 s|Label {
   fontWeight: bold;
+  paddingTop: 2;
+  textAlign:  end;
 }
-
