@@ -3,18 +3,45 @@
     resize='onResize(event)' showStatusBar='false' width='322'
     windowResize='onWindowResize(event)'
     xmlns:dpk='dpk.*' xmlns:fx='http://ns.adobe.com/mxml/2009'
-    xmlns:mx='library://ns.adobe.com/flex/mx' xmlns:qcrg='qcrg.*'
+    xmlns:mx='library://ns.adobe.com/flex/mx'
     xmlns:s='library://ns.adobe.com/flex/spark'>
   <fx:Script source='QCRGScoreboard.mxml.as'/>
   <fx:Style source='QCRGScoreboard.css'/>
   <s:layout><s:VerticalLayout horizontalAlign='center'/></s:layout>
   <s:menu>
-    <qcrg:NativeMenu>
-      <qcrg:Menu label='File'>
-        <qcrg:MenuItem itemClick='onQuit(event)' controlKey='true'
-            keyEquivalent='q' label='Quit'/>
-      </qcrg:Menu>
-    </qcrg:NativeMenu>
+    <dpk:NativeMenu>
+      <dpk:MenuItem name='application'>
+        <dpk:MenuItem name='about'/>
+        <dpk:Separator/>
+        <dpk:MenuItem name='hide'/>
+        <dpk:MenuItem name='hide_others'/>
+        <dpk:MenuItem name='show_all'/>
+        <dpk:Separator/>
+        <dpk:MenuItem keyEquivalent='q' label='Quit' osMatch='^Mac OS'
+            select='onQuitSelect(event)'/>
+      </dpk:MenuItem>
+      <dpk:MenuItem label='File' name='file'>
+        <dpk:MenuItem keyEquivalent='w' label='Close'
+            select='onCloseSelect(event)'/>
+        <dpk:MenuItem keyEquivalent='q' label='Quit' osMatch='^(?!Mac OS)'
+            select='onQuitSelect(event)'/>
+      </dpk:MenuItem>
+      <dpk:MenuItem label='Edit' name='edit'>
+        <dpk:MenuItem keyEquivalent='x' label='Cut' name='cut'/>
+        <dpk:MenuItem keyEquivalent='c' label='Copy' name='copy'/>
+        <dpk:MenuItem keyEquivalent='v' label='Paste' name='paste'/>
+        <dpk:MenuItem label='Delete' name='delete'/>
+        <dpk:MenuItem keyEquivalent='a' label='Select All' name='select_all'/>
+        <dpk:Separator/>
+        <dpk:MenuItem name='special_characters'/>
+      </dpk:MenuItem>
+      <dpk:MenuItem name='window'>
+        <dpk:MenuItem name='minimize'/>
+        <dpk:MenuItem name='zoom'/>
+        <dpk:Separator/>
+        <dpk:MenuItem name='bring_all_to_front'/>
+      </dpk:MenuItem>
+    </dpk:NativeMenu>
   </s:menu>
   <s:Group height='100%' width='100%'>
     <s:layout>

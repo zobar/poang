@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <flex-config>
   <compiler>
+    <debug>true</debug>
     <incremental>true</incremental>
     <omit-trace-statements>false</omit-trace-statements>
     <optimize>true</optimize>
@@ -15,4 +16,3 @@
   </default-size>
   <static-link-runtime-shared-libraries>false</static-link-runtime-shared-libraries>
 </flex-config>
-
