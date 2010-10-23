@@ -1,6 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <project default='build' name='qcrg-scoreboard'>
-  <property name='FLEX_HOME' location='/opt/flex'/>
+  <condition property='FLEX_HOME'
+      value='C:\Program Files\Flex'
+      else='/opt/flex'>
+    <os family='windows'/>
+  </condition>
 
   <property name='app.main' value='QCRGScoreboard'/>
   <property name='app.name' value='QCRG Scoreboard'/>
@@ -13,6 +17,9 @@
   <property name='src'      location='src'  />
 
   <property environment='env'/>
+  <condition property='exe' value='.exe' else=''>
+    <os family='windows'/>
+  </condition>
   <taskdef classpath='${FLEX_HOME}/ant/lib/flexTasks.jar'
            file='${FLEX_HOME}/ant/flexTasks.tasks'/>
 
@@ -39,7 +46,7 @@
   </target>
 
   <target depends='build' name='debug'>
-    <exec executable='${FLEX_HOME}/bin/adl'>
+    <exec executable='${FLEX_HOME}/bin/adl${exe}'>
       <arg value='${etc}/${app.main}.xml'/>
       <arg value='${build}'/>
     </exec>
