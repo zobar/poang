@@ -2,18 +2,35 @@
 @namespace s  'library://ns.adobe.com/flex/spark';
 
 @font-face {
-  fontFamily: Arial;
-  src:        url('/assets/Arial.ttf');
+  fontFamily: 'Droid Sans';
+  src:        url('/assets/DroidSans.ttf');
 }
 
 @font-face {
-  fontFamily: Arial;
+  fontFamily: 'Droid Sans';
   fontWeight: bold;
-  src:        url('/assets/ArialBold.ttf');
+  src:        url('/assets/DroidSans-Bold.ttf');
+}
+
+global {
+  borderColor: #b3b3b3;
+  fontFamily:  'Droid Sans';
+}
+
+s|BorderContainer {
+  borderStyle: inset;
 }
 
 s|Label {
   fontWeight: bold;
   paddingTop: 2;
-  textAlign:  end;
+}
+
+s|TextInput {
+  paddingTop: 3;
+  skinClass:  ClassReference('dpk.skins.TextInputSkin');
+}
+
+s|Window, s|WindowedApplication {
+  backgroundColor: #eeeeee;
 }

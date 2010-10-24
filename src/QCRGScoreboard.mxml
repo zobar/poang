@@ -1,13 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
-<s:WindowedApplication height='326' minHeight='326' minWidth='322'
-    resize='onResize(event)' showStatusBar='false' width='322'
-    windowResize='onWindowResize(event)'
+<s:WindowedApplication applicationComplete='onApplicationComplete(event)'
+    height='366' minHeight='366' minWidth='346' resize='onResize(event)'
+    showStatusBar='false' width='346' windowResize='onWindowResize(event)'
     xmlns:dpk='dpk.*' xmlns:fx='http://ns.adobe.com/mxml/2009'
     xmlns:mx='library://ns.adobe.com/flex/mx'
     xmlns:s='library://ns.adobe.com/flex/spark'>
   <fx:Script source='QCRGScoreboard.mxml.as'/>
   <fx:Style source='QCRGScoreboard.css'/>
-  <s:layout><s:VerticalLayout horizontalAlign='center'/></s:layout>
+  <s:layout>
+    <s:VerticalLayout horizontalAlign='center' paddingBottom='12'
+        paddingLeft='12' paddingRight='12' paddingTop='6'/>
+  </s:layout>
   <s:menu>
     <dpk:NativeMenu>
       <dpk:MenuItem name='application'>
@@ -47,27 +50,37 @@
     <s:layout>
       <dpk:AspectRatioLayout adjustHeight='2' adjustWidth='2'/>
     </s:layout>
-    <s:BorderContainer height='100%' width='100%'/>
+    <s:BorderContainer id='preview' height='100%'
+        resize='onPreviewResize(event)' width='100%'/>
   </s:Group>
-  <s:Group maxWidth='320' width='100%'>
-    <s:layout><s:HorizontalLayout verticalAlign='middle'/></s:layout>
-    <s:Label text='Clock:' width='52'/>
-    <s:TextInput text='30:00' width='50%'/>
-    <s:Label text='Jam:' width='52'/>
-    <s:TextInput text='2:00' width='50%'/>
-  </s:Group>
-  <s:Group maxWidth='320' width='100%'>
-    <s:layout><s:HorizontalLayout verticalAlign='middle'/></s:layout>
-    <s:Label text='Period #:' width='52'/>
-    <s:TextInput text='1' width='50%'/>
-    <s:Label text='Lineup:' width='52'/>
-    <s:TextInput text='0:00' width='50%'/>
-  </s:Group>
-  <s:Group maxWidth='320' width='100%'>
-    <s:layout><s:HorizontalLayout verticalAlign='middle'/></s:layout>
-    <s:Label text='Jam #:' width='52'/>
-    <s:TextInput text='1' width='50%'/>
-    <s:Label text='Timeout:' width='52'/>
-    <s:TextInput text='0:00' width='50%'/>
-  </s:Group>
+  <s:HGroup gap='12' maxWidth='320'>
+    <s:VGroup width='50%'>
+      <s:HGroup verticalAlign='middle' width='100%'>
+        <s:Label text='Clock:' width='52'/>
+        <s:TextInput text='30:00' width='100%'/>
+      </s:HGroup>
+      <s:HGroup verticalAlign='middle' width='100%'>
+        <s:Label text='Period #:' width='52'/>
+        <s:TextInput text='1' width='100%'/>
+      </s:HGroup>
+      <s:HGroup verticalAlign='middle' width='100%'>
+        <s:Label text='Jam #:' width='52'/>
+        <s:TextInput text='1' width='100%'/>
+      </s:HGroup>
+    </s:VGroup>
+    <s:VGroup width='50%'>
+      <s:HGroup verticalAlign='middle' width='100%'>
+        <s:Label text='Jam:' width='52'/>
+        <s:TextInput text='2:00' width='100%'/>
+      </s:HGroup>
+      <s:HGroup verticalAlign='middle' width='100%'>
+        <s:Label text='Lineup:' width='52'/>
+        <s:TextInput text='0:00' width='100%'/>
+      </s:HGroup>
+      <s:HGroup verticalAlign='middle' width='100%'>
+        <s:Label text='Timeout:' width='52'/>
+        <s:TextInput text='0:00' width='100%'/>
+      </s:HGroup>
+    </s:VGroup>
+  </s:HGroup>
 </s:WindowedApplication>

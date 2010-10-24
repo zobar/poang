@@ -1,8 +1,8 @@
 import mx.collections.ArrayCollection
-import mx.core.IWindow
+import mx.events.FlexEvent
 import mx.events.FlexNativeWindowBoundsEvent
 import mx.events.ResizeEvent
-import mx.managers.SystemManager
+import mx.managers.ISystemManager
 
 [Bindable]
 public var players:ArrayCollection = new ArrayCollection([
@@ -85,18 +85,27 @@ public var players:ArrayCollection = new ArrayCollection([
   {                 name: 'Vanilla Creamz'        },
   {number: '18',    name: 'Violet Intentions'     },
   {number: '73',    name: 'Wrecks Kitten'         }
-])
+]);
 
 protected function onCloseSelect(event:Event):void {
   var activeNativeWindow:NativeWindow = NativeApplication.nativeApplication.activeWindow
-  if (activeNativeWindow) {
-    IWindow(SystemManager(
-        activeNativeWindow.stage.getChildAt(0)).application).close()
-  }
+  if (activeNativeWindow)
+    ISystemManager(activeNativeWindow.stage.getChildAt(0)).document.close()
+}
+
+protected function onApplicationComplete(event:FlexEvent):void {
+  // Linux glitch: doesn't adjust layout after adding menu bar.  On other
+  // platforms, these should already be equal.
+  height = stage.stageHeight
+}
+
+protected function onPreviewResize(event:Event):void {
+  trace('Resize preview ' + (event.currentTarget.width - 2) + 'x' +
+      (event.currentTarget.height - 2))
 }
 
 protected function onResize(event:ResizeEvent):void {
-  trace('Resize ' + width + 'x' + height)
+  trace('Resize application ' + width + 'x' + height)
 }
 
 protected function onQuitSelect(event:Event):void {
@@ -104,5 +113,5 @@ protected function onQuitSelect(event:Event):void {
 }
 
 protected function onWindowResize(event:FlexNativeWindowBoundsEvent):void {
-  trace('Native resize ' + event.afterBounds)
+  trace('Resize window ' + event.afterBounds)
 }
