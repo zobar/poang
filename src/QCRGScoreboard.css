@@ -13,12 +13,13 @@
 }
 
 global {
-  borderColor: #b3b3b3;
+  borderColor: #999999;
   fontFamily:  'Droid Sans';
 }
 
 s|BorderContainer {
-  borderStyle: inset;
+  borderStyle:  inset;
+  cornerRadius: 2;
 }
 
 s|Label {

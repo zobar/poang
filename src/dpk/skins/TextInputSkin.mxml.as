@@ -14,10 +14,8 @@ override protected function commitProperties():void {
 
 override protected function updateDisplayList(unscaledWidth:Number,
     unscaledHeight:Number):void {
-  var borderColor:uint = getStyle('borderColor')
-  var borderDarkColor:uint = ColorUtil.adjustBrightness(borderColor, -26)
-  var borderLightColor:uint = ColorUtil.adjustBrightness(borderColor, 25)
-  borderDarkStroke.color = borderDarkColor
-  borderLightStroke.color = borderLightColor
+  border.radiusX = border.radiusY = getStyle('cornerRadius')
+  borderStroke.color = getStyle('borderColor')
   super.updateDisplayList(unscaledWidth, unscaledHeight)
 }
+
