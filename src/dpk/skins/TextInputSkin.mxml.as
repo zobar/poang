@@ -18,4 +18,3 @@ override protected function updateDisplayList(unscaledWidth:Number,
   borderStroke.color = getStyle('borderColor')
   super.updateDisplayList(unscaledWidth, unscaledHeight)
 }
-

@@ -14,6 +14,7 @@
 
 global {
   borderColor: #999999;
+  chromeColor: #6699ff;
   fontFamily:  'Droid Sans';
 }
 
@@ -22,8 +23,11 @@ s|BorderContainer {
   cornerRadius: 2;
 }
 
+s|CheckBox {
+  skinClass: ClassReference('dpk.skins.CheckBoxSkin');
+}
+
 s|Label {
-  fontWeight: bold;
   paddingTop: 2;
 }
 

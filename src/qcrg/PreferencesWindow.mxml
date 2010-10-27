@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<s:Window initialize='onInitialize(event)' showStatusBar='false'
+    xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:s='library://ns.adobe.com/flex/spark'>
+  <fx:Script source='PreferencesWindow.mxml.as'/>
+  <s:layout>
+    <s:HorizontalLayout paddingBottom='12' paddingLeft='12' paddingRight='12'
+        paddingTop='12' verticalAlign='middle'/>
+  </s:layout>
+  <s:CheckBox label='Automatically check for updates'/>
+</s:Window>

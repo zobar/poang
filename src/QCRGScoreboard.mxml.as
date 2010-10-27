@@ -3,6 +3,7 @@ import mx.events.FlexEvent
 import mx.events.FlexNativeWindowBoundsEvent
 import mx.events.ResizeEvent
 import mx.managers.ISystemManager
+import qcrg.PreferencesWindow
 
 [Bindable]
 public var players:ArrayCollection = new ArrayCollection([
@@ -87,8 +88,21 @@ public var players:ArrayCollection = new ArrayCollection([
   {number: '73',    name: 'Wrecks Kitten'         }
 ]);
 
+public function get preferencesWindow():PreferencesWindow {
+  return _preferencesWindow
+}
+public function set preferencesWindow(value:PreferencesWindow):void {
+  if (preferencesWindow)
+    preferencesWindow.removeEventListener(Event.CLOSE, onPreferencesWindowClose)
+  _preferencesWindow = value
+  if (preferencesWindow)
+    preferencesWindow.addEventListener(Event.CLOSE, onPreferencesWindowClose)
+}
+protected var _preferencesWindow:PreferencesWindow
+
 protected function onCloseSelect(event:Event):void {
-  var activeNativeWindow:NativeWindow = NativeApplication.nativeApplication.activeWindow
+  var activeNativeWindow:NativeWindow =
+      NativeApplication.nativeApplication.activeWindow
   if (activeNativeWindow)
     ISystemManager(activeNativeWindow.stage.getChildAt(0)).document.close()
 }
@@ -97,6 +111,19 @@ protected function onApplicationComplete(event:FlexEvent):void {
   // Linux glitch: doesn't adjust layout after adding menu bar.  On other
   // platforms, these should already be equal.
   height = stage.stageHeight
+}
+
+protected function onPreferencesSelect(event:Event):void {
+  if (preferencesWindow)
+    preferencesWindow.activate()
+  else {
+    preferencesWindow = new PreferencesWindow()
+    preferencesWindow.open()
+  }
+}
+
+protected function onPreferencesWindowClose(event:Event):void {
+  preferencesWindow = null
 }
 
 protected function onPreviewResize(event:Event):void {

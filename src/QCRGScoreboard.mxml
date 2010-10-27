@@ -16,6 +16,9 @@
       <dpk:MenuItem name='application'>
         <dpk:MenuItem name='about'/>
         <dpk:Separator/>
+        <dpk:MenuItem keyEquivalent=',' label='Preferences…'
+            select='onPreferencesSelect(event)'/>
+        <dpk:Separator/>
         <dpk:MenuItem name='hide'/>
         <dpk:MenuItem name='hide_others'/>
         <dpk:MenuItem name='show_all'/>
@@ -37,6 +40,11 @@
         <dpk:MenuItem keyEquivalent='a' label='Select All' name='select_all'/>
         <dpk:Separator/>
         <dpk:MenuItem name='special_characters'/>
+        <dpk:MenuItem label='Preferences' osMatch='^(?!Mac OS|Windows)'
+            select='onPreferencesSelect(event)'/>
+      </dpk:MenuItem>
+      <dpk:MenuItem label='Tools' osMatch='^Windows'>
+        <dpk:MenuItem label='Settings' select='onPreferencesSelect(event)'/>
       </dpk:MenuItem>
       <dpk:MenuItem name='window'>
         <dpk:MenuItem name='minimize'/>
@@ -56,29 +64,29 @@
   <s:HGroup gap='12' maxWidth='320'>
     <s:VGroup width='50%'>
       <s:HGroup verticalAlign='middle' width='100%'>
-        <s:Label text='Clock:' width='52'/>
+        <s:Label text='Clock:' width='50'/>
         <s:TextInput text='30:00' width='100%'/>
       </s:HGroup>
       <s:HGroup verticalAlign='middle' width='100%'>
-        <s:Label text='Period #:' width='52'/>
+        <s:Label text='Period #:' width='50'/>
         <s:TextInput text='1' width='100%'/>
       </s:HGroup>
       <s:HGroup verticalAlign='middle' width='100%'>
-        <s:Label text='Jam #:' width='52'/>
+        <s:Label text='Jam #:' width='50'/>
         <s:TextInput text='1' width='100%'/>
       </s:HGroup>
     </s:VGroup>
     <s:VGroup width='50%'>
       <s:HGroup verticalAlign='middle' width='100%'>
-        <s:Label text='Jam:' width='52'/>
+        <s:Label text='Jam:' width='50'/>
         <s:TextInput text='2:00' width='100%'/>
       </s:HGroup>
       <s:HGroup verticalAlign='middle' width='100%'>
-        <s:Label text='Lineup:' width='52'/>
+        <s:Label text='Lineup:' width='50'/>
         <s:TextInput text='0:00' width='100%'/>
       </s:HGroup>
       <s:HGroup verticalAlign='middle' width='100%'>
-        <s:Label text='Timeout:' width='52'/>
+        <s:Label text='Timeout:' width='50'/>
         <s:TextInput text='0:00' width='100%'/>
       </s:HGroup>
     </s:VGroup>

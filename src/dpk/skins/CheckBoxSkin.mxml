@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='utf-8'?>
+<s:SparkSkin useChromeColor='true' xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:s='library://ns.adobe.com/flex/spark'>
+  <fx:Metadata><![CDATA[
+    [HostComponent('spark.components.CheckBox')]
+  ]]></fx:Metadata>
+  <fx:Script source='CheckBoxSkin.mxml.as'/>
+  <s:states>
+    <s:State name='up'/>
+    <s:State name='over' stateGroups='overStates'/>
+    <s:State name='down' stateGroups='downStates'/>
+    <s:State name='disabled' stateGroups='disabledStates'/>
+    <s:State name='upAndSelected' stateGroups='selectedStates'/>
+    <s:State name='overAndSelected' stateGroups='overStates, selectedStates'/>
+    <s:State name='downAndSelected' stateGroups='downStates, selectedStates'/>
+    <s:State name='disabledAndSelected'
+        stateGroups='disabledStates, selectedStates'/>
+  </s:states>
+  <s:Group height='14' width='14'>
+    <s:Rect id='dropShadow' bottom='-1' left='1' right='-1' top='1'>
+      <s:fill><s:SolidColor alpha='.12' color='0x000000'/></s:fill>
+    </s:Rect>
+    <s:Rect id='background' bottom='1' excludeFrom='selectedStates' left='1'
+        right='1' top='1'>
+      <s:fill><s:SolidColor color='0xeeeeee'/></s:fill>
+    </s:Rect>
+    <s:Rect bottom='1' includeIn='selectedStates' left='1' right='1' top='1'>
+      <s:fill><s:SolidColor color='0xffffff'/></s:fill>
+    </s:Rect>
+    <s:Rect id='overHighlight' bottom='1' includeIn='overStates'
+        itemCreationPolicy='immediate' left='1' right='1' top='1'>
+      <s:fill>
+        <s:SolidColor alpha='1' alpha.selectedStates='.36' color='0xffffff'/>
+      </s:fill>
+    </s:Rect>
+    <s:Rect bottom='1' includeIn='downStates' left='1' right='1' top='1'>
+      <s:fill><s:SolidColor alpha='.12' color='0x000000'/></s:fill>
+    </s:Rect>
+    <s:Rect id='highlight' bottom='1' left="1" right="1" top="1">
+      <s:fill>
+        <s:LinearGradient rotation='90'>
+          <s:GradientEntry color='0xffffff' alpha='.24'/>
+          <s:GradientEntry color='0xffffff' alpha='0'/>
+          <s:GradientEntry color='0x000000' alpha='.12'/>
+        </s:LinearGradient>
+      </s:fill>
+      <s:stroke>
+        <s:LinearGradientStroke rotation='90'>
+          <s:GradientEntry color='0xffffff' alpha='0'/>
+          <s:GradientEntry color='0xffffff' alpha='.48'/>
+        </s:LinearGradientStroke>
+      </s:stroke>
+    </s:Rect>
+    <s:Rect id='border' bottom='0' left='0' right='0' top='0'>
+      <s:stroke>
+        <s:SolidColorStroke id='borderStroke' color='0x000000'/>
+      </s:stroke>
+    </s:Rect>
+    <s:Path bottom='2' includeIn='selectedStates' left='2' right='-1'
+        scaleY='-1' top='-1'
+        data='M 589 -37 q -36 79 -44 99 l -61 141 q -28 65 -48 106 l -37 75 q
+          -107 212 -253 299 q 171 144 305 144 q 89 0 140 -68.5 t 87 -237.5 q 260
+          493 405 681 q 130 169 222.5 224 t 245.5 55 q 96 0 208 -37 q -261 -171
+          -569.5 -562 t -600.5 -919 z'>
+      <s:fill><s:SolidColor color='0x333333'/></s:fill>
+    </s:Path>
+  </s:Group>
+  <s:Label id='labelDisplay' bottom='0' left='21' right='0' top='0'
+      verticalAlign='middle'/>
+</s:SparkSkin>
