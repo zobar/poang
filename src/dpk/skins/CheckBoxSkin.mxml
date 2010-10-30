@@ -17,9 +17,11 @@
     <s:State name='disabledAndSelected'
         stateGroups='disabledStates, selectedStates'/>
   </s:states>
+  <s:Rect bottom='0' left='0' right='0' top='0'>
+    <s:fill><s:SolidColor alpha='0' color='#000000'/></s:fill>
+  </s:Rect>
   <s:Group height='14' width='14'>
-    <dpk:ButtonBox id='box' currentState='{currentState}' height='14'
-        width='14'/>
+    <dpk:ButtonBox id='box' height='14' owner='{this}' width='14'/>
     <s:Path bottom='2' includeIn='selectedStates' left='2' right='-1'
         scaleY='-1' top='-1'
         data='M 589 -37 q -36 79 -44 99 l -61 141 q -28 65 -48 106 l -37 75 q

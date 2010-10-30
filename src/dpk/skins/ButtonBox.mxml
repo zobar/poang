@@ -16,13 +16,16 @@
   <s:Rect id='dropShadow' bottom='-1' left='1' right='-1' top='1'>
     <s:fill><s:SolidColor alpha='.12' color='0x000000'/></s:fill>
   </s:Rect>
-  <s:Rect bottom='1' excludeFrom='selectedStates' left='1' right='1' top='1'>
+  <s:Rect id='background' bottom='1' excludeFrom='selectedStates'
+      itemCreationPolicy='immediate' left='1' right='1' top='1'>
     <s:fill><s:SolidColor color='0xeeeeee'/></s:fill>
   </s:Rect>
-  <s:Rect bottom='1' includeIn='selectedStates' left='1' right='1' top='1'>
+  <s:Rect id='selectedBackground' bottom='1' includeIn='selectedStates'
+      itemCreationPolicy='immediate' left='1' right='1' top='1'>
     <s:fill><s:SolidColor id='highlightFill' color='0xffffff'/></s:fill>
   </s:Rect>
-  <s:Rect bottom='1' includeIn='overStates' left='1' right='1' top='1'>
+  <s:Rect id='overHighlight' bottom='1' includeIn='overStates'
+      itemCreationPolicy='immediate' left='1' right='1' top='1'>
     <s:fill>
       <s:LinearGradient rotation='90'>
         <s:GradientEntry color='0xffffff' alpha='.84'/>
@@ -30,16 +33,19 @@
       </s:LinearGradient>
     </s:fill>
   </s:Rect>
-  <s:Rect bottom='1' includeIn='downStates' left='1' right='1' top='1'>
+  <s:Rect id='downHighlight' bottom='1' includeIn='downStates'
+      itemCreationPolicy='immediate' left='1' right='1' top='1'>
     <s:fill><s:SolidColor alpha='.12' color='0x000000'/></s:fill>
   </s:Rect>
-  <s:Rect bottom='1' left="1" right="1" top="1">
+  <s:Rect id='highlightFillRect' bottom='2' left='2' right='2' top='2'>
     <s:fill>
       <s:LinearGradient rotation='90'>
         <s:GradientEntry color='0xffffff' alpha='.39'/>
         <s:GradientEntry color='0xffffff' alpha='.23'/>
       </s:LinearGradient>
     </s:fill>
+  </s:Rect>
+  <s:Rect id='highlightStrokeRect' bottom='1' left='1' right='1' top='1'>
     <s:stroke>
       <s:LinearGradientStroke rotation='90'>
         <s:GradientEntry color='0xffffff' alpha='.54'/>
@@ -47,22 +53,16 @@
       </s:LinearGradientStroke>
     </s:stroke>
   </s:Rect>
-  <s:Rect id='border' excludeFrom='selectedStates' bottom='0' left='0' right='0'
-      top='0'>
-    <s:stroke>
-      <s:SolidColorStroke id='borderStroke' color='0x000000'/>
-    </s:stroke>
-  </s:Rect>
-  <s:Rect id='borderSelected' includeIn='selectedStates' bottom='0' left='0'
-      right='0' top='0'>
+  <s:Rect id='borderSelected' bottom='0' includeIn='selectedStates'
+      itemCreationPolicy='immediate' left='0' right='0' top='0'>
     <s:stroke>
       <s:SolidColorStroke id='borderSelectedStroke' color='0x000000'/>
     </s:stroke>
   </s:Rect>
-  <s:Rect id='borderTint' includeIn='selectedStates' bottom='0' left='0'
-      right='0' top='0'>
+  <s:Rect id='border' bottom='0' left='0' right='0' top='0'>
     <s:stroke>
-      <s:SolidColorStroke id='borderTintStroke' alpha='.73' color='0x000000'/>
+      <s:SolidColorStroke id='borderStroke' alpha.selectedStates='.73'
+          color='0x000000'/>
     </s:stroke>
   </s:Rect>
 </s:Group>
