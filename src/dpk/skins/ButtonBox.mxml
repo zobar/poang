@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='utf-8'?>
+<s:Group xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:s='library://ns.adobe.com/flex/spark'>
+  <fx:Script source='ButtonBox.mxml.as'/>
+  <s:states>
+    <s:State name='up'/>
+    <s:State name='over' stateGroups='overStates'/>
+    <s:State name='down' stateGroups='downStates'/>
+    <s:State name='disabled' stateGroups='disabledStates'/>
+    <s:State name='upAndSelected' stateGroups='selectedStates'/>
+    <s:State name='overAndSelected' stateGroups='overStates, selectedStates'/>
+    <s:State name='downAndSelected' stateGroups='downStates, selectedStates'/>
+    <s:State name='disabledAndSelected'
+        stateGroups='disabledStates, selectedStates'/>
+  </s:states>
+  <s:Rect id='dropShadow' bottom='-1' left='1' right='-1' top='1'>
+    <s:fill><s:SolidColor alpha='.12' color='0x000000'/></s:fill>
+  </s:Rect>
+  <s:Rect bottom='1' excludeFrom='selectedStates' left='1' right='1' top='1'>
+    <s:fill><s:SolidColor color='0xeeeeee'/></s:fill>
+  </s:Rect>
+  <s:Rect bottom='1' includeIn='selectedStates' left='1' right='1' top='1'>
+    <s:fill><s:SolidColor id='highlightFill' color='0xffffff'/></s:fill>
+  </s:Rect>
+  <s:Rect bottom='1' includeIn='overStates' left='1' right='1' top='1'>
+    <s:fill>
+      <s:LinearGradient rotation='90'>
+        <s:GradientEntry color='0xffffff' alpha='.84'/>
+        <s:GradientEntry color='0xffffff' alpha='.46'/>
+      </s:LinearGradient>
+    </s:fill>
+  </s:Rect>
+  <s:Rect bottom='1' includeIn='downStates' left='1' right='1' top='1'>
+    <s:fill><s:SolidColor alpha='.12' color='0x000000'/></s:fill>
+  </s:Rect>
+  <s:Rect bottom='1' left="1" right="1" top="1">
+    <s:fill>
+      <s:LinearGradient rotation='90'>
+        <s:GradientEntry color='0xffffff' alpha='.39'/>
+        <s:GradientEntry color='0xffffff' alpha='.23'/>
+      </s:LinearGradient>
+    </s:fill>
+    <s:stroke>
+      <s:LinearGradientStroke rotation='90'>
+        <s:GradientEntry color='0xffffff' alpha='.54'/>
+        <s:GradientEntry color='0xffffff' alpha='.27'/>
+      </s:LinearGradientStroke>
+    </s:stroke>
+  </s:Rect>
+  <s:Rect id='border' excludeFrom='selectedStates' bottom='0' left='0' right='0'
+      top='0'>
+    <s:stroke>
+      <s:SolidColorStroke id='borderStroke' color='0x000000'/>
+    </s:stroke>
+  </s:Rect>
+  <s:Rect id='borderSelected' includeIn='selectedStates' bottom='0' left='0'
+      right='0' top='0'>
+    <s:stroke>
+      <s:SolidColorStroke id='borderSelectedStroke' color='0x000000'/>
+    </s:stroke>
+  </s:Rect>
+  <s:Rect id='borderTint' includeIn='selectedStates' bottom='0' left='0'
+      right='0' top='0'>
+    <s:stroke>
+      <s:SolidColorStroke id='borderTintStroke' alpha='.73' color='0x000000'/>
+    </s:stroke>
+  </s:Rect>
+</s:Group>
