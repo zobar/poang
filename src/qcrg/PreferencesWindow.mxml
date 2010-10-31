@@ -4,8 +4,13 @@
     xmlns:s='library://ns.adobe.com/flex/spark'>
   <fx:Script source='PreferencesWindow.mxml.as'/>
   <s:layout>
-    <s:HorizontalLayout paddingBottom='12' paddingLeft='12' paddingRight='12'
-        paddingTop='12' verticalAlign='middle'/>
+    <s:VerticalLayout paddingBottom='12' paddingLeft='12' paddingRight='12'
+        paddingTop='12'/>
   </s:layout>
   <s:CheckBox label='Automatically check for updates'/>
+  <s:HGroup paddingLeft='20' verticalAlign='middle'>
+    <s:Label text='following the'/>
+    <s:DropDownList dataProvider='{releaseTracks}'/>
+    <s:Label text='release track'/>
+  </s:HGroup>
 </s:Window>
