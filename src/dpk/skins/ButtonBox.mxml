@@ -33,10 +33,6 @@
       </s:LinearGradient>
     </s:fill>
   </s:Rect>
-  <s:Rect id='downHighlight' bottom='1' includeIn='downStates'
-      itemCreationPolicy='immediate' left='1' right='1' top='1'>
-    <s:fill><s:SolidColor alpha='.12' color='0x000000'/></s:fill>
-  </s:Rect>
   <s:Rect id='highlightFillRect' bottom='2' left='2' right='2' top='2'>
     <s:fill>
       <s:LinearGradient rotation='90'>
@@ -58,6 +54,10 @@
             alpha.selectedStates='.58'/>
       </s:LinearGradientStroke>
     </s:stroke>
+  </s:Rect>
+  <s:Rect id='downHighlight' bottom='1' includeIn='downStates'
+      itemCreationPolicy='immediate' left='1' right='1' top='1'>
+    <s:fill><s:SolidColor alpha='.12' color='0x000000'/></s:fill>
   </s:Rect>
   <s:Rect id='borderSelected' bottom='0' includeIn='selectedStates'
       itemCreationPolicy='immediate' left='0' right='0' top='0'>

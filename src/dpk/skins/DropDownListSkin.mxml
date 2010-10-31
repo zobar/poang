@@ -29,8 +29,7 @@
     </s:Group>
   </s:PopUpAnchor>
   <s:Button id='openButton' left='0' right='0' top='0' bottom='0'
-      focusEnabled='false'
-      skinClass='dpk.skins.DropDownListButtonSkin'/>
+      focusEnabled='false' skinClass='dpk.skins.DropDownListButtonSkin'/>
   <s:Label id='labelDisplay' bottom='3' left='3' maxDisplayedLines='1'
       mouseChildren='false' mouseEnabled='false' right='21' top='3'
       verticalAlign='middle' width='75'/>

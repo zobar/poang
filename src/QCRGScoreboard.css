@@ -24,6 +24,11 @@ s|BorderContainer {
   cornerRadius: 2;
 }
 
+s|Button {
+  cornerRadius: 4;
+  skinClass:    ClassReference('dpk.skins.ButtonSkin');
+}
+
 s|CheckBox {
   skinClass: ClassReference('dpk.skins.CheckBoxSkin');
 }
@@ -31,7 +36,7 @@ s|CheckBox {
 s|DropDownList {
   rollOverColor:  #3399ff;
   selectionColor: #99ccff;
-  skinClass: ClassReference('dpk.skins.DropDownListSkin');
+  skinClass:      ClassReference('dpk.skins.DropDownListSkin');
 }
 
 s|Label {

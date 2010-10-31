@@ -2,6 +2,7 @@ import flash.system.Capabilities
 import mx.collections.ArrayCollection
 import mx.collections.IList
 import mx.events.FlexEvent
+import mx.events.ResizeEvent
 
 [Bindable]
 public function get releaseTracks():IList {
@@ -20,4 +21,8 @@ protected function onInitialize(event:FlexEvent):void {
     title = 'Settings'
   else
     title = 'Preferences'
+}
+
+protected function onResize(event:ResizeEvent):void {
+  trace('Resize preferences ' + width + 'x' + height)
 }
