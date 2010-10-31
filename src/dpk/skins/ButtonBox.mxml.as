@@ -42,6 +42,7 @@ override protected function updateDisplayList(unscaledWidth:Number,
     unscaledHeight:Number):void {
   var chromeColor:uint = getStyle('chromeColor')
   borderStroke.color = getStyle('borderColor')
+  backgroundFill.color = getStyle('contentBackgroundColor')
   if (borderSelected)
     borderSelectedStroke.color = chromeColor
   if (highlightFill)

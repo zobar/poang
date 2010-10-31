@@ -7,15 +7,15 @@
   ]]></fx:Metadata>
   <fx:Script source='CheckBoxSkin.mxml.as'/>
   <s:states>
-    <s:State name='up'/>
-    <s:State name='over' stateGroups='overStates'/>
-    <s:State name='down' stateGroups='downStates'/>
     <s:State name='disabled' stateGroups='disabledStates'/>
-    <s:State name='upAndSelected' stateGroups='selectedStates'/>
-    <s:State name='overAndSelected' stateGroups='overStates, selectedStates'/>
-    <s:State name='downAndSelected' stateGroups='downStates, selectedStates'/>
     <s:State name='disabledAndSelected'
         stateGroups='disabledStates, selectedStates'/>
+    <s:State name='down' stateGroups='downStates'/>
+    <s:State name='downAndSelected' stateGroups='downStates, selectedStates'/>
+    <s:State name='over' stateGroups='overStates'/>
+    <s:State name='overAndSelected' stateGroups='overStates, selectedStates'/>
+    <s:State name='up'/>
+    <s:State name='upAndSelected' stateGroups='selectedStates'/>
   </s:states>
   <s:Rect bottom='0' left='0' right='0' top='0'>
     <s:fill><s:SolidColor alpha='0' color='#000000'/></s:fill>

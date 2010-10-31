@@ -18,7 +18,7 @@
   </s:Rect>
   <s:Rect id='background' bottom='1' excludeFrom='selectedStates'
       itemCreationPolicy='immediate' left='1' right='1' top='1'>
-    <s:fill><s:SolidColor color='0xeeeeee'/></s:fill>
+    <s:fill><s:SolidColor id='backgroundFill' color='0xffffff'/></s:fill>
   </s:Rect>
   <s:Rect id='selectedBackground' bottom='1' includeIn='selectedStates'
       itemCreationPolicy='immediate' left='1' right='1' top='1'>
@@ -40,16 +40,22 @@
   <s:Rect id='highlightFillRect' bottom='2' left='2' right='2' top='2'>
     <s:fill>
       <s:LinearGradient rotation='90'>
-        <s:GradientEntry color='0xffffff' alpha='.39'/>
-        <s:GradientEntry color='0xffffff' alpha='.23'/>
+        <s:GradientEntry color='0xffffff' alpha='.38'
+            alpha.selectedStates='.64'/>
+        <s:GradientEntry color='0xffffff' alpha='.19'/>
+        <s:GradientEntry color='0x000000' color.selectedStates='0xffffff'
+            alpha='.09' alpha.selectedStates='.41'/>
       </s:LinearGradient>
     </s:fill>
   </s:Rect>
   <s:Rect id='highlightStrokeRect' bottom='1' left='1' right='1' top='1'>
     <s:stroke>
       <s:LinearGradientStroke rotation='90'>
-        <s:GradientEntry color='0xffffff' alpha='.54'/>
-        <s:GradientEntry color='0xffffff' alpha='.27'/>
+        <s:GradientEntry color='0xffffff' alpha='.81'
+            alpha.selectedStates='.75'/>
+        <s:GradientEntry color='0xffffff' alpha='.67'/>
+        <s:GradientEntry color='0xffffff' alpha='.21'
+            alpha.selectedStates='.58'/>
       </s:LinearGradientStroke>
     </s:stroke>
   </s:Rect>

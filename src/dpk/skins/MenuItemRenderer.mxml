@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<s:ItemRenderer xmlns:dpk='dpk.skins.*'
+    xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:s='library://ns.adobe.com/flex/spark'>
+  <s:states>
+    <s:State name='normal' stateGroups='normalStates'/>
+    <s:State name='normalAndShowsCaret'
+        stateGroups='normalStates, caretStates'/>
+    <s:State name='hovered' stateGroups='hoveredStates'/>
+    <s:State name='hoveredAndShowsCaret'
+        stateGroups='hoveredStates, caretStates'/>
+    <s:State name='selected' stateGroups='selectedStates'/>
+    <s:State name='selectedAndShowsCaret'
+        stateGroups='selectedStates, caretStates'/>
+  </s:states>
+  <s:Rect bottom='0' excludeFrom='normalStates' left='0' right='0' top='0'>
+    <s:fill>
+      <s:LinearGradient rotation='90'>
+        <s:GradientEntry color='0xffffff' alpha='.38'/>
+        <s:GradientEntry color='0xffffff' alpha='.19'/>
+        <s:GradientEntry color='0x000000' alpha='.09'
+            alpha.selectedStates='.04'/>
+      </s:LinearGradient>
+    </s:fill>
+  </s:Rect>
+  <s:Label id='labelDisplay' bottom='2' left='2' right='2' top='2'/>
+</s:ItemRenderer>

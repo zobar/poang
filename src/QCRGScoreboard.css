@@ -13,9 +13,10 @@
 }
 
 global {
-  borderColor: #999999;
-  chromeColor: #3399ff;
-  fontFamily:  'Droid Sans';
+  borderColor:            #999999;
+  chromeColor:            #3399ff;
+  contentBackgroundColor: #eeeeee;
+  fontFamily:             'Droid Sans';
 }
 
 s|BorderContainer {
@@ -27,13 +28,20 @@ s|CheckBox {
   skinClass: ClassReference('dpk.skins.CheckBoxSkin');
 }
 
+s|DropDownList {
+  rollOverColor:  #3399ff;
+  selectionColor: #99ccff;
+  skinClass: ClassReference('dpk.skins.DropDownListSkin');
+}
+
 s|Label {
   paddingTop: 2;
 }
 
 s|TextInput {
-  paddingTop: 3;
-  skinClass:  ClassReference('dpk.skins.TextInputSkin');
+  contentBackgroundColor: #ffffff;
+  paddingTop:             3;
+  skinClass:              ClassReference('dpk.skins.TextInputSkin');
 }
 
 s|Window, s|WindowedApplication {
