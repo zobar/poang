@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <s:WindowedApplication applicationComplete='onApplicationComplete(event)'
-    height='366' minHeight='366' minWidth='346' resize='onResize(event)'
-    showStatusBar='false' width='346' windowResize='onWindowResize(event)'
+    autoExit='false' close='onClose(event)' height='366'
+    initialize='onInitialize(event)' minHeight='366' minWidth='346'
+    preinitialize='onPreinitialize(event)' showStatusBar='false' width='346'
     xmlns:dpk='dpk.*' xmlns:fx='http://ns.adobe.com/mxml/2009'
     xmlns:mx='library://ns.adobe.com/flex/mx'
     xmlns:s='library://ns.adobe.com/flex/spark'>

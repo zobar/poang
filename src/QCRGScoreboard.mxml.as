@@ -1,8 +1,8 @@
+import dpk.WindowHelper
 import mx.collections.ArrayCollection
 import mx.events.FlexEvent
-import mx.events.FlexNativeWindowBoundsEvent
-import mx.events.ResizeEvent
 import mx.managers.ISystemManager
+import qcrg.Preferences
 import qcrg.PreferencesWindow
 
 [Bindable]
@@ -88,6 +88,23 @@ public var players:ArrayCollection = new ArrayCollection([
   {number: '73',    name: 'Wrecks Kitten'         }
 ]);
 
+public static function get app():QCRGScoreboard {
+  return _app
+}
+protected static var _app:QCRGScoreboard
+
+protected var helper:WindowHelper
+
+public function get preferences():Preferences {
+  return _preferences
+}
+public function set preferences(value:Preferences):void {
+  if (value != preferences) {
+    _preferences = value
+  }
+}
+protected var _preferences:Preferences
+
 public function get preferencesWindow():PreferencesWindow {
   return _preferencesWindow
 }
@@ -100,6 +117,18 @@ public function set preferencesWindow(value:PreferencesWindow):void {
 }
 protected var _preferencesWindow:PreferencesWindow
 
+protected var windowHelper:WindowHelper
+
+protected function onApplicationComplete(event:FlexEvent):void {
+  // Linux glitch: doesn't adjust layout after adding menu bar.  On other
+  // platforms, these should already be equal.
+  height = stage.stageHeight
+}
+
+protected function onClose(event:Event):void {
+  exit()
+}
+
 protected function onCloseSelect(event:Event):void {
   var activeNativeWindow:NativeWindow =
       NativeApplication.nativeApplication.activeWindow
@@ -107,10 +136,9 @@ protected function onCloseSelect(event:Event):void {
     ISystemManager(activeNativeWindow.stage.getChildAt(0)).document.close()
 }
 
-protected function onApplicationComplete(event:FlexEvent):void {
-  // Linux glitch: doesn't adjust layout after adding menu bar.  On other
-  // platforms, these should already be equal.
-  height = stage.stageHeight
+protected function onInitialize(event:FlexEvent):void {
+  preferences = new Preferences()
+  helper = new WindowHelper('main', this, preferences)
 }
 
 protected function onPreferencesSelect(event:Event):void {
@@ -126,19 +154,17 @@ protected function onPreferencesWindowClose(event:Event):void {
   preferencesWindow = null
 }
 
+protected function onPreinitialize(event:FlexEvent):void {
+  if (!_app)
+    _app = this
+}
+
 protected function onPreviewResize(event:Event):void {
   trace('Resize preview ' + (event.currentTarget.width - 2) + 'x' +
       (event.currentTarget.height - 2))
-}
-
-protected function onResize(event:ResizeEvent):void {
-  trace('Resize application ' + width + 'x' + height)
 }
 
 protected function onQuitSelect(event:Event):void {
   exit()
 }
 
-protected function onWindowResize(event:FlexNativeWindowBoundsEvent):void {
-  trace('Resize window ' + event.afterBounds)
-}
