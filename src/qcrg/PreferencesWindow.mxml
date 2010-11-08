@@ -14,12 +14,11 @@
     <s:VGroup paddingLeft='21'>
       <s:HGroup verticalAlign='middle'>
         <s:Label text='following the'/>
-        <s:DropDownList change='onReleaseTrackListChange(event)'
-            dataProvider='{releaseTracks}'
-            selectedItem='{preferences.releaseTrack}'/>
+        <s:DropDownList id='releaseTrackList'
+            change='onReleaseTrackListChange(event)'/>
         <s:Label text='release track'/>
       </s:HGroup>
-      <s:Button label='Check Now'/>
+      <s:Button click='onCheckUpdateButtonClick(event)' label='Check Now'/>
     </s:VGroup>
   </s:VGroup>
   <s:HGroup horizontalAlign='right' width='100%'>

@@ -1,5 +1,6 @@
 package dpk {
   import flash.display.NativeWindowDisplayState
+  import flash.events.Event
   import flash.events.IEventDispatcher
   import flash.geom.Rectangle
   import mx.core.IWindow
@@ -21,11 +22,12 @@ package dpk {
 
     public function WindowHelper(name:String, window:IWindow,
         preferences:Object) {
+      var w:IEventDispatcher = IEventDispatcher(window)
       _name = name
       this.preferences = preferences
       _window = window
-      IEventDispatcher(window).addEventListener(AIREvent.WINDOW_COMPLETE,
-          onWindowComplete)
+      w.addEventListener(AIREvent.WINDOW_COMPLETE, onWindowComplete)
+      w.addEventListener(Event.CLOSE, onWindowClose)
     }
 
     protected function onWindowComplete(event:AIREvent):void {
@@ -41,6 +43,16 @@ package dpk {
       w.addEventListener(FlexNativeWindowBoundsEvent.WINDOW_MOVE,
           onWindowMove)
       w.addEventListener(FlexNativeWindowBoundsEvent.WINDOW_RESIZE,
+          onWindowResize)
+    }
+
+    protected function onWindowClose(event:Event):void {
+      var w:IEventDispatcher = IEventDispatcher(window)
+      w.removeEventListener(AIREvent.WINDOW_COMPLETE, onWindowComplete)
+      w.removeEventListener(Event.CLOSE, onWindowClose)
+      w.removeEventListener(FlexNativeWindowBoundsEvent.WINDOW_MOVE,
+          onWindowMove)
+      w.removeEventListener(FlexNativeWindowBoundsEvent.WINDOW_RESIZE,
           onWindowResize)
     }
 

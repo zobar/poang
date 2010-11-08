@@ -1,10 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <project default='build' name='qcrg-scoreboard'>
-  <condition property='FLEX_HOME'
-      value='C:\Program Files\Flex'
+  <condition property='FLEX_HOME' value='C:\Program Files\Flex'
       else='/opt/flex'>
     <os family='windows'/>
   </condition>
+
+  <property name='configuration' value='debug'/>
+  <property name='version'       value='3.0d1'/>
 
   <property name='app.main' value='QCRGScoreboard'/>
   <property name='app.name' value='QCRG Scoreboard'/>
@@ -24,7 +26,7 @@
            file='${FLEX_HOME}/ant/flexTasks.tasks'/>
 
   <target name='clean'>
-    <delete failonerror='false' includeemptydirs='true' verbose='true'>
+    <delete failonerror='false' includeemptydirs='true'>
       <fileset defaultexcludes='false' dir='.'>
         <include name='**/.DS_Store'/>
         <include name='build/'/>
@@ -33,30 +35,34 @@
     </delete>
   </target>
 
-  <target name='build'>
-    <mkdir dir='${build}'/>
-    <mxmlc file='${src}/${app.main}.mxml' output='${build}/${app.main}.swf'>
+  <target name='build' depends='xslt.temp'>
+    <mxmlc file='${src}/${app.main}.mxml'
+        output='${build}/${configuration}/${app.main}.swf'>
       <load-config filename='${FLEX_HOME}/frameworks/air-config.xml'/>
       <load-config filename='${etc}/config.xml'/>
+      <load-config filename='${etc}/config-${configuration}.xml'/>
       <source-path path-element='${etc}'/>
     </mxmlc>
-    <copy todir='${build}'>
+    <copy todir='${build}/${configuration}'>
       <fileset dir='${rsrc}'/>
     </copy>
+    <xslt in='${xslt.temp}' out='${build}/application.xml'
+         style='${etc}/application.xsl'>
+      <param name='version' expression='${version}'/>
+    </xslt>
   </target>
 
   <target depends='build' name='debug'>
     <exec executable='${FLEX_HOME}/bin/adl${exe}'>
-      <arg value='${etc}/${app.main}.xml'/>
-      <arg value='${build}'/>
+      <arg value='${build}/application.xml'/>
+      <arg value='${build}/${configuration}'/>
     </exec>
   </target>
 
-  <target name='dist' depends='build'>
+  <target name='dist' depends='build,xslt.temp'>
     <input addproperty='password' message='Password:'>
       <handler type='secure'/>
     </input>
-    <delete file='${build}/${app.main}.swf.cache'/>
     <mkdir dir='${dist}'/>
     <java failonerror='true' fork='true' jar='${FLEX_HOME}/lib/adt.jar'>
       <arg value='-package'/>
@@ -67,9 +73,9 @@
       <arg value='-storetype'/>
       <arg value='pkcs12'/>
       <arg value='${dist}/${app.main}.air'/>
-      <arg value='${etc}/${app.main}.xml'/>
+      <arg value='${build}/application.xml'/>
       <arg value='-C'/>
-      <arg value='${build}'/>
+      <arg value='${build}/${configuration}'/>
       <arg value='.'/>
     </java>
     <copy includeEmptyDirs='false' todir='${dist}'>
@@ -78,6 +84,15 @@
         <exclude name='**/*.swz'/>
       </fileset>
     </copy>
+    <xslt in='${xslt.temp}' out='${dist}/update.xml' style='${etc}/update.xsl'>
+      <param name='version' expression='${version}'/>
+    </xslt>
+  </target>
+
+  <target name='xslt.temp'>
+    <tempfile deleteonexit='true' destdir='${build}' prefix='temp'
+        property='xslt.temp' suffix='.xml'/>
+    <echo file='${xslt.temp}'><![CDATA[<temp/>]]></echo>
   </target>
 </project>
 

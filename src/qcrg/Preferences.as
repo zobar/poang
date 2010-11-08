@@ -76,6 +76,22 @@ package qcrg {
       setString('releaseTrack', value, 'stable')
     }
 
+    [Bindable]
+    public function get updateNotificationWindow():Rectangle {
+      return getRectangle('updateNotificationWindow')
+    }
+    public function set updateNotificationWindow(value:Rectangle):void {
+      setRectangle('updateNotificationWindow', value)
+    }
+
+    [Bindable]
+    public function get updateNotificationWindowMaximized():Boolean {
+      return getBoolean('updateNotificationWindowMaximized', false)
+    }
+    public function set updateNotificationWindowMaximized(value:Boolean):void {
+      return setBoolean('updateNotificationWindowMaximized', value, false)
+    }
+
     protected var xml:XML
 
     public function Preferences() {
@@ -133,7 +149,8 @@ package qcrg {
       stream.close()
     }
 
-    protected function setBoolean(key:String, value:Boolean, defaultValue:Boolean):void {
+    protected function setBoolean(key:String, value:Boolean,
+        defaultValue:Boolean):void {
       setString(key, value.toString(), defaultValue.toString())
     }
 

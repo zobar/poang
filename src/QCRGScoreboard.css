@@ -43,6 +43,17 @@ s|Label {
   paddingTop: 2;
 }
 
+.titleText {
+  fontSize:   14;
+  fontWeight: bold;
+}
+
+mx|HTML {
+  borderColor:   #999999;
+  borderStyle:   solid;
+  borderVisible: true;
+}
+
 s|TextInput {
   contentBackgroundColor: #ffffff;
   paddingTop:             3;

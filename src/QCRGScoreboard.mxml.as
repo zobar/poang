@@ -1,9 +1,13 @@
+import dpk.GithubUpdater
+import dpk.UpdateEvent
 import dpk.WindowHelper
+import mx.binding.utils.BindingUtils
 import mx.collections.ArrayCollection
 import mx.events.FlexEvent
 import mx.managers.ISystemManager
 import qcrg.Preferences
 import qcrg.PreferencesWindow
+import qcrg.UpdateNotificationWindow
 
 [Bindable]
 public var players:ArrayCollection = new ArrayCollection([
@@ -117,6 +121,39 @@ public function set preferencesWindow(value:PreferencesWindow):void {
 }
 protected var _preferencesWindow:PreferencesWindow
 
+public function get updateNotificationWindow():UpdateNotificationWindow {
+  return _updateNotificationWindow
+}
+public function set
+    updateNotificationWindow(value:UpdateNotificationWindow):void {
+  if (updateNotificationWindow) {
+    updateNotificationWindow.removeEventListener(Event.CLOSE,
+        onUpdateNotificationWindowClose)
+  }
+  _updateNotificationWindow = value
+  if (updateNotificationWindow) {
+    updateNotificationWindow.addEventListener(Event.CLOSE,
+        onUpdateNotificationWindowClose)
+  }
+}
+protected var _updateNotificationWindow:UpdateNotificationWindow
+
+public function get updater():GithubUpdater {
+  return _updater
+}
+public function set updater(value:GithubUpdater):void {
+  if (updater) {
+    updater.removeEventListener(Event.COMPLETE, onUpdateComplete)
+    updater.removeEventListener(UpdateEvent.UPDATE_AVAILABLE, onUpdateAvailable)
+  }
+  _updater = value
+  if (updater) {
+    updater.addEventListener(Event.COMPLETE, onUpdateComplete)
+    updater.addEventListener(UpdateEvent.UPDATE_AVAILABLE, onUpdateAvailable)
+  }
+}
+protected var _updater:GithubUpdater
+
 protected var windowHelper:WindowHelper
 
 protected function onApplicationComplete(event:FlexEvent):void {
@@ -138,7 +175,15 @@ protected function onCloseSelect(event:Event):void {
 
 protected function onInitialize(event:FlexEvent):void {
   preferences = new Preferences()
+  preferences.addEventListener(Event.COMPLETE, onPreferencesComplete)
   helper = new WindowHelper('main', this, preferences)
+  updater = new GithubUpdater('zobar', 'qcrg-scoreboard', 'dist/update.xml')
+}
+
+protected function onPreferencesComplete(event:Event):void {
+  BindingUtils.bindProperty(updater, 'branch', preferences, 'releaseTrack')
+  if (preferences.autoUpdate)
+    updater.check()
 }
 
 protected function onPreferencesSelect(event:Event):void {
@@ -147,6 +192,7 @@ protected function onPreferencesSelect(event:Event):void {
   else {
     preferencesWindow = new PreferencesWindow()
     preferencesWindow.open()
+    preferencesWindow.setFocus()
   }
 }
 
@@ -168,3 +214,19 @@ protected function onQuitSelect(event:Event):void {
   exit()
 }
 
+protected function onUpdateAvailable(event:UpdateEvent):void {
+  if (updateNotificationWindow)
+    updateNotificationWindow.activate()
+  else {
+    updateNotificationWindow = new UpdateNotificationWindow()
+    updateNotificationWindow.open()
+  }
+}
+
+protected function onUpdateComplete(event:Event):void {
+  updater.update()
+}
+
+protected function onUpdateNotificationWindowClose(event:Event):void {
+  updateNotificationWindow = null
+}

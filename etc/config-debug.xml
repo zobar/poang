@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<flex-config>
+  <compiler>
+    <debug>true</debug>
+    <incremental>true</incremental>
+    <omit-trace-statements>false</omit-trace-statements>
+  </compiler>
+</flex-config>
