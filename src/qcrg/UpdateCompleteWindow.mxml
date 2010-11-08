@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<s:Window height='115' initialize='onInitialize(event)' maximizable='false'
+    resizable='false' showStatusBar='false' title='Update Complete' width='319'
+    xmlns:dpk='dpk.*' xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:mx='library://ns.adobe.com/flex/mx'
+    xmlns:s='library://ns.adobe.com/flex/spark'>
+  <fx:Script source='UpdateCompleteWindow.mxml.as'/>
+  <s:layout>
+    <s:VerticalLayout gap='12' paddingBottom='12' paddingLeft='12'
+        paddingRight='12' paddingTop='12'/>
+  </s:layout>
+  <s:Label styleName='titleText' text='Update Complete' width='100%'/>
+  <s:Label text='Your update has finished downloading.  You will need to restart the application in order to install the update.' width='100%'/>
+  <s:HGroup horizontalAlign='right' width='100%'>
+    <s:Button click='onLaterButtonClick(event)' label='Install Later'/>
+    <s:Button id='nowButton' click='onNowButtonClick(event)'
+        label='Install Now'/>
+  </s:HGroup>
+</s:Window>

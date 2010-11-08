@@ -12,7 +12,7 @@ package dpk {
   [Event(name='complete')]
   [Event(name='downloadStarted', type='dpk.UpdateEvent')]
   [Event(name='ioError', type='flash.events.IOErrorEvent')]
-  [Event(name='open')]
+  [Event(name='select')]
   [Event(name='updateAvailable', type='dpk.UpdateEvent')]
   public class GithubUpdater extends EventDispatcher {
     protected static const GITHUB_BASE:String = 'http://github.com/'
@@ -98,7 +98,7 @@ package dpk {
         file.addEventListener(Event.CANCEL, onFileCancel)
         file.addEventListener(Event.COMPLETE, onFileComplete)
         file.addEventListener(IOErrorEvent.IO_ERROR, onFileIOError)
-        file.addEventListener(Event.OPEN, onFileOpen)
+        file.addEventListener(Event.SELECT, onFileSelect)
         file.download(new URLRequest(branchURL + '/' + location),
             location.match(/[^\/]*$/)[0])
       }
@@ -136,7 +136,7 @@ package dpk {
       _file = null
     }
 
-    protected function onFileOpen(event:Event):void {
+    protected function onFileSelect(event:Event):void {
       dispatchEvent(new UpdateEvent(UpdateEvent.DOWNLOAD_STARTED))
     }
 
@@ -155,7 +155,7 @@ package dpk {
       file.removeEventListener(Event.CANCEL, onFileCancel)
       file.removeEventListener(Event.COMPLETE, onFileComplete)
       file.removeEventListener(IOErrorEvent.IO_ERROR, onFileIOError)
-      file.removeEventListener(Event.OPEN, onFileOpen)
+      file.removeEventListener(Event.SELECT, onFileSelect)
     }
   }
 }

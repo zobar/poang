@@ -1,5 +1,6 @@
 build/
 *.cache
+dist/Triggers
 .DS_Store
 etc/*.p12
 *.swz

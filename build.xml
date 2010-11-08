@@ -6,7 +6,7 @@
   </condition>
 
   <property name='configuration' value='debug'/>
-  <property name='version'       value='3.0d1'/>
+  <property name='version'       value='3.0.0'/>
 
   <property name='app.main' value='QCRGScoreboard'/>
   <property name='app.name' value='QCRG Scoreboard'/>

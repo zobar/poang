@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<s:Window close='onClose(event)' height='218' initialize='onInitialize(event)'
+<s:Window close='onClose(event)' height='224' initialize='onInitialize(event)'
     maximizable='false' resizable='false' showStatusBar='false'
     title='Update Available' width='369' xmlns:dpk='dpk.*'
     xmlns:fx='http://ns.adobe.com/mxml/2009'
@@ -17,6 +17,7 @@
   <mx:HTML id='changeHTML' height='100%' width='100%'/>
   <s:HGroup horizontalAlign='right' width='100%'>
     <s:Button click='onIgnoreButtonClick(event)' label='Ignore'/>
-    <s:Button click='onDownloadButtonClick(event)' label='Download Update'/>
+    <s:Button id='downloadButton' click='onDownloadButtonClick(event)'
+        label='Download Update'/>
   </s:HGroup>
 </s:Window>

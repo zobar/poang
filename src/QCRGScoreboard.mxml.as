@@ -7,6 +7,7 @@ import mx.events.FlexEvent
 import mx.managers.ISystemManager
 import qcrg.Preferences
 import qcrg.PreferencesWindow
+import qcrg.UpdateCompleteWindow
 import qcrg.UpdateNotificationWindow
 
 [Bindable]
@@ -121,6 +122,22 @@ public function set preferencesWindow(value:PreferencesWindow):void {
 }
 protected var _preferencesWindow:PreferencesWindow
 
+public function get updateCompleteWindow():UpdateCompleteWindow {
+  return _updateCompleteWindow
+}
+public function set updateCompleteWindow(value:UpdateCompleteWindow):void {
+  if (updateCompleteWindow) {
+    updateCompleteWindow.removeEventListener(Event.CLOSE,
+        onUpdateCompleteWindowClose)
+  }
+  _updateCompleteWindow = value
+  if (updateCompleteWindow) {
+    updateCompleteWindow.addEventListener(Event.CLOSE,
+        onUpdateCompleteWindowClose)
+  }
+}
+protected var _updateCompleteWindow:UpdateCompleteWindow
+
 public function get updateNotificationWindow():UpdateNotificationWindow {
   return _updateNotificationWindow
 }
@@ -224,7 +241,16 @@ protected function onUpdateAvailable(event:UpdateEvent):void {
 }
 
 protected function onUpdateComplete(event:Event):void {
-  updater.update()
+  if (updateCompleteWindow)
+    updateCompleteWindow.activate()
+  else {
+    updateCompleteWindow = new UpdateCompleteWindow()
+    updateCompleteWindow.open()
+  }
+}
+
+protected function onUpdateCompleteWindowClose(event:Event):void {
+  updateCompleteWindow = null
 }
 
 protected function onUpdateNotificationWindowClose(event:Event):void {

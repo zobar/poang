@@ -81,6 +81,5 @@ protected function onReleaseTrackListChange(event:Event):void {
 
 protected function
     onReleaseTracksCollectionChange(event:CollectionEvent):void {
-  trace('release tracks changing')
   releaseTrackList.selectedItem = releaseTrack
 }

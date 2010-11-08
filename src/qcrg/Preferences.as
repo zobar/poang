@@ -77,6 +77,22 @@ package qcrg {
     }
 
     [Bindable]
+    public function get updateCompleteWindow():Rectangle {
+      return getRectangle('updateCompleteWindow')
+    }
+    public function set updateCompleteWindow(value:Rectangle):void {
+      setRectangle('updateCompleteWindow', value)
+    }
+
+    [Bindable]
+    public function get updateCompleteWindowMaximized():Boolean {
+      return getBoolean('updateCompleteWindowMaximized', false)
+    }
+    public function set updateCompleteWindowMaximized(value:Boolean):void {
+      return setBoolean('updateCompleteWindowMaximized', value, false)
+    }
+
+    [Bindable]
     public function get updateNotificationWindow():Rectangle {
       return getRectangle('updateNotificationWindow')
     }
