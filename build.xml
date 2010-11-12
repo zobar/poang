@@ -79,6 +79,7 @@
       <arg value='.'/>
     </java>
     <copy includeEmptyDirs='false' todir='${dist}'>
+      <fileset dir='${FLEX_HOME}/samples/badge' includes='badge.swf'/>
       <fileset dir='${share}'>
         <exclude name='**/*.cache'/>
         <exclude name='**/*.swz'/>

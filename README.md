@@ -31,7 +31,7 @@ platforms][] for Adobe AIR 2.5.
 Installation
 ------------
 
-<object data='http://github.com/zobar/qcrg-scoreboard/raw/development/dist/badge.swf' height='180' style='float: left;' type='application/x-shockwave-flash' width='217'><param name='flashvars' value='airversion=2.5&appname=QCRG%20Scoreboard&appurl=http://github.com/zobar/qcrg-scoreboard/raw/development/dist/Scoreboard.air'/></object>
+<object data='http://github.com/zobar/qcrg-scoreboard/raw/development/dist/badge.swf' height='180' style='float: left;' type='application/x-shockwave-flash' width='217'><param name='flashvars' value='airversion=2.5&appname=QCRG%20Scoreboard&appurl=http://github.com/zobar/qcrg-scoreboard/raw/development/dist/QCRGScoreboard.air'/></object>
 You can install QCRG Scoreboard by clicking the install badge to the left.  This
 will install a compatible version of Adobe AIR, if necessary, and the scoreboard
 software itself.
