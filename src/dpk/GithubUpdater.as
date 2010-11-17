@@ -130,7 +130,6 @@ package dpk {
     }
 
     protected function onFileIOError(event:IOErrorEvent):void {
-      trace(event)
       dispatchEvent(event)
       removeFileEventListeners()
       _file = null
@@ -147,7 +146,7 @@ package dpk {
       var namespace:Namespace = descriptor.namespace()
       _updateInfo = XML(loader.data)
       if (updateInfo.version.toString() !=
-          descriptor.namespace::version.toString())
+          descriptor.namespace::versionNumber.toString())
         dispatchEvent(new UpdateEvent(UpdateEvent.UPDATE_AVAILABLE))
     }
 

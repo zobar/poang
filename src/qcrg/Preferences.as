@@ -1,4 +1,5 @@
 package qcrg {
+  import dpk.minutes
   import flash.events.Event
   import flash.events.EventDispatcher
   import flash.events.IOErrorEvent
@@ -18,6 +19,10 @@ package qcrg {
       setBoolean('autoUpdate', value, true)
     }
 
+    public function get complete():Boolean {
+      return xml != null
+    }
+
     protected function get file():File {
       return _file
     }
@@ -35,6 +40,14 @@ package qcrg {
       }
     }
     protected var _file:File
+
+    [Bindable]
+    public function get intermissionLength():int {
+      return getInt('intermissionLength', minutes(10))
+    }
+    public function set intermissionLength(value:int):void {
+      setInt('intermissionLength', value, minutes(10))
+    }
 
     [Bindable]
     public function get mainWindow():Rectangle {
@@ -140,6 +153,12 @@ package qcrg {
       return defaultValue
     }
 
+    protected function getInt(key:String, defaultValue:int):int {
+      if (hasValue(key))
+        return parseInt(xml[key])
+      return defaultValue
+    }
+
     protected function getRectangle(key:String):Rectangle {
       var result:Rectangle
       if (hasValue(key)) {
@@ -167,6 +186,10 @@ package qcrg {
 
     protected function setBoolean(key:String, value:Boolean,
         defaultValue:Boolean):void {
+      setString(key, value.toString(), defaultValue.toString())
+    }
+
+    protected function setInt(key:String, value:int, defaultValue:int):void {
       setString(key, value.toString(), defaultValue.toString())
     }
 

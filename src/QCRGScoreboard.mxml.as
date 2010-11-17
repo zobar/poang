@@ -1,14 +1,26 @@
 import dpk.GithubUpdater
+import dpk.minutes
+import dpk.seconds
 import dpk.UpdateEvent
 import dpk.WindowHelper
+import flash.events.FocusEvent
 import mx.binding.utils.BindingUtils
 import mx.collections.ArrayCollection
 import mx.events.FlexEvent
+import mx.events.PropertyChangeEvent
+import mx.managers.IFocusManagerComponent
 import mx.managers.ISystemManager
+import qcrg.Bout
+import qcrg.Period
 import qcrg.Preferences
 import qcrg.PreferencesWindow
 import qcrg.UpdateCompleteWindow
 import qcrg.UpdateNotificationWindow
+import spark.events.IndexChangeEvent
+import spark.events.TextOperationEvent
+
+[Bindable]
+public var periods:ArrayCollection = new ArrayCollection([0, 1, -1, 2, -2, 3]);
 
 [Bindable]
 public var players:ArrayCollection = new ArrayCollection([
@@ -98,6 +110,56 @@ public static function get app():QCRGScoreboard {
 }
 protected static var _app:QCRGScoreboard
 
+// This is a restricted variation of dpk.formatTime() which is always compatible
+// with QCRGScoreboard.parseTime().
+protected static function formatTime(value:int):String {
+  return int(value / 60000) + ':' + int((value / 10000) % 6) +
+      int((value / 1000) % 10)
+}
+
+
+protected static function parseTime(time:String):Number {
+  var parts:Object = /(.*?)(.{1,2})$/.exec(time.replace(/[^0-9]+/g, ''))
+  if (parts) {
+    return minutes(parts[1] ? parseInt(parts[1]) : 0) +
+        seconds(parseInt(parts[2]))
+  }
+  else
+    return NaN
+}
+
+public function get bout():Bout {
+  return _bout
+}
+public function set bout(value:Bout):void {
+  if (bout) {
+    bout.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+        onBoutPropertyChange)
+  }
+  _bout = value
+  if (bout) {
+    var focused:IFocusManagerComponent = focusManager.getFocus()
+    if (intermissionClockField != focused)
+      intermissionClockField.text = formatTime(bout.intermissionClock)
+    if (jamClockField != focused)
+      jamClockField.text = formatTime(bout.jamClock)
+    if (jamField != focused)
+      jamField.text = String(bout.jam)
+    if (lineupClockField != focused)
+      lineupClockField.text = formatTime(bout.lineupClock)
+    if (periodClockField != focused)
+      periodClockField.text = formatTime(bout.periodClock)
+    if (periodList != focused)
+      periodList.selectedItem = bout.period
+    if (timeoutClockField != focused)
+      timeoutClockField.text = formatTime(bout.timeoutClock)
+    bout.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+        onBoutPropertyChange)
+  }
+}
+protected var _bout:Bout
+
+protected var commitField:Boolean
 protected var helper:WindowHelper
 
 public function get preferences():Preferences {
@@ -173,10 +235,58 @@ protected var _updater:GithubUpdater
 
 protected var windowHelper:WindowHelper
 
+protected function fieldFocusOut(event:FocusEvent, property:String,
+    parse:Function, format:*):void {
+  var field:TextInput = TextInput(event.currentTarget)
+  var value:Number = NaN
+  if (commitField)
+    value = parse(field.text)
+  if (isNaN(value))
+    field.text = format(bout[property])
+  else
+    bout[property] = value
+}
+
 protected function onApplicationComplete(event:FlexEvent):void {
+  stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown, true)
   // Linux glitch: doesn't adjust layout after adding menu bar.  On other
   // platforms, these should already be equal.
   height = stage.stageHeight
+}
+
+protected function onBoutPropertyChange(event:PropertyChangeEvent):void {
+  var focused:IFocusManagerComponent = focusManager.getFocus()
+  var value:* = event.newValue
+  switch (event.property) {
+    case 'intermissionClock':
+      if (intermissionClockField != focused)
+        intermissionClockField.text = formatTime(value)
+      break
+    case 'jam':
+      if (jamField != focused)
+        jamField.text = value
+      break
+    case 'jamClock':
+      if (jamClockField != focused)
+        jamClockField.text = formatTime(value)
+      break
+    case 'lineupClock':
+      if (lineupClockField != focused)
+        lineupClockField.text = formatTime(value)
+      break
+    case 'period':
+      if (periodList != focused)
+        periodList.selectedItem = value
+      break
+    case 'periodClock':
+      if (periodClockField != focused)
+        periodClockField.text = formatTime(value)
+      break
+    case 'timeoutClock':
+      if (timeoutClockField != focused)
+        timeoutClockField.text = formatTime(value)
+      break
+  }
 }
 
 protected function onClose(event:Event):void {
@@ -190,14 +300,101 @@ protected function onCloseSelect(event:Event):void {
     ISystemManager(activeNativeWindow.stage.getChildAt(0)).document.close()
 }
 
+protected function onFieldChange(event:TextOperationEvent):void {
+  TextInput(event.currentTarget).removeEventListener(TextOperationEvent.CHANGE,
+      onFieldChange)
+  commitField = true
+}
+
+protected function onFieldFocusIn(event:FocusEvent):void {
+  var field:TextInput = TextInput(event.currentTarget)
+  commitField = false
+  field.selectAll()
+  field.addEventListener(TextOperationEvent.CHANGE, onFieldChange)
+  field.addEventListener(FocusEvent.FOCUS_OUT, onFieldFocusOut)
+}
+
+protected function onFieldFocusOut(event:FocusEvent):void {
+  var field:TextInput = TextInput(event.currentTarget)
+  field.removeEventListener(TextOperationEvent.CHANGE, onFieldChange)
+  field.removeEventListener(FocusEvent.FOCUS_OUT, onFieldFocusOut)
+}
+
 protected function onInitialize(event:FlexEvent):void {
   preferences = new Preferences()
-  preferences.addEventListener(Event.COMPLETE, onPreferencesComplete)
   helper = new WindowHelper('main', this, preferences)
   updater = new GithubUpdater('zobar', 'qcrg-scoreboard', 'dist/update.xml')
+  if (preferences.complete)
+    onPreferencesComplete(null)
+  preferences.addEventListener(Event.COMPLETE, onPreferencesComplete)
+}
+
+protected function onIntermissionClockFieldFocusOut(event:FocusEvent):void {
+  fieldFocusOut(event, 'intermissionClock', parseTime, formatTime)
+}
+
+protected function onJamClockFieldFocusOut(event:FocusEvent):void {
+  fieldFocusOut(event, 'jamClock', parseTime, formatTime)
+}
+
+protected function onJamFieldFocusOut(event:FocusEvent):void {
+  fieldFocusOut(event, 'jam', parseInt, String)
+}
+
+protected function onKeyDown(event:KeyboardEvent):void {
+  var handled:Boolean = true
+  switch (event.keyCode) {
+    case Keyboard.ESCAPE:
+      commitField = false
+      // fall through
+    case Keyboard.ENTER:
+      setFocus()
+      handled = false
+      break
+    case Keyboard.B:
+      bout.advance()
+      break
+    case Keyboard.N:
+      bout.officialTimeout = !bout.officialTimeout
+      break
+    default:
+      handled = false
+  }
+  if (handled)
+    event.preventDefault()
+}
+
+protected function onLineupClockFieldFocusOut(event:FocusEvent):void {
+  fieldFocusOut(event, 'lineupClock', parseTime, formatTime)
+}
+
+protected function onPeriodClockFieldFocusOut(event:FocusEvent):void {
+  fieldFocusOut(event, 'periodClock', parseTime, formatTime)
+}
+
+protected function onPeriodListChange(event:IndexChangeEvent):void {
+  trace('choose, focused = ' + focusManager.getFocus())
+  if (periodList == focusManager.getFocus())
+    commitField = true
+  else
+    bout.period = periodList.selectedItem
+}
+
+protected function onPeriodListFocusIn(event:FocusEvent):void {
+  trace('focus in')
+  commitField = false
+}
+
+protected function onPeriodListFocusOut(event:FocusEvent):void {
+  trace('focus out')
+  if (commitField)
+    bout.period = periodList.selectedItem
+  else
+    periodList.selectedItem = bout.period
 }
 
 protected function onPreferencesComplete(event:Event):void {
+  bout = new Bout()
   BindingUtils.bindProperty(updater, 'branch', preferences, 'releaseTrack')
   if (preferences.autoUpdate)
     updater.check()
@@ -223,12 +420,16 @@ protected function onPreinitialize(event:FlexEvent):void {
 }
 
 protected function onPreviewResize(event:Event):void {
-  trace('Resize preview ' + (event.currentTarget.width - 2) + 'x' +
-      (event.currentTarget.height - 2))
+  var preview:* = event.currentTarget
+  trace('RESIZE application=' + width + 'x' + height + ', preview=' + (preview.width - 2) + 'x' + (preview.height - 2))
 }
 
 protected function onQuitSelect(event:Event):void {
   exit()
+}
+
+protected function onTimeoutClockFieldFocusOut(event:FocusEvent):void {
+  fieldFocusOut(event, 'timeoutClock', parseTime, formatTime)
 }
 
 protected function onUpdateAvailable(event:UpdateEvent):void {
@@ -255,4 +456,8 @@ protected function onUpdateCompleteWindowClose(event:Event):void {
 
 protected function onUpdateNotificationWindowClose(event:Event):void {
   updateNotificationWindow = null
+}
+
+protected function periodListLabelFunction(value:int):String {
+  return Period.toString(value)
 }
