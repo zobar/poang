@@ -1,37 +1,0 @@
-<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="Star Ring" itemID="4c9c146c-0000028d" sourceLibraryItemHRef="Star copy" lastModified="1286030568">
-  <timeline>
-    <DOMTimeline name="Star Ring">
-      <layers>
-        <DOMLayer name="Layer 2" color="#9933CC" current="true" isSelected="true">
-          <frames>
-            <DOMFrame index="0" keyMode="9728">
-              <Actionscript>
-                <script><![CDATA[function rotate(event:Event) {	if (parent && parent.visible)		rotationY = (rotationY - 9) % 360}addEventListener(Event.ENTER_FRAME, rotate, false, 0, true)]]></script>
-              </Actionscript>
-              <elements/>
-            </DOMFrame>
-          </frames>
-        </DOMLayer>
-        <DOMLayer name="Layer 1" color="#4FFF4F">
-          <frames>
-            <DOMFrame index="0" keyMode="9728">
-              <elements>
-                <DOMShape>
-                  <fills>
-                    <FillStyle index="1">
-                      <SolidColor color="#FFFF00"/>
-                    </FillStyle>
-                  </fills>
-                  <edges>
-                    <Edge fillStyle0="1" edges="!1550 -12[1550 625 1100 1087!1100 1087[649 1550 5 1550!5 1550[-634 1550 -1093 1093!-1093 1093[-1550 638 -1550 -1!-1550 -1[-1550 -642 -1096 -1095!-1096 -1095[-643 -1549 -2 -1549!-2 -1549[632 -1549 1090 -1097!1090 -1097[1550 -646 1550 -12
-!1798 6[1798 -741 1274 -1270!1274 -1270[750 -1797 -2 -1797!-2 -1797[-747 -1797 -1273 -1270!-1273 -1270[-1798 -742 -1798 3!-1798 3[-1798 748 -1273 1273!-1273 1273[-748 1798 -2 1798!-2 1798[743 1798 1271 1276!1271 1276[1798 755 1798 6"/>
-                  </edges>
-                </DOMShape>
-              </elements>
-            </DOMFrame>
-          </frames>
-        </DOMLayer>
-      </layers>
-    </DOMTimeline>
-  </timeline>
-</DOMSymbolItem>

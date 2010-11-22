@@ -1,36 +1,0 @@
-<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="Star" itemID="4c9c142e-00000288" sourceLibraryItemHRef="Symbol 1" lastModified="1286030563">
-  <timeline>
-    <DOMTimeline name="Star">
-      <layers>
-        <DOMLayer name="Layer 3" color="#FF800A" current="true" isSelected="true">
-          <frames>
-            <DOMFrame index="0" keyMode="9728">
-              <Actionscript>
-                <script><![CDATA[function rotate(event:Event) {	if (parent && parent.visible)		rotationY = (rotationY + 18) % 360}addEventListener(Event.ENTER_FRAME, rotate, false, 0, true)]]></script>
-              </Actionscript>
-              <elements/>
-            </DOMFrame>
-          </frames>
-        </DOMLayer>
-        <DOMLayer name="Layer 1" color="#4FFF4F">
-          <frames>
-            <DOMFrame index="0" keyMode="9728">
-              <elements>
-                <DOMShape>
-                  <fills>
-                    <FillStyle index="1">
-                      <SolidColor color="#FFFF00"/>
-                    </FillStyle>
-                  </fills>
-                  <edges>
-                    <Edge fillStyle0="1" edges="!340 -451[105 -1084 -6 -1408!-6 -1408|-340 -451!-340 -451|-1352 -422!-1352 -422|-538 186!-538 186[-823 1143 -826 1161!-826 1161[-6 579 5 579!5 579|840 1150!840 1150[685 650 545 179!545 179|1348 -436!1348 -436[906 -451 340 -451"/>
-                  </edges>
-                </DOMShape>
-              </elements>
-            </DOMFrame>
-          </frames>
-        </DOMLayer>
-      </layers>
-    </DOMTimeline>
-  </timeline>
-</DOMSymbolItem>

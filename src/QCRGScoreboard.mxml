@@ -1,10 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <s:WindowedApplication applicationComplete='onApplicationComplete(event)'
-    autoExit='false' close='onClose(event)' height='368'
-    initialize='onInitialize(event)' minHeight='393' minWidth='346'
-    preinitialize='onPreinitialize(event)' showStatusBar='false' width='346'
-    xmlns:dpk='dpk.*' xmlns:fx='http://ns.adobe.com/mxml/2009'
-    xmlns:mx='library://ns.adobe.com/flex/mx'
+    autoExit='false' close='onClose(event)' enterFrame='onEnterFrame(event)'
+    frameRate='20' height='368' initialize='onInitialize(event)'
+    minHeight='393' minWidth='346' preinitialize='onPreinitialize(event)'
+    showStatusBar='false' width='346' xmlns:dpk='dpk.*'
+    xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:mx='library://ns.adobe.com/flex/mx' xmlns:qcrg='qcrg.*'
     xmlns:s='library://ns.adobe.com/flex/spark'>
   <fx:Script source='QCRGScoreboard.mxml.as'/>
   <fx:Style source='QCRGScoreboard.css'/>
@@ -60,7 +61,9 @@
       <dpk:AspectRatioLayout adjustHeight='2' adjustWidth='2'/>
     </s:layout>
     <s:BorderContainer id='preview' height='100%'
-        resize='onPreviewResize(event)' width='100%'/>
+        resize='onPreviewResize(event)' width='100%'>
+      <qcrg:Display group='{displayGroup}' height='100%' width='100%'/>
+    </s:BorderContainer>
   </s:Group>
   <s:HGroup gap='12'>
     <s:VGroup width='138'>

@@ -11,16 +11,18 @@ import mx.events.PropertyChangeEvent
 import mx.managers.IFocusManagerComponent
 import mx.managers.ISystemManager
 import qcrg.Bout
+import qcrg.DisplayGroup
 import qcrg.Period
 import qcrg.Preferences
 import qcrg.PreferencesWindow
+import qcrg.Team
 import qcrg.UpdateCompleteWindow
 import qcrg.UpdateNotificationWindow
 import spark.events.IndexChangeEvent
 import spark.events.TextOperationEvent
 
 [Bindable]
-public var periods:ArrayCollection = new ArrayCollection([0, 1, -1, 2, -2, 3]);
+public var periods:ArrayCollection = new ArrayCollection([0, 1, -1, 2, -2, -3]);
 
 [Bindable]
 public var players:ArrayCollection = new ArrayCollection([
@@ -153,6 +155,8 @@ public function set bout(value:Bout):void {
       periodList.selectedItem = bout.period
     if (timeoutClockField != focused)
       timeoutClockField.text = formatTime(bout.timeoutClock)
+    if (displayGroup)
+      updateDisplay(displayGroup.content)
     bout.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
         onBoutPropertyChange)
   }
@@ -161,6 +165,8 @@ protected var _bout:Bout
 
 protected var commitField:Boolean
 protected var helper:WindowHelper
+[Bindable]
+public var displayGroup:DisplayGroup
 
 public function get preferences():Preferences {
   return _preferences
@@ -233,6 +239,7 @@ public function set updater(value:GithubUpdater):void {
 }
 protected var _updater:GithubUpdater
 
+protected var updates:Object
 protected var windowHelper:WindowHelper
 
 protected function fieldFocusOut(event:FocusEvent, property:String,
@@ -256,8 +263,9 @@ protected function onApplicationComplete(event:FlexEvent):void {
 
 protected function onBoutPropertyChange(event:PropertyChangeEvent):void {
   var focused:IFocusManagerComponent = focusManager.getFocus()
+  var property:Object = event.property
   var value:* = event.newValue
-  switch (event.property) {
+  switch (property) {
     case 'intermissionClock':
       if (intermissionClockField != focused)
         intermissionClockField.text = formatTime(value)
@@ -287,6 +295,9 @@ protected function onBoutPropertyChange(event:PropertyChangeEvent):void {
         timeoutClockField.text = formatTime(value)
       break
   }
+  if (!updates)
+    updates = {}
+  updates[property] = value
 }
 
 protected function onClose(event:Event):void {
@@ -298,6 +309,14 @@ protected function onCloseSelect(event:Event):void {
       NativeApplication.nativeApplication.activeWindow
   if (activeNativeWindow)
     ISystemManager(activeNativeWindow.stage.getChildAt(0)).document.close()
+}
+
+protected function onEnterFrame(event:Event):void {
+  var content:DisplayObject = displayGroup.content
+  if (updates && 'update' in content) {
+    content['update'](updates)
+    updates = null
+  }
 }
 
 protected function onFieldChange(event:TextOperationEvent):void {
@@ -320,7 +339,20 @@ protected function onFieldFocusOut(event:FocusEvent):void {
   field.removeEventListener(FocusEvent.FOCUS_OUT, onFieldFocusOut)
 }
 
+protected function onDisplayLoaderComplete(event:Event):void {
+  var loaderInfo:LoaderInfo = LoaderInfo(event.currentTarget)
+  var loader:Loader = loaderInfo.loader
+  var content:DisplayObject = loader.content
+  updateDisplay(content)
+  displayGroup.setContent(content, new Rectangle(0, 0, loaderInfo.width,
+      loaderInfo.height))
+}
+
 protected function onInitialize(event:FlexEvent):void {
+  var loader:Loader = new Loader()
+  loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onDisplayLoaderComplete)
+  loader.load(new URLRequest('QueenCity3.swf'))
+  displayGroup = new DisplayGroup()
   preferences = new Preferences()
   helper = new WindowHelper('main', this, preferences)
   updater = new GithubUpdater('zobar', 'qcrg-scoreboard', 'dist/update.xml')
@@ -343,6 +375,7 @@ protected function onJamFieldFocusOut(event:FocusEvent):void {
 
 protected function onKeyDown(event:KeyboardEvent):void {
   var handled:Boolean = true
+  var shiftKey:Boolean = event.shiftKey
   switch (event.keyCode) {
     case Keyboard.ESCAPE:
       commitField = false
@@ -354,8 +387,44 @@ protected function onKeyDown(event:KeyboardEvent):void {
     case Keyboard.B:
       bout.advance()
       break
+    case Keyboard.G:
+      if (bout.jamClock)
+        bout.leadJammer = Team.HOME
+      break
+    case Keyboard.H:
+      if (bout.jamClock)
+        bout.leadJammer = Team.NONE
+      break
+    case Keyboard.J:
+      if (bout.jamClock)
+        bout.leadJammer = Team.VISITOR
+      break
     case Keyboard.N:
       bout.officialTimeout = !bout.officialTimeout
+      break
+    case Keyboard.Q:
+      ++bout.homeScore
+      if (!shiftKey)
+        ++bout.homeJamScore
+      break
+    case Keyboard.W:
+      if (bout.homeScore) {
+        --bout.homeScore
+        if (bout.homeJamScore && !shiftKey)
+          --bout.homeJamScore
+      }
+      break
+    case Keyboard.LEFTBRACKET:
+      if (bout.visitorScore) {
+        --bout.visitorScore
+        if (bout.visitorJamScore && !shiftKey)
+          --bout.visitorJamScore
+      }
+      break
+    case Keyboard.RIGHTBRACKET:
+      ++bout.visitorScore
+      if (!shiftKey)
+        ++bout.visitorJamScore
       break
     default:
       handled = false
@@ -373,20 +442,14 @@ protected function onPeriodClockFieldFocusOut(event:FocusEvent):void {
 }
 
 protected function onPeriodListChange(event:IndexChangeEvent):void {
-  trace('choose, focused = ' + focusManager.getFocus())
-  if (periodList == focusManager.getFocus())
-    commitField = true
-  else
-    bout.period = periodList.selectedItem
+  commitField = true
 }
 
 protected function onPeriodListFocusIn(event:FocusEvent):void {
-  trace('focus in')
   commitField = false
 }
 
 protected function onPeriodListFocusOut(event:FocusEvent):void {
-  trace('focus out')
   if (commitField)
     bout.period = periodList.selectedItem
   else
@@ -460,4 +523,25 @@ protected function onUpdateNotificationWindowClose(event:Event):void {
 
 protected function periodListLabelFunction(value:int):String {
   return Period.toString(value)
+}
+
+protected function updateDisplay(display:*):void {
+  if (bout && display && 'update' in display) {
+    display.update({
+      intermissionClock: bout.intermissionClock,
+      jam:               bout.jam,
+      jamClock:          bout.jamClock,
+      leadJammer:        bout.leadJammer,
+      lineupClock:       bout.lineupClock,
+      period:            bout.period,
+      periodClock:       bout.periodClock,
+      timeoutClock:      bout.timeoutClock,
+
+      homeJamScore:      bout.homeJamScore,
+      homeScore:         bout.homeScore,
+
+      visitorJamScore:   bout.visitorJamScore,
+      visitorScore:      bout.visitorScore
+    })
+  }
 }
