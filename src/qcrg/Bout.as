@@ -1,5 +1,4 @@
 package qcrg {
-  import dpk.formatTime
   import dpk.minutes
   import dpk.seconds
   import flash.events.Event

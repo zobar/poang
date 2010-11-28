@@ -1,6 +1,5 @@
 package qcrg {
   import flash.display.MovieClip
-  import dpk.formatTime
 
   public dynamic class ScoreboardDisplay extends MovieClip {
     protected var values:Object
@@ -38,6 +37,10 @@ package qcrg {
         updateVisitorJamScore(newValues.visitorJamScore)
       if ('visitorScore' in newValues)
         updateVisitorScore(newValues.visitorScore)
+    }
+
+    protected function formatTime(value:int):String {
+      return qcrg.formatTime(value)
     }
 
     protected function updateIntermissionClock(value:int):void {

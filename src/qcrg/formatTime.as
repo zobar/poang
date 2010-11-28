@@ -1,4 +1,4 @@
-package dpk {
+package qcrg {
   public function formatTime(value:int):String {
     var hours:int = value / 3600000
     if (hours)

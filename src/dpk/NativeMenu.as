@@ -30,6 +30,8 @@ package dpk {
         else
           _items = new ArrayCollection([value])
         if (items) {
+          for (var i:int = 0; i < items.length; ++i)
+            items.getItemAt(i).parent = this
           items.addEventListener(CollectionEvent.COLLECTION_CHANGE,
               onItemsCollectionChange)
         }
@@ -92,34 +94,36 @@ package dpk {
       if (!namedMenuItems)
         namedMenuItems = getNamedMenuItems(nativeMenu)
       for (i = 0; i < items.length; ++i) {
-        var menu:MenuItemBase = MenuItemBase(items.getItemAt(i))
-        var isSeparator:Boolean = menu.isSeparator
-        var nativeMenuItem:NativeMenuItem = menu.nativeMenuItem
-        if (!nativeMenuItem) {
-          var name:String = menu.name
-          nativeMenuItem = namedMenuItems[name]
-          if (nativeMenuItem)
-            delete namedMenuItems[name]
-        }
-        if (!nativeMenuItem &&
-            (menu.label || isSeparator) &&
-            (!menu.osMatch || new RegExp(menu.osMatch).test(Capabilities.os)))
-          nativeMenuItem = new NativeMenuItem(menu.label, isSeparator)
-        if (nativeMenuItem) {
-          menu.nativeMenuItem = nativeMenuItem
-          if (nativeMenuItem.menu && nativeMenuItem.menu != nativeMenu)
-            nativeMenuItem.menu.removeItem(nativeMenuItem)
-          if (menu.children) {
-            if (!nativeMenuItem.submenu)
-              nativeMenuItem.submenu = new flash.display.NativeMenu()
-            updateMenu(menu.children, menu.nativeMenuItem.submenu,
-                namedMenuItems)
+        var group:MenuBase = MenuBase(items.getItemAt(i))
+        for each (var menu:MenuItemBase in group.menuItems) {
+          var isSeparator:Boolean = menu.isSeparator
+          var nativeMenuItem:NativeMenuItem = menu.nativeMenuItem
+          if (!nativeMenuItem) {
+            var name:String = menu.name
+            nativeMenuItem = namedMenuItems[name]
+            if (nativeMenuItem)
+              delete namedMenuItems[name]
           }
-          else if (nativeMenuItem.submenu)
-            nativeMenuItem.submenu = null
-          if (!isSeparator || allowSeparator) {
-            allowSeparator = !isSeparator
-            nativeMenuItems.push(nativeMenuItem)
+          if (!nativeMenuItem &&
+              (menu.label || isSeparator) &&
+              (!menu.osMatch || new RegExp(menu.osMatch).test(Capabilities.os)))
+            nativeMenuItem = new NativeMenuItem(menu.label, isSeparator)
+          if (nativeMenuItem) {
+            menu.nativeMenuItem = nativeMenuItem
+            if (nativeMenuItem.menu && nativeMenuItem.menu != nativeMenu)
+              nativeMenuItem.menu.removeItem(nativeMenuItem)
+            if (menu.children) {
+              if (!nativeMenuItem.submenu)
+                nativeMenuItem.submenu = new flash.display.NativeMenu()
+              updateMenu(menu.children, menu.nativeMenuItem.submenu,
+                  namedMenuItems)
+            }
+            else if (nativeMenuItem.submenu)
+              nativeMenuItem.submenu = null
+            if (!isSeparator || allowSeparator) {
+              allowSeparator = !isSeparator
+              nativeMenuItems.push(nativeMenuItem)
+            }
           }
         }
       }

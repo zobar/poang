@@ -82,8 +82,9 @@ package qcrg {
       graphics.beginFill(0x000000)
       graphics.drawRect(0, 0, unscaledWidth, unscaledHeight)
       graphics.endFill()
-      if (bitmapData) {
-        var scale:Number = Math.min(unscaledWidth / bitmapData.width, unscaledHeight / bitmapData.height)
+      if (bitmap && bitmapData) {
+        var scale:Number = Math.min(unscaledWidth / bitmapData.width,
+            unscaledHeight / bitmapData.height)
         var w:Number = bitmapData.width * scale
         var h:Number = bitmapData.height * scale
         var tx:Number = (unscaledWidth - w) / 2

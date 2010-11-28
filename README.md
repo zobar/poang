@@ -4,9 +4,10 @@ QCRG Scoreboard 3
 by Z, [Queen City Roller Girls](http://qcrg.net)
 ------------------------------------------------
 
-*QCRG Scoreboard 3 is under active development.*  At this point, [version 2][]
-is recommended for general use. Please visit the [Google Group][] to get support
-from the developers and other users.
+*QCRG Scoreboard 3 is under active development,* although at this point it is
+minimally usable.  For production use, [version 2][] is still recommended.
+Please visit the [Google Group][] to get support from the developers and other
+users.
 
 [Version 2]:    http://bit.ly/qcrg-scoreboard
 [Google Group]: http://groups.google.com/group/qcrg-scoreboard
@@ -19,11 +20,14 @@ QCRG Scoreboard is routinely tested and fully supported on the following
 platforms:
 
 - Mac OS X v10.6 "Snow Leopard," 64-bit Intel
-- Windows 7, 32-bit Intel
-- Ubuntu Linux 10.10 "Maverick Meerkat" Netbook Remix, 32-bit Intel
+- Windows 7 Professional, 32-bit Intel
+- Ubuntu Linux 10.10 "Maverick Meerkat," 32-bit Intel
 
 It is expected to run satisfactorily on any of the [supported desktop
-platforms][] for Adobe AIR 2.5.
+platforms][] for Adobe AIR 2.5.  Ubuntu Netbook Remix is supported, but it is
+recommended to login to an "Ubuntu Desktop Edition" session rather than an
+"Ubuntu Netbook Edition" session, as the Unity desktop environment is still
+somewhat glitchy.
 
 [supported desktop platforms]: http://adobe.com/products/air/systemreqs#desktop
 

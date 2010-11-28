@@ -1,44 +1,10 @@
 package dpk {
   import flash.display.NativeMenuItem
   import flash.events.Event
-  import mx.collections.ArrayCollection
-  import mx.collections.IList
-  import mx.events.CollectionEvent
-  import mx.events.CollectionEventKind
-  import mx.events.PropertyChangeEvent
 
-  [Event(name='displaying', type='flash.events.Event')]
-  [Event(name='select', type='flash.events.Event')]
-  public class MenuItemBase {
-    [Bindable] public var osMatch:String
-    [Bindable] public var parent:*
-
-    [Bindable] public function get children():* {
-      return _children
-    }
-    public function set children(value:*):void {
-      if (children != value) {
-        var m:NativeMenu
-        if (children) {
-          children.removeEventListener(CollectionEvent.COLLECTION_CHANGE,
-              onChildrenCollectionChange)
-        }
-        if (value == null || value is IList)
-          _children = value
-        else if (value is Array)
-          _children = new ArrayCollection(value)
-        else
-          _children = new ArrayCollection([value])
-        if (children) {
-          children.addEventListener(CollectionEvent.COLLECTION_CHANGE,
-              onChildrenCollectionChange)
-        }
-        m = menu
-        if (m)
-          m.invalidateProperties()
-      }
-    }
-    protected var _children:IList
+  public class MenuItemBase extends MenuBase {
+    [Bindable]
+    public var data:*
 
     public function get isSeparator():Boolean {
       return false
@@ -57,11 +23,8 @@ package dpk {
     }
     protected var _label:String
 
-    public function get menu():NativeMenu {
-      var result:* = this
-      while (result.parent)
-        result = result.parent
-      return result is NativeMenu ? result : null
+    override public function get menuItems():Array {
+      return [this]
     }
 
     [Bindable]
@@ -85,8 +48,8 @@ package dpk {
       if (nativeMenuItem != value) {
         if (nativeMenuItem) {
           nativeMenuItem.removeEventListener(Event.DISPLAYING,
-              onNativeMenuDisplaying)
-          nativeMenuItem.removeEventListener(Event.SELECT, onNativeMenuSelect)
+              onNativeMenuEvent)
+          nativeMenuItem.removeEventListener(Event.SELECT, onNativeMenuEvent)
           nativeMenuItem.data = null
         }
         _nativeMenuItem = value
@@ -97,51 +60,20 @@ package dpk {
           if (label)
             nativeMenuItem.label = label
           nativeMenuItem.name = name
-          nativeMenuItem.addEventListener(Event.DISPLAYING,
-              onNativeMenuDisplaying)
-          nativeMenuItem.addEventListener(Event.SELECT, onNativeMenuSelect)
+          nativeMenuItem.addEventListener(Event.DISPLAYING, onNativeMenuEvent)
+          nativeMenuItem.addEventListener(Event.SELECT, onNativeMenuEvent)
         }
       }
     }
     private var _nativeMenuItem:NativeMenuItem
 
-    protected function
-        onChildrenCollectionChange(event:CollectionEvent):void {
-      var changeEvent:PropertyChangeEvent
-      var i:int
-      var item:*
-      var m:NativeMenu
-      switch (event.kind) {
-        case CollectionEventKind.ADD:
-          for each (item in event.items)
-            item.parent = this
-          break
-        case CollectionEventKind.REMOVE:
-          for each (item in event.items)
-            item.parent = null
-          break
-        case CollectionEventKind.REPLACE:
-          for each (changeEvent in event.items) {
-            changeEvent.oldValue.parent = null
-            changeEvent.newValue.parent = this
-          }
-          break
-        case CollectionEventKind.RESET:
-          for (i = 0; i < event.currentTarget.length; ++i)
-            event.currentTarget.getItemAt(i).parent = this
-          break
+    protected function onNativeMenuEvent(event:Event):void {
+      var e:Event = new NativeMenuEvent(event.type, false, false, this)
+      var here:* = this
+      while (here) {
+        here.dispatchEvent(e)
+        here = 'parent' in here ? here.parent : null
       }
-      m = menu
-      if (m)
-        m.invalidateProperties()
-    }
-
-    protected function onNativeMenuDisplaying(event:Event):void {
-      dispatchEvent(event)
-    }
-
-    protected function onNativeMenuSelect(event:Event):void {
-      dispatchEvent(event)
     }
   }
 }

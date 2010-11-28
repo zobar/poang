@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<s:Window close='onClose(event)' rollOut='onRollOut(event)'
+    rollOver='onRollOver(event)' systemChrome='none' showStatusBar='false'
+    windowActivate='onWindowActivate(event)'
+    windowComplete='onWindowComplete(event)'
+    xmlns:fx='http://ns.adobe.com/mxml/2009' xmlns:qcrg='qcrg.*'
+    xmlns:s='library://ns.adobe.com/flex/spark'>
+  <fx:Script source='DisplayWindow.mxml.as'/>
+  <qcrg:Display id='display' creationComplete='onDisplayCreationComplete(event)'
+      height='100%' width='100%'/>
+</s:Window>

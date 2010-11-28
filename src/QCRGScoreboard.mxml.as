@@ -1,4 +1,6 @@
 import dpk.GithubUpdater
+import dpk.MenuItemBase
+import dpk.NativeMenuEvent
 import dpk.minutes
 import dpk.seconds
 import dpk.UpdateEvent
@@ -6,18 +8,12 @@ import dpk.WindowHelper
 import flash.events.FocusEvent
 import mx.binding.utils.BindingUtils
 import mx.collections.ArrayCollection
+import mx.collections.IList
 import mx.events.FlexEvent
 import mx.events.PropertyChangeEvent
 import mx.managers.IFocusManagerComponent
 import mx.managers.ISystemManager
-import qcrg.Bout
-import qcrg.DisplayGroup
-import qcrg.Period
-import qcrg.Preferences
-import qcrg.PreferencesWindow
-import qcrg.Team
-import qcrg.UpdateCompleteWindow
-import qcrg.UpdateNotificationWindow
+import qcrg.*
 import spark.events.IndexChangeEvent
 import spark.events.TextOperationEvent
 
@@ -119,7 +115,6 @@ protected static function formatTime(value:int):String {
       int((value / 1000) % 10)
 }
 
-
 protected static function parseTime(time:String):Number {
   var parts:Object = /(.*?)(.{1,2})$/.exec(time.replace(/[^0-9]+/g, ''))
   if (parts) {
@@ -164,9 +159,13 @@ public function set bout(value:Bout):void {
 protected var _bout:Bout
 
 protected var commitField:Boolean
-protected var helper:WindowHelper
+
 [Bindable]
 public var displayGroup:DisplayGroup
+
+protected var displays:ArrayCollection
+
+protected var helper:WindowHelper
 
 public function get preferences():Preferences {
   return _preferences
@@ -189,6 +188,18 @@ public function set preferencesWindow(value:PreferencesWindow):void {
     preferencesWindow.addEventListener(Event.CLOSE, onPreferencesWindowClose)
 }
 protected var _preferencesWindow:PreferencesWindow
+
+[Bindable]
+public function get screens():Array {
+  if (!_screens) {
+    _screens = Screen.screens
+  }
+  return _screens
+}
+public function set screens(value:Array):void {
+  _screens = value
+}
+protected var _screens:Array
 
 public function get updateCompleteWindow():UpdateCompleteWindow {
   return _updateCompleteWindow
@@ -241,6 +252,24 @@ protected var _updater:GithubUpdater
 
 protected var updates:Object
 protected var windowHelper:WindowHelper
+
+public function screenToString(screen:Screen):String {
+  var bounds:Rectangle = screen.bounds
+  if (bounds.equals(Screen.mainScreen.bounds))
+    return 'Main Screen'
+  return 'Screen ' + (indexOfScreen(screen) + 1)
+}
+
+public function updateScreens():void {
+  screens = Screen.screens
+  for each (var screenNumber:int in preferences.displayScreens) {
+    if (screens.length > screenNumber) {
+      var screen:Screen = screens[screenNumber]
+      if (!displayForScreen(screen))
+        openDisplay(screen)
+    }
+  }
+}
 
 protected function fieldFocusOut(event:FocusEvent, property:String,
     parse:Function, format:*):void {
@@ -304,11 +333,32 @@ protected function onClose(event:Event):void {
   exit()
 }
 
-protected function onCloseSelect(event:Event):void {
+protected function onCloseSelect(event:NativeMenuEvent):void {
   var activeNativeWindow:NativeWindow =
       NativeApplication.nativeApplication.activeWindow
   if (activeNativeWindow)
     ISystemManager(activeNativeWindow.stage.getChildAt(0)).document.close()
+}
+
+protected function onDisplayClose(event:Event):void {
+  var display:DisplayWindow = DisplayWindow(event.currentTarget)
+  var bounds:Rectangle = display.displayScreen.bounds
+  var index:int = displays.getItemIndex(display)
+  var menuItem:MenuItem = menuItemForScreen(display.displayScreen)
+  display.removeEventListener(Event.CLOSE, onDisplayClose)
+  if (index != -1)
+    displays.removeItemAt(index)
+  if (menuItem)
+    menuItem.checked = false
+}
+
+protected function onDisplayLoaderComplete(event:Event):void {
+  var loaderInfo:LoaderInfo = LoaderInfo(event.currentTarget)
+  var loader:Loader = loaderInfo.loader
+  var content:DisplayObject = loader.content
+  updateDisplay(content)
+  displayGroup.setContent(content, new Rectangle(0, 0, loaderInfo.width,
+      loaderInfo.height))
 }
 
 protected function onEnterFrame(event:Event):void {
@@ -339,20 +389,12 @@ protected function onFieldFocusOut(event:FocusEvent):void {
   field.removeEventListener(FocusEvent.FOCUS_OUT, onFieldFocusOut)
 }
 
-protected function onDisplayLoaderComplete(event:Event):void {
-  var loaderInfo:LoaderInfo = LoaderInfo(event.currentTarget)
-  var loader:Loader = loaderInfo.loader
-  var content:DisplayObject = loader.content
-  updateDisplay(content)
-  displayGroup.setContent(content, new Rectangle(0, 0, loaderInfo.width,
-      loaderInfo.height))
-}
-
 protected function onInitialize(event:FlexEvent):void {
   var loader:Loader = new Loader()
   loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onDisplayLoaderComplete)
   loader.load(new URLRequest('QueenCity3.swf'))
   displayGroup = new DisplayGroup()
+  displays = new ArrayCollection()
   preferences = new Preferences()
   helper = new WindowHelper('main', this, preferences)
   updater = new GithubUpdater('zobar', 'qcrg-scoreboard', 'dist/update.xml')
@@ -458,12 +500,13 @@ protected function onPeriodListFocusOut(event:FocusEvent):void {
 
 protected function onPreferencesComplete(event:Event):void {
   bout = new Bout()
+  updateScreens()
   BindingUtils.bindProperty(updater, 'branch', preferences, 'releaseTrack')
   if (preferences.autoUpdate)
     updater.check()
 }
 
-protected function onPreferencesSelect(event:Event):void {
+protected function onPreferencesSelect(event:NativeMenuEvent):void {
   if (preferencesWindow)
     preferencesWindow.activate()
   else {
@@ -487,8 +530,32 @@ protected function onPreviewResize(event:Event):void {
   trace('RESIZE application=' + width + 'x' + height + ', preview=' + (preview.width - 2) + 'x' + (preview.height - 2))
 }
 
-protected function onQuitSelect(event:Event):void {
+protected function onQuitSelect(event:NativeMenuEvent):void {
   exit()
+}
+
+protected function onRescanSelect(event:NativeMenuEvent):void {
+  updateScreens()
+}
+
+protected function onScreenSelect(event:NativeMenuEvent):void {
+  var menuItem:MenuItem = MenuItem(event.menuItem)
+  var screen:Screen = menuItem.data
+  var display:DisplayWindow = displayForScreen(screen)
+  var displayScreens:Array = preferences.displayScreens || []
+  var screenNumber:int = indexOfScreen(screen)
+  var i:int = displayScreens.indexOf(screenNumber)
+  if (display) {
+    display.close()
+    if (screenNumber != -1 && i != -1)
+      displayScreens.splice(i, 1)
+  }
+  else {
+    openDisplay(screen)
+    if (screenNumber != -1 && i == -1)
+      displayScreens.push(screenNumber)
+  }
+  preferences.displayScreens = displayScreens.length ?  displayScreens : null
 }
 
 protected function onTimeoutClockFieldFocusOut(event:FocusEvent):void {
@@ -521,8 +588,68 @@ protected function onUpdateNotificationWindowClose(event:Event):void {
   updateNotificationWindow = null
 }
 
+protected function openDisplay(screen:Screen):void {
+  var display:DisplayWindow = new DisplayWindow()
+  var menuItem:MenuItem = menuItemForScreen(screen)
+  display.addEventListener(Event.CLOSE, onDisplayClose)
+  display.displayGroup = displayGroup
+  display.displayScreen = screen
+  display.open()
+  displays.addItem(display)
+  if (menuItem)
+    menuItem.checked = true
+}
+
 protected function periodListLabelFunction(value:int):String {
   return Period.toString(value)
+}
+
+protected function displayForScreen(screen:Screen):DisplayWindow {
+  if (displays) {
+    var bounds:Rectangle = screen.bounds
+    for (var i:int = 0; i < displays.length; ++i) {
+      var display:DisplayWindow = DisplayWindow(displays.getItemAt(i))
+      if (bounds.equals(display.displayScreen.bounds))
+        return display
+    }
+  }
+  return null
+}
+
+protected function indexOfScreen(screen:Screen):int {
+  var bounds:Rectangle = screen.bounds
+  for (var i:int = 0; i < screens.length; ++i) {
+    var s:Screen = screens[i]
+    if (bounds.equals(s.bounds))
+      return i
+  }
+  return -1
+}
+
+protected function menuItemForScreen(screen:Screen):MenuItem {
+  var bounds:Rectangle = screen.bounds
+  var menuItems:IList = screenMenu.children
+  for (var i:int = 0; i < menuItems.length; ++i) {
+    var menuItem:MenuItem = MenuItem(menuItems.getItemAt(i))
+    var screen:Screen = Screen(menuItem.data)
+    if (bounds.equals(screen.bounds))
+      return menuItem
+  }
+  return null
+}
+
+protected function screenMenuItem(screen:Screen,
+    recycle:MenuItemBase):MenuItemBase {
+  var bounds:Rectangle = screen.bounds
+  var label:String
+  var menuItem:MenuItem = recycle as MenuItem
+  if (!menuItem)
+    menuItem = new MenuItem()
+  menuItem.checked = displayForScreen(screen) != null
+  menuItem.data = screen
+  menuItem.label = screenToString(screen) + ' (' + bounds.width + '×' +
+      bounds.height + ')'
+  return menuItem
 }
 
 protected function updateDisplay(display:*):void {

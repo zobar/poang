@@ -23,6 +23,14 @@ package qcrg {
       return xml != null
     }
 
+    [Bindable]
+    public function get displayScreens():Array {
+      return getIntArray('displayScreens')
+    }
+    public function set displayScreens(value:Array):void {
+      setIntArray('displayScreens', value)
+    }
+
     protected function get file():File {
       return _file
     }
@@ -159,6 +167,17 @@ package qcrg {
       return defaultValue
     }
 
+    protected function getIntArray(key:String):Array {
+      var result:Array
+      if (hasValue(key)) {
+        var parts:Array = getString(key).split(/\s+/)
+        result = []
+        for each (var part:String in parts)
+          result.push(parseInt(part))
+      }
+      return result
+    }
+
     protected function getRectangle(key:String):Rectangle {
       var result:Rectangle
       if (hasValue(key)) {
@@ -191,6 +210,13 @@ package qcrg {
 
     protected function setInt(key:String, value:int, defaultValue:int):void {
       setString(key, value.toString(), defaultValue.toString())
+    }
+
+    protected function setIntArray(key:String, value:Array):void {
+      if (value)
+        setString(key, value.join(' '))
+      else
+        setString(key, null)
     }
 
     protected function setRectangle(key:String, value:Rectangle):void {

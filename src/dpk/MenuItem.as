@@ -16,6 +16,18 @@ package dpk {
     }
     protected var _altKey:Boolean
 
+    public function get checked():Boolean {
+      return _checked
+    }
+    public function set checked(value:Boolean):void {
+      if (checked != value) {
+        _checked = value
+        if (nativeMenuItem)
+          nativeMenuItem.checked = checked
+      }
+    }
+    protected var _checked:Boolean
+
     public function get keyEquivalent():String {
       return _keyEquivalent
     }
@@ -33,6 +45,7 @@ package dpk {
         super.nativeMenuItem = value
         if (nativeMenuItem) {
           if (label) {
+            nativeMenuItem.checked = checked
             nativeMenuItem.keyEquivalent = keyEquivalent
             updateAltKey()
           }
@@ -40,6 +53,7 @@ package dpk {
             altKey =
                 nativeMenuItem.keyEquivalentModifiers.indexOf(
                 Keyboard.ALTERNATE) != -1
+            checked = nativeMenuItem.checked
             keyEquivalent = nativeMenuItem.keyEquivalent
           }
         }

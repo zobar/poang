@@ -64,7 +64,8 @@ package qcrg {
     protected function drawBitmap():void {
       if (bitmapData != drawn) {
         bitmapData.lock()
-        bitmapData.fillRect(contentBounds, 0x000000)
+        bitmapData.fillRect(new Rectangle(0, 0, bitmapData.width,
+            bitmapData.height), 0x000000)
         bitmapData.draw(content, contentTransform)
         bitmapData.unlock()
       }
@@ -116,6 +117,16 @@ package qcrg {
               maxSize.height = h
             if (w > maxSize.width)
               maxSize.width = w
+          }
+          invalidate()
+          break
+        case CollectionEventKind.REMOVE:
+          maxSize.height = 0
+          maxSize.width = 0
+          for (var i:int = 0; i < displays.length; ++i) {
+            display = Display(displays.getItemAt(i))
+            maxSize.height = Math.max(maxSize.height, display.height)
+            maxSize.width = Math.max(maxSize.width, display.width)
           }
           invalidate()
           break

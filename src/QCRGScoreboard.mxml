@@ -45,6 +45,12 @@
         <dpk:MenuItem label='Preferences' osMatch='^(?!Mac OS|Windows)'
             select='onPreferencesSelect(event)'/>
       </dpk:MenuItem>
+      <dpk:MenuItem label='View'>
+        <dpk:MenuItemGroup id='screenMenu' dataProvider='{screens}'
+            menuItemFunction='screenMenuItem' select='onScreenSelect(event)'/>
+        <dpk:Separator/>
+        <dpk:MenuItem label='Rescan' select='onRescanSelect(event)'/>
+      </dpk:MenuItem>
       <dpk:MenuItem label='Tools' osMatch='^Windows'>
         <dpk:MenuItem label='Settings' select='onPreferencesSelect(event)'/>
       </dpk:MenuItem>
