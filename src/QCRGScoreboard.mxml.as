@@ -284,6 +284,9 @@ protected function fieldFocusOut(event:FocusEvent, property:String,
 }
 
 protected function onApplicationComplete(event:FlexEvent):void {
+  var loader:Loader = new Loader()
+  loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onDisplayLoaderComplete)
+  loader.load(new URLRequest('QueenCity3.swf'))
   stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown, true)
   // Linux glitch: doesn't adjust layout after adding menu bar.  On other
   // platforms, these should already be equal.
@@ -390,17 +393,14 @@ protected function onFieldFocusOut(event:FocusEvent):void {
 }
 
 protected function onInitialize(event:FlexEvent):void {
-  var loader:Loader = new Loader()
-  loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onDisplayLoaderComplete)
-  loader.load(new URLRequest('QueenCity3.swf'))
-  displayGroup = new DisplayGroup()
-  displays = new ArrayCollection()
   preferences = new Preferences()
-  helper = new WindowHelper('main', this, preferences)
-  updater = new GithubUpdater('zobar', 'qcrg-scoreboard', 'dist/update.xml')
   if (preferences.complete)
     onPreferencesComplete(null)
   preferences.addEventListener(Event.COMPLETE, onPreferencesComplete)
+  helper = new WindowHelper('main', this, preferences)
+  displayGroup = new DisplayGroup()
+  displays = new ArrayCollection()
+  updater = new GithubUpdater('zobar', 'qcrg-scoreboard', 'dist/update.xml')
 }
 
 protected function onIntermissionClockFieldFocusOut(event:FocusEvent):void {
