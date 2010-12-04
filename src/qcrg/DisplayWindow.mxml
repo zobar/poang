@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<s:Window close='onClose(event)' rollOut='onRollOut(event)'
+<s:Window close='onClose(event)' windowMove='onWindowMove(event)'
+    windowResize='onWindowResize(event)' rollOut='onRollOut(event)'
     rollOver='onRollOver(event)' systemChrome='none' showStatusBar='false'
     windowActivate='onWindowActivate(event)'
     windowComplete='onWindowComplete(event)'

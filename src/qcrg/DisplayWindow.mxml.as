@@ -4,6 +4,8 @@ import mx.events.AIREvent
 import mx.events.FlexEvent
 import mx.events.FlexNativeWindowBoundsEvent
 
+protected var windowChanged:Boolean
+
 [Bindable]
 public function get displayGroup():DisplayGroup {
   return _displayGroup
@@ -20,9 +22,9 @@ public function get displayScreen():Screen {
   return _displayScreen
 }
 public function set displayScreen(value:Screen):void {
-  _displayScreen = value
-  bounds = displayScreen.bounds
-  updateTitle()
+  _displayScreen = value;
+  (nativeWindow ? nativeWindow : this).bounds = displayScreen.bounds
+  title = 'Display on ' + QCRGScoreboard.app.screenToString(displayScreen)
 }
 protected var _displayScreen:Screen
 
@@ -49,23 +51,36 @@ protected function onWindowActivate(event:AIREvent):void {
 protected function onWindowComplete(event:AIREvent):void {
   nativeWindow.bounds = displayScreen.bounds
   stage.displayState = StageDisplayState.FULL_SCREEN
-  addEventListener(FlexNativeWindowBoundsEvent.WINDOW_MOVE, onWindowMove)
-  addEventListener(FlexNativeWindowBoundsEvent.WINDOW_RESIZE, onWindowResize)
 }
 
 protected function onWindowMove(event:FlexNativeWindowBoundsEvent):void {
-  callLater(close)
-  QCRGScoreboard.app.updateScreens()
+  if (!windowChanged) {
+    windowChanged = true
+    callLater(updateScreen, [QCRGScoreboard.app.getScreenIndex(displayScreen)])
+  }
 }
 
 protected function onWindowResize(event:FlexNativeWindowBoundsEvent):void {
-  displayScreen = Screen.getScreensForRectangle(event.afterBounds)[0]
-  height = stage.stageHeight
-  width = stage.stageWidth
-  QCRGScoreboard.app.updateScreens()
-  updateTitle()
+  if (!windowChanged) {
+    windowChanged = true
+    callLater(updateScreen, [QCRGScoreboard.app.getScreenIndex(displayScreen)])
+  }
 }
 
-protected function updateTitle():void {
-  title = 'Display on ' + QCRGScoreboard.app.screenToString(displayScreen)
+protected function updateScreen(screenIndex:int):void {
+  var app:QCRGScoreboard = QCRGScoreboard.app
+  var otherDisplay:DisplayWindow
+  var screen:Screen
+  windowChanged = false
+  app.updateScreens()
+  screen = app.screens[screenIndex]
+  if (screen) {
+    otherDisplay = app.displayForScreen(screen)
+    if (otherDisplay && otherDisplay != this)
+      close()
+    else if (!displayScreen.bounds.equals(screen.bounds))
+      displayScreen = screen
+  }
+  else
+    close()
 }

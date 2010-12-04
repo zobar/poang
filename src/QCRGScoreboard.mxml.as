@@ -253,15 +253,41 @@ protected var _updater:GithubUpdater
 protected var updates:Object
 protected var windowHelper:WindowHelper
 
+public function displayForScreen(screen:Screen):DisplayWindow {
+  if (displays) {
+    var bounds:Rectangle = screen.bounds
+    for (var i:int = 0; i < displays.length; ++i) {
+      var display:DisplayWindow = DisplayWindow(displays.getItemAt(i))
+      if (bounds.equals(display.displayScreen.bounds))
+        return display
+    }
+  }
+  return null
+}
+
+public function getScreenIndex(screen:Screen):int {
+  var bounds:Rectangle = screen.bounds
+  for (var i:int = 0; i < screens.length; ++i) {
+    var s:Screen = screens[i]
+    if (bounds.equals(s.bounds))
+      return i
+  }
+  return -1
+}
+
 public function screenToString(screen:Screen):String {
   var bounds:Rectangle = screen.bounds
   if (bounds.equals(Screen.mainScreen.bounds))
     return 'Main Screen'
-  return 'Screen ' + (indexOfScreen(screen) + 1)
+  return 'Screen ' + (getScreenIndex(screen) + 1)
 }
 
 public function updateScreens():void {
   screens = Screen.screens
+  callLater(checkNewScreens)
+}
+
+protected function checkNewScreens():void {
   for each (var screenNumber:int in preferences.displayScreens) {
     if (screens.length > screenNumber) {
       var screen:Screen = screens[screenNumber]
@@ -543,7 +569,7 @@ protected function onScreenSelect(event:NativeMenuEvent):void {
   var screen:Screen = menuItem.data
   var display:DisplayWindow = displayForScreen(screen)
   var displayScreens:Array = preferences.displayScreens || []
-  var screenNumber:int = indexOfScreen(screen)
+  var screenNumber:int = getScreenIndex(screen)
   var i:int = displayScreens.indexOf(screenNumber)
   if (display) {
     display.close()
@@ -602,28 +628,6 @@ protected function openDisplay(screen:Screen):void {
 
 protected function periodListLabelFunction(value:int):String {
   return Period.toString(value)
-}
-
-protected function displayForScreen(screen:Screen):DisplayWindow {
-  if (displays) {
-    var bounds:Rectangle = screen.bounds
-    for (var i:int = 0; i < displays.length; ++i) {
-      var display:DisplayWindow = DisplayWindow(displays.getItemAt(i))
-      if (bounds.equals(display.displayScreen.bounds))
-        return display
-    }
-  }
-  return null
-}
-
-protected function indexOfScreen(screen:Screen):int {
-  var bounds:Rectangle = screen.bounds
-  for (var i:int = 0; i < screens.length; ++i) {
-    var s:Screen = screens[i]
-    if (bounds.equals(s.bounds))
-      return i
-  }
-  return -1
 }
 
 protected function menuItemForScreen(screen:Screen):MenuItem {
