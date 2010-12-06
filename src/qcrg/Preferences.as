@@ -10,7 +10,7 @@ package qcrg {
 
   [Event(name='complete')]
   [Event(name='ioError', type='flash.events.IOErrorEvent')]
-  public class Preferences extends EventDispatcher {
+  public class Preferences extends EventDispatcher implements IRuleset {
     [Bindable]
     public function get autoUpdate():Boolean {
       return getBoolean('autoUpdate', true)
@@ -51,10 +51,26 @@ package qcrg {
 
     [Bindable]
     public function get intermissionLength():int {
-      return getInt('intermissionLength', minutes(10))
+      return getInt('intermissionLength', ruleset.intermissionLength)
     }
     public function set intermissionLength(value:int):void {
-      setInt('intermissionLength', value, minutes(10))
+      setInt('intermissionLength', value, ruleset.intermissionLength)
+    }
+
+    [Bindable]
+    public function get jamLength():int {
+      return getInt('jamLength', ruleset.jamLength)
+    }
+    public function set jamLength(value:int):void {
+      setInt('jamLength', value, ruleset.jamLength)
+    }
+
+    [Bindable]
+    public function get lineupLength():int {
+      return getInt('lineupLength', ruleset.lineupLength)
+    }
+    public function set lineupLength(value:int):void {
+      setInt('lineupLength', value, ruleset.lineupLength)
     }
 
     [Bindable]
@@ -74,6 +90,30 @@ package qcrg {
     }
 
     [Bindable]
+    public function get overtimeLineupLength():int {
+      return getInt('overtimeLineupLength', ruleset.overtimeLineupLength)
+    }
+    public function set overtimeLineupLength(value:int):void {
+      setInt('overtimeLineupLength', value, ruleset.overtimeLineupLength)
+    }
+
+    [Bindable]
+    public function get periodLength():int {
+      return getInt('periodLength', ruleset.periodLength)
+    }
+    public function set periodLength(value:int):void {
+      setInt('periodLength', value, ruleset.periodLength)
+    }
+
+    [Bindable]
+    public function get periods():int {
+      return getInt('periods', ruleset.periods)
+    }
+    public function set periods(value:int):void {
+      setInt('periods', value, ruleset.periods)
+    }
+
+    [Bindable]
     public function get preferencesWindow():Rectangle {
       return getRectangle('preferencesWindow')
     }
@@ -90,11 +130,54 @@ package qcrg {
     }
 
     [Bindable]
+    public function get propertiesWindow():Rectangle {
+      return getRectangle('propertiesWindow')
+    }
+    public function set propertiesWindow(value:Rectangle):void {
+      setRectangle('propertiesWindow', value)
+    }
+
+    [Bindable]
+    public function get propertiesWindowMaximized():Boolean {
+      return getBoolean('propertiesWindowMaximized', false)
+    }
+    public function set propertiesWindowMaximized(value:Boolean):void {
+      return setBoolean('propertiesWindowMaximized', value, false)
+    }
+
+    [Bindable]
     public function get releaseTrack():String {
       return getString('releaseTrack', 'stable')
     }
     public function set releaseTrack(value:String):void {
       setString('releaseTrack', value, 'stable')
+    }
+
+    [Bindable]
+    public var ruleset:Ruleset
+
+    [Bindable]
+    public function get timeoutLength():int {
+      return getInt('timeoutLength', ruleset.timeoutLength)
+    }
+    public function set timeoutLength(value:int):void {
+      setInt('timeoutLength', value, ruleset.timeoutLength)
+    }
+
+    [Bindable]
+    public function get timeouts():int {
+      return getInt('timeouts', ruleset.timeouts)
+    }
+    public function set timeouts(value:int):void {
+      setInt('timeouts', value, ruleset.timeouts)
+    }
+
+    [Bindable]
+    public function get timeoutsPer():String {
+      return getString('timeoutsPer', ruleset.timeoutsPer)
+    }
+    public function set timeoutsPer(value:String):void {
+      setString('timeoutsPer', value, ruleset.timeoutsPer)
     }
 
     [Bindable]
@@ -132,6 +215,8 @@ package qcrg {
     protected var xml:XML
 
     public function Preferences() {
+      ruleset =
+          new Ruleset(File.applicationDirectory.resolvePath('ruleset.xml').url)
       file = File.applicationStorageDirectory.resolvePath('preferences.xml')
       if (file.exists)
         file.load()

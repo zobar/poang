@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<s:SparkSkin xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:s='library://ns.adobe.com/flex/spark'>
+  <fx:Script source='TabSkin.mxml.as'/>
+  <s:states>
+    <s:State name='disabled' stateGroups='disabledStates'/>
+    <s:State name='down'/>
+    <s:State name='over' stateGroups='overStates'/>
+    <s:State name='selectedDisabled'
+        stateGroups='disabledStates,selectedStates'/>
+    <s:State name='selectedDown' stateGroups='selectedStates'/>
+    <s:State name='selectedOver' stateGroups='overStates,selectedStates'/>
+    <s:State name='selectedUp' stateGroups='selectedStates'/>
+    <s:State name='up'/>
+  </s:states>
+  <s:Group bottom='0' left='0' right='0' top='0' top.selectedStates='1'>
+    <s:Rect id='dropShadow' bottom='1' left='1' right='-1' top='1'>
+      <s:fill><s:SolidColor alpha='.12' color='0x000000'/></s:fill>
+    </s:Rect>
+    <s:Rect id='border' bottom='0' left='0' right='0' top='0'>
+      <s:stroke>
+        <s:SolidColorStroke id='borderStroke' color='0x000000'/>
+      </s:stroke>
+    </s:Rect>
+    <s:Group bottom='1' bottom.selectedStates='0' left='0' right='0' top='0'>
+      <s:Rect id='background' bottom='0' left='1' right='1' top='1'>
+        <s:fill><s:SolidColor id='backgroundFill' color='0xffffff'/></s:fill>
+      </s:Rect>
+      <s:Rect id='highlightStrokeRect' bottom='0' left='1' right='1' top='1'>
+        <s:stroke>
+          <s:LinearGradientStroke rotation='90'>
+            <s:GradientEntry alpha.selectedStates='1' color='0xffffff'/>
+            <s:GradientEntry alpha='0' color='0xffffff'/>
+          </s:LinearGradientStroke>
+        </s:stroke>
+      </s:Rect>
+      <s:Rect id='highlightFillRect' bottom='0' left='2' right='2' top='2'>
+        <s:fill>
+          <s:LinearGradient rotation='90'>
+            <s:GradientEntry alpha='0' alpha.selectedStates='1' color='0x000000'
+                color.selectedStates='0xffffff'/>
+            <s:GradientEntry alpha='.12' alpha.selectedStates='0'
+                color='0x000000' color.selectedStates='0xffffff'/>
+          </s:LinearGradient>
+        </s:fill>
+      </s:Rect>
+    </s:Group>
+  </s:Group>
+</s:SparkSkin>

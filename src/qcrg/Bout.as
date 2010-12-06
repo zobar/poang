@@ -1,17 +1,13 @@
 package qcrg {
-  import dpk.minutes
-  import dpk.seconds
   import flash.events.Event
-  import flash.events.EventDispatcher
   import flash.utils.getTimer
   import mx.events.PropertyChangeEvent
 
-  public class Bout extends EventDispatcher {
-    [Bindable]
-    public var intermissionClock:int
+  public class Bout extends AbstractRuleset {
+    protected static var lastUntitledNumber:int
 
     [Bindable]
-    public var intermissionLength:int
+    public var intermissionClock:int
 
     [Bindable]
     public var jam:int
@@ -70,6 +66,17 @@ package qcrg {
     public var timeoutClock:int
 
     [Bindable]
+    public function get title():String {
+      if (_title == null)
+        _title = 'Untitled Bout ' + (++lastUntitledNumber)
+      return _title
+    }
+    public function set title(value:String):void {
+      _title = value
+    }
+    protected var _title:String
+
+    [Bindable]
     public function get homeJamScore():int {
       return _homeJamScore
     }
@@ -105,10 +112,24 @@ package qcrg {
     }
     protected var _visitorScore:int
 
+    public function get propertiesWindow():PropertiesWindow {
+      return _propertiesWindow
+    }
+    public function set propertiesWindow(value:PropertiesWindow):void {
+      if (propertiesWindow) {
+        propertiesWindow.removeEventListener(Event.CLOSE,
+            onPropertiesWindowClose)
+      }
+      _propertiesWindow = value
+      if (propertiesWindow)
+        propertiesWindow.addEventListener(Event.CLOSE, onPropertiesWindowClose)
+    }
+    protected var _propertiesWindow:PropertiesWindow
+
     public function Bout() {
       var app:QCRGScoreboard = QCRGScoreboard.app
+      var preferences:Preferences = app.preferences
       intermissionClock = 0
-      intermissionLength = app.preferences.intermissionLength
       _jamClock = 0
       lastPeriod = 0
       leadJammer = Team.NONE
@@ -118,6 +139,8 @@ package qcrg {
       _periodClock = 0
       periodClockRunning = true
       timeoutClock = 0
+      for each (var rule:String in Ruleset.ruleNames)
+        this[rule] = preferences[rule]
       app.addEventListener(Event.ENTER_FRAME, onEnterFrame)
     }
 
@@ -143,8 +166,8 @@ package qcrg {
           }
           else if (homeScore == visitorScore) {
             // OT: Start lineup
-            _periodClock = minutes(2)
-            _lineupClock = minutes(1)
+            _periodClock = jamLength
+            _lineupClock = overtimeLineupLength
           }
           else {
             // OT: End game
@@ -158,7 +181,7 @@ package qcrg {
             if (_lineupClock || (_periodClock && !periodClockRunning)) {
               // Start next jam
               jam += 1
-              jamClock = minutes(2)
+              jamClock = jamLength
               _lineupClock = 0
               homeJamScore = 0
               visitorJamScore = 0
@@ -167,21 +190,21 @@ package qcrg {
               // Start lineup
               _jamClock = 0
               leadJammer = Team.NONE
-              if (_periodClock < seconds(30))
+              if (_periodClock < lineupLength)
                 _lineupClock = _periodClock
               else
-                lineupClock = seconds(30)
+                lineupClock = lineupLength
             }
           }
           else {
-            if (period == 2) {
+            if (period == periods) {
               homeJamScore = 0
               visitorJamScore = 0
               if (homeScore == visitorScore) {
                 // Go into overtime
                 period = Period.OVERTIME
-                _periodClock = minutes(2)
-                _lineupClock = minutes(1)
+                _periodClock = jamLength
+                _lineupClock = overtimeLineupLength
                 timeoutClock = 0
               }
               else {
@@ -200,7 +223,7 @@ package qcrg {
                 // Start next period
                 period = lastPeriod + 1
                 lastPeriod = period
-                _periodClock = minutes(30)
+                _periodClock = periodLength
                 intermissionClock = 0
               }
             }
@@ -210,6 +233,17 @@ package qcrg {
         clockChanged('jamClock', oldJamClock)
         clockChanged('lineupClock', oldLineupClock)
         clockChanged('periodClock', oldPeriodClock)
+      }
+    }
+
+    public function editProperties():void {
+      if (propertiesWindow)
+        propertiesWindow.activate()
+      else {
+        propertiesWindow = new PropertiesWindow()
+        propertiesWindow.bout = this
+        propertiesWindow.open()
+        propertiesWindow.setFocus()
       }
     }
 
@@ -274,6 +308,10 @@ package qcrg {
           intermissionClock = Math.max(intermissionClock - elapsed, 0)
       }
       lastTick = now
+    }
+
+    protected function onPropertiesWindowClose(event:Event):void {
+      propertiesWindow = null
     }
   }
 }

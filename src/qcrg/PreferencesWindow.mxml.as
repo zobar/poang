@@ -64,11 +64,10 @@ protected function onCloseButtonClick(event:MouseEvent):void {
 }
 
 protected function onInitialize(event:FlexEvent):void {
-  preferences = QCRGScoreboard.app.preferences
+  var app:QCRGScoreboard = QCRGScoreboard.app
+  preferences = app.preferences
   helper = new WindowHelper('preferences', this, preferences)
-  updater = QCRGScoreboard.app.updater
-  releaseTrackList.dataProvider = releaseTracks
-  releaseTrackList.selectedItem = releaseTrack
+  updater = app.updater
   if (/^Windows/.test(Capabilities.os))
     title = 'Settings'
   else
@@ -77,6 +76,11 @@ protected function onInitialize(event:FlexEvent):void {
 
 protected function onReleaseTrackListChange(event:Event):void {
   releaseTrack = ListBase(event.currentTarget).selectedItem
+}
+
+protected function onReleaseTrackListCreationComplete(event:FlexEvent):void {
+  releaseTrackList.dataProvider = releaseTracks
+  releaseTrackList.selectedItem = releaseTrack
 }
 
 protected function

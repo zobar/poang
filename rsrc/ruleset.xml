@@ -1,0 +1,13 @@
+<?xml version=`1.0' encoding='utf-8'?>
+<ruleset icon='wftda-21.png' name='WFTDA 2010-05-26'>
+  <rule name='intermissionLength' value='600000' description='at least 5:00'
+      citation='2.3.2'/>
+  <rule name='jamLength' value='120000' citation='2.4.2'/>
+  <rule name='lineupLength' value='30000' citation='2.4.3'/>
+  <rule name='overtimeLineupLength' value='60000' citation='2.5.1'/>
+  <rule name='periodLength' value='1800000' citation='2.2.1'/>
+  <rule name='periods' value='2' citation='2.2.1'/>
+  <rule name='timeoutLength' value='60000' citation='2.6.1'/>
+  <rule name='timeouts' value='3' citation='2.6.1' description='3 per bout'/>
+  <rule name='timeoutsPer' value='bout' citation='2.6.1'/>
+</ruleset>

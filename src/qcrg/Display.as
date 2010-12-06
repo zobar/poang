@@ -1,9 +1,9 @@
 package qcrg {
+  import dpk.fit
   import flash.display.Bitmap
   import flash.display.BitmapData
   import flash.display.DisplayObject
   import flash.display.PixelSnapping
-  import flash.geom.Matrix
   import flash.geom.Rectangle
   import mx.binding.utils.BindingUtils
   import mx.binding.utils.ChangeWatcher
@@ -83,14 +83,10 @@ package qcrg {
       graphics.drawRect(0, 0, unscaledWidth, unscaledHeight)
       graphics.endFill()
       if (bitmap && bitmapData) {
-        var scale:Number = Math.min(unscaledWidth / bitmapData.width,
-            unscaledHeight / bitmapData.height)
-        var w:Number = bitmapData.width * scale
-        var h:Number = bitmapData.height * scale
-        var tx:Number = (unscaledWidth - w) / 2
-        var ty:Number = (unscaledHeight - h) / 2
         bitmap.bitmapData = bitmapData
-        bitmap.transform.matrix = new Matrix(scale, 0, 0, scale, tx, ty)
+        bitmap.transform.matrix = fit(new Rectangle(0, 0, bitmapData.width,
+            bitmapData.height), new Rectangle(0, 0, unscaledWidth,
+            unscaledHeight))
       }
     }
   }

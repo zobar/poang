@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='utf-8'?>
+<s:VGroup xmlns:dpk='dpk.*'
+    xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:s='library://ns.adobe.com/flex/spark'>
+  <fx:Script source='BoutSettings.mxml.as'/>
+  <s:HGroup verticalAlign='middle' width='100%'>
+    <s:Label text='Periods:' width='128'/>
+    <s:TextInput enter='onPeriodsEvent(event)'
+        focusOut='onPeriodsEvent(event)' restrict='0-9' width='100%'
+        text='{ruleset.getStringValue("periods", target.periods)}'/>
+    <dpk:SharedImage bitmapData='{ruleset.icon}'
+        click='onResetPeriodsClick(event)'
+        toolTip='{ruleset.getDescription("periods")}'/>
+  </s:HGroup>
+  <s:HGroup verticalAlign='middle' width='100%'>
+    <s:Label text='Period length:' width='128'/>
+    <s:TextInput enter='onPeriodLengthEvent(event)'
+        focusOut='onPeriodLengthEvent(event)' restrict='0-9' width='100%'
+        text='{ruleset.getStringValue("periodLength", target.periodLength)}'/>
+    <dpk:SharedImage bitmapData='{ruleset.icon}'
+        click='onResetPeriodLengthClick(event)'
+        toolTip='{ruleset.getDescription("periodLength")}'/>
+  </s:HGroup>
+  <s:HGroup verticalAlign='middle' width='100%'>
+    <s:Label text='Jam length:' width='128'/>
+    <s:TextInput enter='onJamLengthEvent(event)'
+        focusOut='onJamLengthEvent(event)' restrict='0-9' width='100%'
+        text='{ruleset.getStringValue("jamLength", target.jamLength)}'/>
+    <dpk:SharedImage bitmapData='{ruleset.icon}'
+        click='onResetJamLengthClick(event)'
+        toolTip='{ruleset.getDescription("jamLength")}'/>
+  </s:HGroup>
+  <s:HGroup verticalAlign='middle' width='100%'>
+    <s:Label text='Lineup length:' width='128'/>
+    <s:TextInput enter='onLineupLengthEvent(event)'
+        focusOut='onLineupLengthEvent(event)' restrict='0-9' width='100%'
+        text='{ruleset.getStringValue("lineupLength", target.lineupLength)}'/>
+    <dpk:SharedImage bitmapData='{ruleset.icon}'
+        click='onResetLineupLengthClick(event)'
+        toolTip='{ruleset.getDescription("lineupLength")}'/>
+  </s:HGroup>
+  <s:HGroup verticalAlign='middle' width='100%'>
+    <s:Label text='Overtime lineup length:'/>
+    <s:TextInput enter='onOvertimeLineupLengthEvent(event)'
+        focusOut='onOvertimeLineupLengthEvent(event)' restrict='0-9'
+        width='100%'
+        text='{ruleset.getStringValue("overtimeLineupLength", target.overtimeLineupLength)}'/>
+    <dpk:SharedImage bitmapData='{ruleset.icon}'
+        click='onResetOvertimeLineupLengthClick(event)'
+        toolTip='{ruleset.getDescription("overtimeLineupLength")}'/>
+  </s:HGroup>
+  <s:HGroup verticalAlign='middle' width='100%'>
+    <s:Label text='Timeouts:' width='128'/>
+    <s:TextInput enter='onTimeoutsEvent(event)'
+        focusOut='onTimeoutsEvent(event)' restrict='0-9' width='100%'
+        text='{ruleset.getStringValue("timeouts", target.timeouts)}'/>
+    <s:Label text='per'/>
+    <s:DropDownList change='onTimeoutsPerChange(event)'
+        dataProvider='{timeoutsPer}' selectedItem='{target.timeoutsPer}'
+        width='58'/>
+    <dpk:SharedImage bitmapData='{ruleset.icon}'
+        click='onResetTimeoutsClick(event)'
+        toolTip='{ruleset.getDescription("timeouts")}'/>
+  </s:HGroup>
+  <s:HGroup verticalAlign='middle' width='100%'>
+    <s:Label text='Timeout length:' width='128'/>
+    <s:TextInput enter='onTimeoutLengthEvent(event)'
+        focusOut='onTimeoutLengthEvent(event)' restrict='0-9' width='100%'
+        text='{ruleset.getStringValue("timeoutLength", target.timeoutLength)}'/>
+    <dpk:SharedImage bitmapData='{ruleset.icon}'
+        click='onResetTimeoutLengthClick(event)'
+        toolTip='{ruleset.getDescription("timeoutLength")}'/>
+  </s:HGroup>
+  <s:HGroup verticalAlign='middle' width='100%'>
+    <s:Label text='Intermission length:' width='128'/>
+    <s:TextInput enter='onIntermissionLengthEvent(event)'
+        focusOut='onIntermissionLengthEvent(event)' restrict='0-9' width='100%'
+        text='{ruleset.getStringValue("intermissionLength", target.intermissionLength)}'/>
+    <dpk:SharedImage bitmapData='{ruleset.icon}'
+        click='onResetIntermissionLengthClick(event)'
+        toolTip='{ruleset.getDescription("intermissionLength")}'/>
+  </s:HGroup>
+  <s:HGroup horizontalAlign='center' width='100%'>
+    <s:Button click='onResetAllClick(event)'
+        label='Reset all to {ruleset.name}'/>
+  </s:HGroup>
+</s:VGroup>

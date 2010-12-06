@@ -43,6 +43,10 @@ s|Label {
   paddingTop: 2;
 }
 
+.note {
+  fontSize: 10;
+}
+
 .titleText {
   fontSize:   14;
   fontWeight: bold;
@@ -52,6 +56,18 @@ mx|HTML {
   borderColor:   #999999;
   borderStyle:   solid;
   borderVisible: true;
+}
+
+mx|Tab {
+  cornerRadius: 4;
+  skin:         ClassReference('dpk.skins.TabSkin');
+}
+
+mx|TabNavigator {
+  borderColor:            #999999;
+  borderSkin:             ClassReference('dpk.skins.TabNavigatorBorderSkin');
+  contentBackgroundColor: #f6f6f6;
+  cornerRadius:           3;
 }
 
 s|TextInput {

@@ -6,6 +6,7 @@ import dpk.seconds
 import dpk.UpdateEvent
 import dpk.WindowHelper
 import flash.events.FocusEvent
+import flash.filesystem.File
 import mx.binding.utils.BindingUtils
 import mx.collections.ArrayCollection
 import mx.collections.IList
@@ -108,23 +109,11 @@ public static function get app():QCRGScoreboard {
 }
 protected static var _app:QCRGScoreboard
 
-// This is a restricted variation of dpk.formatTime() which is always compatible
-// with QCRGScoreboard.parseTime().
-protected static function formatTime(value:int):String {
-  return int(value / 60000) + ':' + int((value / 10000) % 6) +
-      int((value / 1000) % 10)
+protected static function formatTime(time:int):String {
+  return qcrg.formatTime(time, true)
 }
 
-protected static function parseTime(time:String):Number {
-  var parts:Object = /(.*?)(.{1,2})$/.exec(time.replace(/[^0-9]+/g, ''))
-  if (parts) {
-    return minutes(parts[1] ? parseInt(parts[1]) : 0) +
-        seconds(parseInt(parts[2]))
-  }
-  else
-    return NaN
-}
-
+[Bindable]
 public function get bout():Bout {
   return _bout
 }
@@ -167,15 +156,8 @@ protected var displays:ArrayCollection
 
 protected var helper:WindowHelper
 
-public function get preferences():Preferences {
-  return _preferences
-}
-public function set preferences(value:Preferences):void {
-  if (value != preferences) {
-    _preferences = value
-  }
-}
-protected var _preferences:Preferences
+[Bindable]
+public var preferences:Preferences
 
 public function get preferencesWindow():PreferencesWindow {
   return _preferencesWindow
@@ -554,6 +536,10 @@ protected function onPreinitialize(event:FlexEvent):void {
 protected function onPreviewResize(event:Event):void {
   var preview:* = event.currentTarget
   trace('RESIZE application=' + width + 'x' + height + ', preview=' + (preview.width - 2) + 'x' + (preview.height - 2))
+}
+
+protected function onPropertiesSelect(event:NativeMenuEvent):void {
+  bout.editProperties()
 }
 
 protected function onQuitSelect(event:NativeMenuEvent):void {

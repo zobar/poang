@@ -1,26 +1,43 @@
 <?xml version='1.0' encoding='utf-8'?>
-<s:Window initialize='onInitialize(event)' minHeight='126' minWidth='297'
-    showStatusBar='false' xmlns:fx='http://ns.adobe.com/mxml/2009'
+<s:Window initialize='onInitialize(event)' minHeight='347' minWidth='308'
+    showStatusBar='false' xmlns:dpk='dpk.*'
+    xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:mx='library://ns.adobe.com/flex/mx' xmlns:qcrg='qcrg.*'
     xmlns:s='library://ns.adobe.com/flex/spark'>
   <fx:Script source='PreferencesWindow.mxml.as'/>
   <s:layout>
     <s:VerticalLayout gap='6' paddingBottom='12' paddingLeft='12'
         paddingRight='12' paddingTop='12'/>
   </s:layout>
-  <s:VGroup height='100%'>
-    <s:CheckBox change='onAutoUpdateButtonChange(event)'
-        label='Automatically check for updates'
-        selected='{preferences.autoUpdate}'/>
-    <s:VGroup paddingLeft='21'>
-      <s:HGroup verticalAlign='middle'>
-        <s:Label text='following the'/>
-        <s:DropDownList id='releaseTrackList'
-            change='onReleaseTrackListChange(event)'/>
-        <s:Label text='release track'/>
-      </s:HGroup>
-      <s:Button click='onCheckUpdateButtonClick(event)' label='Check Now'/>
-    </s:VGroup>
-  </s:VGroup>
+  <mx:TabNavigator height='100%' width='100%'>
+    <s:NavigatorContent height='100%' label='Bout Defaults' width='100%'>
+      <s:layout>
+        <s:VerticalLayout paddingBottom='6' paddingLeft='6' paddingRight='6'/>
+      </s:layout>
+      <qcrg:BoutSettings target='{preferences}' width='100%'/>
+      <s:Label textAlign='center' styleName='note'
+          text='Changing these settings will not affect the bout in progress.'
+          width='100%'/>
+    </s:NavigatorContent>
+    <s:NavigatorContent height='100%' label='Updates' width='100%'>
+      <s:layout>
+        <s:VerticalLayout paddingBottom='6' paddingLeft='6' paddingRight='6'/>
+      </s:layout>
+      <s:CheckBox change='onAutoUpdateButtonChange(event)'
+          label='Automatically check for updates'
+          selected='{preferences.autoUpdate}'/>
+      <s:VGroup paddingLeft='21'>
+        <s:HGroup verticalAlign='middle'>
+          <s:Label text='following the'/>
+          <s:DropDownList id='releaseTrackList'
+              change='onReleaseTrackListChange(event)'
+              creationComplete='onReleaseTrackListCreationComplete(event)'/>
+          <s:Label text='release track'/>
+        </s:HGroup>
+        <s:Button click='onCheckUpdateButtonClick(event)' label='Check Now'/>
+      </s:VGroup>
+    </s:NavigatorContent>
+  </mx:TabNavigator>
   <s:HGroup horizontalAlign='right' width='100%'>
     <s:Button click='onCloseButtonClick(event)' label='Close'/>
   </s:HGroup>

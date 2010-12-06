@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<s:Window initialize='onInitialize(event)' minHeight='315' minWidth='282'
+    showStatusBar='false'
+    title='{bout.title} {/^Mac OS/.test(Capabilities.os) ? "Info" : "Properties"}'
+    xmlns:dpk='dpk.*'
+    xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:mx='library://ns.adobe.com/flex/mx' xmlns:qcrg='qcrg.*'
+    xmlns:s='library://ns.adobe.com/flex/spark'>
+  <fx:Script source='PropertiesWindow.mxml.as'/>
+  <s:layout>
+    <s:VerticalLayout gap='6' paddingBottom='12' paddingLeft='12'
+        paddingRight='12' paddingTop='12'/>
+  </s:layout>
+  <s:HGroup verticalAlign='middle' width='100%'>
+    <s:Label text='Title:' width='128'/>
+    <s:TextInput enter='onTitleFieldEvent(event)'
+        focusOut='onTitleFieldEvent(event)' text='{bout.title}'
+        width='100%'/>
+  </s:HGroup>
+  <qcrg:BoutSettings height='100%' target='{bout}' width='100%'/>
+  <s:HGroup horizontalAlign='right' width='100%'>
+    <s:Button click='onCloseButtonClick(event)' label='Close'/>
+  </s:HGroup>
+</s:Window>

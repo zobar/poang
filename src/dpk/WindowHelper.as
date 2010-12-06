@@ -4,7 +4,7 @@ package dpk {
   import flash.events.IEventDispatcher
   import flash.geom.Rectangle
   import mx.core.IWindow
-  import mx.events.AIREvent
+  import mx.events.FlexEvent
   import mx.events.FlexNativeWindowBoundsEvent
 
   public class WindowHelper {
@@ -26,13 +26,13 @@ package dpk {
       _name = name
       this.preferences = preferences
       _window = window
-      w.addEventListener(AIREvent.WINDOW_COMPLETE, onWindowComplete)
+      w.addEventListener(FlexEvent.CREATION_COMPLETE, onCreationComplete)
       w.addEventListener(Event.CLOSE, onWindowClose)
     }
 
-    protected function onWindowComplete(event:AIREvent):void {
+    protected function onCreationComplete(event:FlexEvent):void {
       var w:IEventDispatcher = IEventDispatcher(window)
-      w.removeEventListener(AIREvent.WINDOW_COMPLETE, onWindowComplete)
+      w.removeEventListener(FlexEvent.CREATION_COMPLETE, onCreationComplete)
       if (preferences[name + 'WindowMaximized'])
         window.maximize()
       else {
@@ -48,7 +48,7 @@ package dpk {
 
     protected function onWindowClose(event:Event):void {
       var w:IEventDispatcher = IEventDispatcher(window)
-      w.removeEventListener(AIREvent.WINDOW_COMPLETE, onWindowComplete)
+      w.removeEventListener(FlexEvent.CREATION_COMPLETE, onCreationComplete)
       w.removeEventListener(Event.CLOSE, onWindowClose)
       w.removeEventListener(FlexNativeWindowBoundsEvent.WINDOW_MOVE,
           onWindowMove)

@@ -3,12 +3,12 @@
     autoExit='false' close='onClose(event)' enterFrame='onEnterFrame(event)'
     frameRate='20' height='368' initialize='onInitialize(event)'
     minHeight='393' minWidth='346' preinitialize='onPreinitialize(event)'
-    showStatusBar='false' width='346' xmlns:dpk='dpk.*'
+    showStatusBar='false' title='{bout.title}' width='346' xmlns:dpk='dpk.*'
     xmlns:fx='http://ns.adobe.com/mxml/2009'
     xmlns:mx='library://ns.adobe.com/flex/mx' xmlns:qcrg='qcrg.*'
     xmlns:s='library://ns.adobe.com/flex/spark'>
   <fx:Script source='QCRGScoreboard.mxml.as'/>
-  <fx:Style source='QCRGScoreboard.css'/>
+  <fx:Style source='/assets/QCRGScoreboard.css'/>
   <s:layout>
     <s:VerticalLayout horizontalAlign='center' paddingBottom='12'
         paddingLeft='12' paddingRight='12' paddingTop='6'/>
@@ -31,6 +31,12 @@
       <dpk:MenuItem label='File' name='file'>
         <dpk:MenuItem keyEquivalent='w' label='Close'
             select='onCloseSelect(event)'/>
+        <dpk:Separator/>
+        <dpk:MenuItem keyEquivalent='i' label='Properties…'
+            osMatch='^(?!Mac OS)' select='onPropertiesSelect(event)'/>
+        <dpk:MenuItem keyEquivalent='i' label='Get Info…' osMatch='^Mac OS'
+            select='onPropertiesSelect(event)'/>
+        <dpk:Separator/>
         <dpk:MenuItem keyEquivalent='q' label='Quit' osMatch='^(?!Mac OS)'
             select='onQuitSelect(event)'/>
       </dpk:MenuItem>
