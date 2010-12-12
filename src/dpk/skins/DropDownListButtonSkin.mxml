@@ -11,7 +11,7 @@
     <s:State name='down'/>
     <s:State name='disabled'/>
   </s:states>
-  <dpk:ButtonBox bottom='0' left='0' owner='{this}' right='0' top='0'/>
+  <dpk:ButtonGraft bottom='0' left='0' owner='{this}' right='0' top='0'/>
   <s:VGroup bottom='3' horizontalAlign='center' right='3' top='3' verticalAlign='middle' width='15'>
     <s:Path height='4' width='7' data='M 0 0 L 2 0 L 1 1 Z'>
       <s:fill><s:SolidColor color='#333333'/></s:fill>

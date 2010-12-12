@@ -141,6 +141,7 @@ public function set bout(value:Bout):void {
       timeoutClockField.text = formatTime(bout.timeoutClock)
     if (displayGroup)
       updateDisplay(displayGroup.content)
+    updatePeriods()
     bout.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
         onBoutPropertyChange)
   }
@@ -329,6 +330,9 @@ protected function onBoutPropertyChange(event:PropertyChangeEvent):void {
     case 'periodClock':
       if (periodClockField != focused)
         periodClockField.text = formatTime(value)
+      break
+    case 'periods':
+      updatePeriods()
       break
     case 'timeoutClock':
       if (timeoutClockField != focused)
@@ -661,4 +665,11 @@ protected function updateDisplay(display:*):void {
       visitorScore:      bout.visitorScore
     })
   }
+}
+
+protected function updatePeriods():void {
+  var p:Array = [0, 1, -1]
+  for (var i:int = 2; i <= bout.periods; ++i)
+    p.push(i)
+  periods.source = p.concat(-2, -3)
 }

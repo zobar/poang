@@ -10,7 +10,7 @@
         paddingRight='12' paddingTop='12'/>
   </s:layout>
   <mx:TabNavigator height='100%' width='100%'>
-    <s:NavigatorContent height='100%' label='Bout Defaults' width='100%'>
+    <s:NavigatorContent height='100%' label='Default Rules' width='100%'>
       <s:layout>
         <s:VerticalLayout paddingBottom='6' paddingLeft='6' paddingRight='6'/>
       </s:layout>

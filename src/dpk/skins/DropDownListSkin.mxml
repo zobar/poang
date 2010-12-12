@@ -1,22 +1,21 @@
 <?xml version='1.0' encoding='utf-8'?>
-<s:SparkSkin xmlns:dpk='dpk.skins.*' xmlns:fx='http://ns.adobe.com/mxml/2009'
+<dpk:Skin xmlns:dpk='dpk.skins.*' xmlns:fx='http://ns.adobe.com/mxml/2009'
     xmlns:s='library://ns.adobe.com/flex/spark'>
   <fx:Metadata><![CDATA[
     [HostComponent('spark.components.DropDownList')]
   ]]></fx:Metadata>
-  <fx:Script source='DropDownListSkin.mxml.as'/>
-  <s:states>
+  <dpk:states>
     <s:State name='disabled'/>
     <s:State name='normal'/>
     <s:State name='open'/>
-  </s:states>
+  </dpk:states>
   <s:PopUpAnchor id='popUp' bottom='0' displayPopUp='true' includeIn='open' itemDestructionPolicy='auto' left='0' popUpPosition='below' popUpWidthMatchesAnchorWidth='true' right='0' top='0'>
     <s:Group id='dropDown'>
       <s:RectangularDropShadow id='dropShadow' alpha='0.18' angle='45' blurX='5' blurY='5' color='#000000' distance='5' left='0' right='0' top='0' bottom='0'/>
       <s:Rect bottom='0' left='0' right='0' top='0'>
         <s:fill><s:SolidColor id='backgroundFill' color='#ffffff'/></s:fill>
         <s:stroke>
-          <s:SolidColorStroke id='borderStroke' color='#000000'/>
+          <s:SolidColorStroke color='{borderColor}'/>
         </s:stroke>
       </s:Rect>
       <s:Scroller id='scroller' bottom='0' left='0' minViewportInset='1' right='0' top='0'>
@@ -33,4 +32,4 @@
   <s:Label id='labelDisplay' bottom='3' left='3' maxDisplayedLines='1'
       mouseChildren='false' mouseEnabled='false' right='19' top='3'
       verticalAlign='middle' width='75'/>
-</s:SparkSkin>
+</dpk:Skin>

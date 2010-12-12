@@ -1,8 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<s:SparkSkin xmlns:fx='http://ns.adobe.com/mxml/2009'
+<dpk:Skin xmlns:dpk='dpk.skins.*' xmlns:fx='http://ns.adobe.com/mxml/2009'
     xmlns:s='library://ns.adobe.com/flex/spark'>
-  <fx:Script source='TabSkin.mxml.as'/>
-  <s:states>
+  <dpk:states>
     <s:State name='disabled' stateGroups='disabledStates'/>
     <s:State name='down'/>
     <s:State name='over' stateGroups='overStates'/>
@@ -12,21 +11,35 @@
     <s:State name='selectedOver' stateGroups='overStates,selectedStates'/>
     <s:State name='selectedUp' stateGroups='selectedStates'/>
     <s:State name='up'/>
-  </s:states>
+  </dpk:states>
   <s:Group bottom='0' left='0' right='0' top='0' top.selectedStates='1'>
-    <s:Rect id='dropShadow' bottom='1' left='1' right='-1' top='1'>
+    <s:Rect bottom='1' left='1' right='-1' top='1'
+        topLeftRadiusX='{outerCornerRadius}'
+        topLeftRadiusY='{outerCornerRadius}'
+        topRightRadiusX='{outerCornerRadius}'
+        topRightRadiusY='{outerCornerRadius}'>
       <s:fill><s:SolidColor alpha='.12' color='0x000000'/></s:fill>
     </s:Rect>
-    <s:Rect id='border' bottom='0' left='0' right='0' top='0'>
+    <s:Rect bottom='0' left='0' right='0' top='0'
+        topLeftRadiusX='{cornerRadius}' topLeftRadiusY='{cornerRadius}'
+        topRightRadiusX='{cornerRadius}' topRightRadiusY='{cornerRadius}'>
       <s:stroke>
-        <s:SolidColorStroke id='borderStroke' color='0x000000'/>
+        <s:SolidColorStroke color='{borderColor}'/>
       </s:stroke>
     </s:Rect>
     <s:Group bottom='1' bottom.selectedStates='0' left='0' right='0' top='0'>
-      <s:Rect id='background' bottom='0' left='1' right='1' top='1'>
-        <s:fill><s:SolidColor id='backgroundFill' color='0xffffff'/></s:fill>
+      <s:Rect bottom='0' left='1' right='1' top='1'
+          topLeftRadiusX='{innerCornerRadius}'
+          topLeftRadiusY='{innerCornerRadius}'
+          topRightRadiusX='{innerCornerRadius}'
+          topRightRadiusY='{innerCornerRadius}'>
+        <s:fill><s:SolidColor color='{contentBackgroundColor}'/></s:fill>
       </s:Rect>
-      <s:Rect id='highlightStrokeRect' bottom='0' left='1' right='1' top='1'>
+      <s:Rect bottom='0' left='1' right='1' top='1'
+          topLeftRadiusX='{innerCornerRadius}'
+          topLeftRadiusY='{innerCornerRadius}'
+          topRightRadiusX='{innerCornerRadius}'
+          topRightRadiusY='{innerCornerRadius}'>
         <s:stroke>
           <s:LinearGradientStroke rotation='90'>
             <s:GradientEntry alpha.selectedStates='1' color='0xffffff'/>
@@ -34,7 +47,23 @@
           </s:LinearGradientStroke>
         </s:stroke>
       </s:Rect>
-      <s:Rect id='highlightFillRect' bottom='0' left='2' right='2' top='2'>
+      <s:Rect bottom='0' includeIn='over' left='1' right='1' top='1'
+          topLeftRadiusX='{innerCornerRadius}'
+          topLeftRadiusY='{innerCornerRadius}'
+          topRightRadiusX='{innerCornerRadius}'
+          topRightRadiusY='{innerCornerRadius}'>
+        <s:fill>
+          <s:LinearGradient rotation='90'>
+            <s:GradientEntry color='0xffffff' alpha='.84'/>
+            <s:GradientEntry color='0xffffff' alpha='.46'/>
+          </s:LinearGradient>
+        </s:fill>
+      </s:Rect>
+      <s:Rect bottom='0' left='2' right='2' top='2'
+          topLeftRadiusX='{innerCornerRadius - 1}'
+          topLeftRadiusY='{innerCornerRadius - 1}'
+          topRightRadiusX='{innerCornerRadius - 1}'
+          topRightRadiusY='{innerCornerRadius - 1}'>
         <s:fill>
           <s:LinearGradient rotation='90'>
             <s:GradientEntry alpha='0' alpha.selectedStates='1' color='0x000000'
@@ -46,4 +75,4 @@
       </s:Rect>
     </s:Group>
   </s:Group>
-</s:SparkSkin>
+</dpk:Skin>

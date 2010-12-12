@@ -1,8 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<s:Group xmlns:fx='http://ns.adobe.com/mxml/2009'
+<dpk:SkinGraft xmlns:dpk='dpk.skins.*' xmlns:fx='http://ns.adobe.com/mxml/2009'
     xmlns:s='library://ns.adobe.com/flex/spark'>
-  <fx:Script source='ButtonBox.mxml.as'/>
-  <s:states>
+  <dpk:states>
     <s:State name='up'/>
     <s:State name='over' stateGroups='overStates'/>
     <s:State name='down' stateGroups='downStates'/>
@@ -12,20 +11,24 @@
     <s:State name='downAndSelected' stateGroups='downStates, selectedStates'/>
     <s:State name='disabledAndSelected'
         stateGroups='disabledStates, selectedStates'/>
-  </s:states>
-  <s:Rect id='dropShadow' bottom='-1' left='1' right='-1' top='1'>
+  </dpk:states>
+  <s:Rect bottom='-1' left='1' radiusX='{outerCornerRadius}'
+      radiusY='{outerCornerRadius}' right='-1' top='1'>
     <s:fill><s:SolidColor alpha='.12' color='0x000000'/></s:fill>
   </s:Rect>
-  <s:Rect id='background' bottom='1' excludeFrom='selectedStates'
-      itemCreationPolicy='immediate' left='1' right='1' top='1'>
-    <s:fill><s:SolidColor id='backgroundFill' color='0xffffff'/></s:fill>
+  <s:Rect bottom='1' excludeFrom='selectedStates' left='1'
+      radiusX='{innerCornerRadius}' radiusY='{innerCornerRadius}' right='1'
+      top='1'>
+    <s:fill><s:SolidColor color='{contentBackgroundColor}'/></s:fill>
   </s:Rect>
-  <s:Rect id='selectedBackground' bottom='1' includeIn='selectedStates'
-      itemCreationPolicy='immediate' left='1' right='1' top='1'>
-    <s:fill><s:SolidColor id='highlightFill' color='0xffffff'/></s:fill>
+  <s:Rect bottom='1' includeIn='selectedStates' left='1'
+      radiusX='{innerCornerRadius}' radiusY='{innerCornerRadius}' right='1'
+      top='1'>
+    <s:fill><s:SolidColor color='{chromeColor}'/></s:fill>
   </s:Rect>
-  <s:Rect id='overHighlight' bottom='1' includeIn='overStates'
-      itemCreationPolicy='immediate' left='1' right='1' top='1'>
+  <s:Rect bottom='1' includeIn='overStates' left='1'
+      radiusX='{innerCornerRadius}' radiusY='{innerCornerRadius}' right='1'
+      top='1'>
     <s:fill>
       <s:LinearGradient rotation='90'>
         <s:GradientEntry color='0xffffff' alpha='.84'/>
@@ -33,7 +36,8 @@
       </s:LinearGradient>
     </s:fill>
   </s:Rect>
-  <s:Rect id='highlightFillRect' bottom='2' left='2' right='2' top='2'>
+  <s:Rect bottom='2' left='2' radiusX='{innerCornerRadius - .5}'
+      radiusY='{innerCornerRadius - .5}' right='2' top='2'>
     <s:fill>
       <s:LinearGradient rotation='90'>
         <s:GradientEntry color='0xffffff' alpha='.38'
@@ -44,7 +48,8 @@
       </s:LinearGradient>
     </s:fill>
   </s:Rect>
-  <s:Rect id='highlightStrokeRect' bottom='1' left='1' right='1' top='1'>
+  <s:Rect bottom='1' left='1' radiusX='{innerCornerRadius}'
+      radiusY='{innerCornerRadius}' right='1' top='1'>
     <s:stroke>
       <s:LinearGradientStroke rotation='90'>
         <s:GradientEntry color='0xffffff' alpha='.81'
@@ -55,20 +60,21 @@
       </s:LinearGradientStroke>
     </s:stroke>
   </s:Rect>
-  <s:Rect id='downHighlight' bottom='1' includeIn='downStates'
-      itemCreationPolicy='immediate' left='1' right='1' top='1'>
+  <s:Rect bottom='1' includeIn='downStates' left='1' 
+      radiusX='{innerCornerRadius}' radiusY='{innerCornerRadius}' right='1'
+      top='1'>
     <s:fill><s:SolidColor alpha='.12' color='0x000000'/></s:fill>
   </s:Rect>
-  <s:Rect id='borderSelected' bottom='0' includeIn='selectedStates'
-      itemCreationPolicy='immediate' left='0' right='0' top='0'>
+  <s:Rect bottom='0' includeIn='selectedStates' left='0'
+      radiusX='{cornerRadius}' radiusY='{cornerRadius}' right='0' top='0'>
     <s:stroke>
-      <s:SolidColorStroke id='borderSelectedStroke' color='0x000000'/>
+      <s:SolidColorStroke color='{chromeColor}'/>
     </s:stroke>
   </s:Rect>
-  <s:Rect id='border' bottom='0' left='0' right='0' top='0'>
+  <s:Rect bottom='0' left='0' radiusX='{cornerRadius}' radiusY='{cornerRadius}'
+      right='0' top='0'>
     <s:stroke>
-      <s:SolidColorStroke id='borderStroke' alpha.selectedStates='.73'
-          color='0x000000'/>
+      <s:SolidColorStroke alpha.selectedStates='.73' color='{borderColor}'/>
     </s:stroke>
   </s:Rect>
-</s:Group>
+</dpk:SkinGraft>

@@ -11,6 +11,6 @@
     <s:State name='down'/>
     <s:State name='disabled'/>
   </s:states>
-  <dpk:ButtonBox height='100%' left='0' owner='{this}' top='0' width='100%'/>
+  <dpk:ButtonGraft height='100%' left='0' owner='{this}' top='0' width='100%'/>
   <s:Label id='labelDisplay' bottom='3' left='10' maxDisplayedLines='1' right='10' textAlign='center' top='3'/>
 </s:SparkSkin>

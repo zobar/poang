@@ -1,16 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
-<s:SparkSkin xmlns:fx='http://ns.adobe.com/mxml/2009'
+<dpk:Skin xmlns:dpk='dpk.skins.*' xmlns:fx='http://ns.adobe.com/mxml/2009'
     xmlns:s='library://ns.adobe.com/flex/spark'>
   <fx:Metadata><![CDATA[
     [HostComponent('spark.components.TextInput')]
   ]]></fx:Metadata>
   <fx:Script source='TextInputSkin.mxml.as'/>
-  <s:states>
+  <dpk:states>
     <s:State name='normal'/>
     <s:State name='disabled'/>
-  </s:states>
+  </dpk:states>
   <s:Rect bottom='1' left='1' right='1' top='1'>
-    <s:fill><s:SolidColor id='backgroundFill' color='0xffffff'/></s:fill>
+    <s:fill><s:SolidColor color='{contentBackgroundColor}'/></s:fill>
   </s:Rect>
   <s:Path bottom='1' left='1' right='1' top='1' data='M 0 1 L 0 0 L 1 0'>
     <s:stroke>
@@ -18,11 +18,10 @@
           joints='miter'/>
     </s:stroke>
   </s:Path>
-  <s:Rect id='border' bottom='0' left='0' right='0' top='0'>
-    <s:stroke>
-      <s:SolidColorStroke id='borderStroke' color='0x000000'/>
-    </s:stroke>
+  <s:Rect bottom='0' left='0' radiusX='{cornerRadius}' radiusY='{cornerRadius}'
+      right='0' top='0'>
+    <s:stroke><s:SolidColorStroke color='{borderColor}'/></s:stroke>
   </s:Rect>
   <s:RichEditableText id='textDisplay' bottom='1' left='1' right='1' top='1'
       verticalAlign='middle' widthInChars='10'/>
-</s:SparkSkin>
+</dpk:Skin>
