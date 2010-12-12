@@ -458,8 +458,20 @@ protected function onKeyDown(event:KeyboardEvent):void {
       setFocus()
       handled = false
       break
+    case Keyboard.COMMA:
+      bout.visitorTimeouts = Math.max(bout.visitorTimeouts - 1, 0)
+      break
+    case Keyboard.PERIOD:
+      bout.visitorTimeouts = Math.min(bout.visitorTimeouts + 1, bout.timeouts)
+      break
+    case Keyboard.SLASH:
+      bout.takeTimeout(Team.VISITOR)
+      break
     case Keyboard.B:
       bout.advance()
+      break
+    case Keyboard.C:
+      bout.homeTimeouts = Math.max(bout.homeTimeouts - 1, 0)
       break
     case Keyboard.G:
       if (bout.jamClock)
@@ -487,6 +499,12 @@ protected function onKeyDown(event:KeyboardEvent):void {
         if (bout.homeJamScore && !shiftKey)
           --bout.homeJamScore
       }
+      break
+    case Keyboard.X:
+      bout.homeTimeouts = Math.min(bout.homeTimeouts + 1, bout.timeouts)
+      break
+    case Keyboard.Z:
+      bout.takeTimeout(Team.HOME)
       break
     case Keyboard.LEFTBRACKET:
       if (bout.visitorScore) {
@@ -685,10 +703,12 @@ protected function updateDisplay(display:*):void {
       homeJamScore:      bout.homeJamScore,
       homeName:          bout.homeTeam.name,
       homeScore:         bout.homeScore,
+      homeTimeouts:      bout.homeTimeouts,
 
       visitorJamScore:   bout.visitorJamScore,
       visitorName:       bout.visitorTeam.name,
-      visitorScore:      bout.visitorScore
+      visitorScore:      bout.visitorScore,
+      visitorTimeouts:   bout.visitorTimeouts
     })
   }
 }

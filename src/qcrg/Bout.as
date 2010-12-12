@@ -49,7 +49,15 @@ package qcrg {
     public var officialTimeout:Boolean
 
     [Bindable]
-    public var period:int
+    public function get period():int {
+      return _period
+    }
+    public function set period(value:int):void {
+      _period = value
+      if (period > 0)
+        lastPeriod = period
+    }
+    protected var _period:int
 
     [Bindable]
     public function get periodClock():int {
@@ -104,6 +112,15 @@ package qcrg {
     protected var _homeTeam:Team
 
     [Bindable]
+    public function get homeTimeouts():int {
+      return _homeTimeouts
+    }
+    public function set homeTimeouts(value:int):void {
+      _homeTimeouts = Math.max(value, 0)
+    }
+    protected var _homeTimeouts:int
+
+    [Bindable]
     public function get visitorJamScore():int {
       return _visitorJamScore
     }
@@ -129,6 +146,15 @@ package qcrg {
       _visitorTeam = value
     }
     protected var _visitorTeam:Team
+
+    [Bindable]
+    public function get visitorTimeouts():int {
+      return _visitorTimeouts
+    }
+    public function set visitorTimeouts(value:int):void {
+      _visitorTimeouts = Math.max(value, 0)
+    }
+    protected var _visitorTimeouts:int
 
     public function get propertiesWindow():PropertiesWindow {
       return _propertiesWindow
@@ -200,11 +226,13 @@ package qcrg {
         }
         else {
           if (_jamClock || _periodClock) {
-            if (_lineupClock || (_periodClock && !periodClockRunning)) {
+            if (_lineupClock || timeoutClock ||
+                (_periodClock && !periodClockRunning)) {
               // Start next jam
               jam += 1
               jamClock = jamLength
               _lineupClock = 0
+              timeoutClock = 0
               homeJamScore = 0
               visitorJamScore = 0
             }
@@ -219,9 +247,9 @@ package qcrg {
             }
           }
           else {
+            homeJamScore = 0
+            visitorJamScore = 0
             if (period == periods) {
-              homeJamScore = 0
-              visitorJamScore = 0
               if (homeScore == visitorScore) {
                 // Go into overtime
                 period = Period.OVERTIME
@@ -244,9 +272,10 @@ package qcrg {
               else {
                 // Start next period
                 period = lastPeriod + 1
-                lastPeriod = period
                 _periodClock = periodLength
                 intermissionClock = 0
+                if (period == 1 || timeoutsPer == Timeout.PER_PERIOD)
+                  homeTimeouts = visitorTimeouts = timeouts
               }
             }
           }
@@ -266,6 +295,22 @@ package qcrg {
         propertiesWindow.bout = this
         propertiesWindow.open()
         propertiesWindow.setFocus()
+      }
+    }
+
+    public function takeTimeout(team:String):void {
+      if (period > 0 && (lineupClock || !periodClockRunning)) {
+        if ((team == Team.HOME && homeTimeouts > 0) ||
+            (team == Team.VISITOR && visitorTimeouts > 0)) {
+          var oldLineupClock:int = lineupClock
+          if (team == Team.HOME)
+            --homeTimeouts
+          else
+            --visitorTimeouts
+          _lineupClock = 0
+          timeoutClock = timeoutLength
+          clockChanged('lineupClock', oldLineupClock)
+        }
       }
     }
 

@@ -9,11 +9,8 @@ package qcrg {
         for (var property:String in newValues)
           values[property] = newValues[property]
       }
-      else {
-        for (var p:String in newValues)
-          trace(p + ': ' + newValues[p])
+      else
         values = newValues
-      }
       if ('intermissionClock' in newValues)
         updateIntermissionClock(newValues.intermissionClock)
       if ('jam' in newValues)
@@ -37,6 +34,8 @@ package qcrg {
         updateHomeName(newValues.homeName)
       if ('homeScore' in newValues)
         updateHomeScore(newValues.homeScore)
+      if ('homeTimeouts' in newValues)
+        updateHomeTimeouts(newValues.homeTimeouts)
 
       if ('visitorJamScore' in newValues)
         updateVisitorJamScore(newValues.visitorJamScore)
@@ -44,6 +43,8 @@ package qcrg {
         updateVisitorName(newValues.visitorName)
       if ('visitorScore' in newValues)
         updateVisitorScore(newValues.visitorScore)
+      if ('visitorTimeouts' in newValues)
+        updateVisitorTimeouts(newValues.visitorTimeouts)
     }
 
     protected function formatTime(value:int):String {
@@ -201,6 +202,11 @@ package qcrg {
         this.homeScoreField.text = value
     }
 
+    protected function updateHomeTimeouts(value:int):void {
+      if ('homeTimeoutsField' in this)
+        this.homeTimeoutsField.text = value
+    }
+
     protected function updateVisitorJamScore(value:int):void {
       if ('visitorJamScoreField' in this)
         this.visitorJamScoreField.text = value ? value : ''
@@ -214,6 +220,11 @@ package qcrg {
     protected function updateVisitorScore(value:int):void {
       if ('visitorScoreField' in this)
         this.visitorScoreField.text = value
+    }
+
+    protected function updateVisitorTimeouts(value:int):void {
+      if ('visitorTimeoutsField' in this)
+        this.visitorTimeoutsField.text = value
     }
   }
 }
