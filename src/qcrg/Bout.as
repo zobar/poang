@@ -66,15 +66,15 @@ package qcrg {
     public var timeoutClock:int
 
     [Bindable]
-    public function get title():String {
-      if (_title == null)
-        _title = 'Untitled Bout ' + (++lastUntitledNumber)
-      return _title
+    public function get name():String {
+      if (_name == null)
+        _name = 'Untitled Bout ' + (++lastUntitledNumber)
+      return _name
     }
-    public function set title(value:String):void {
-      _title = value
+    public function set name(value:String):void {
+      _name = value
     }
-    protected var _title:String
+    protected var _name:String
 
     [Bindable]
     public function get homeJamScore():int {
@@ -95,6 +95,15 @@ package qcrg {
     protected var _homeScore:int
 
     [Bindable]
+    public function get homeTeam():Team {
+      return _homeTeam
+    }
+    public function set homeTeam(value:Team):void {
+      _homeTeam = value
+    }
+    protected var _homeTeam:Team
+
+    [Bindable]
     public function get visitorJamScore():int {
       return _visitorJamScore
     }
@@ -111,6 +120,15 @@ package qcrg {
       _visitorScore = Math.max(value, 0)
     }
     protected var _visitorScore:int
+
+    [Bindable]
+    public function get visitorTeam():Team {
+      return _visitorTeam
+    }
+    public function set visitorTeam(value:Team):void {
+      _visitorTeam = value
+    }
+    protected var _visitorTeam:Team
 
     public function get propertiesWindow():PropertiesWindow {
       return _propertiesWindow
@@ -129,6 +147,8 @@ package qcrg {
     public function Bout() {
       var app:QCRGScoreboard = QCRGScoreboard.app
       var preferences:Preferences = app.preferences
+      homeTeam = new Team()
+      homeTeam.name = Team.HOME
       intermissionClock = 0
       _jamClock = 0
       lastPeriod = 0
@@ -139,6 +159,8 @@ package qcrg {
       _periodClock = 0
       periodClockRunning = true
       timeoutClock = 0
+      visitorTeam = new Team()
+      visitorTeam.name = Team.VISITOR
       for each (var rule:String in Ruleset.ruleNames)
         this[rule] = preferences[rule]
       app.addEventListener(Event.ENTER_FRAME, onEnterFrame)

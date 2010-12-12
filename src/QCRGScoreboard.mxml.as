@@ -119,6 +119,10 @@ public function get bout():Bout {
 }
 public function set bout(value:Bout):void {
   if (bout) {
+    bout.homeTeam.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+        onHomeTeamPropertyChange)
+    bout.visitorTeam.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+        onVisitorTeamPropertyChange)
     bout.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
         onBoutPropertyChange)
   }
@@ -144,6 +148,10 @@ public function set bout(value:Bout):void {
     updatePeriods()
     bout.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
         onBoutPropertyChange)
+    bout.homeTeam.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+        onHomeTeamPropertyChange)
+    bout.visitorTeam.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+        onVisitorTeamPropertyChange)
   }
 }
 protected var _bout:Bout
@@ -290,6 +298,18 @@ protected function fieldFocusOut(event:FocusEvent, property:String,
     field.text = format(bout[property])
   else
     bout[property] = value
+}
+
+protected function menuItemForScreen(screen:Screen):MenuItem {
+  var bounds:Rectangle = screen.bounds
+  var menuItems:IList = screenMenu.children
+  for (var i:int = 0; i < menuItems.length; ++i) {
+    var menuItem:MenuItem = MenuItem(menuItems.getItemAt(i))
+    var screen:Screen = Screen(menuItem.data)
+    if (bounds.equals(screen.bounds))
+      return menuItem
+  }
+  return null
 }
 
 protected function onApplicationComplete(event:FlexEvent):void {
@@ -604,6 +624,14 @@ protected function onUpdateNotificationWindowClose(event:Event):void {
   updateNotificationWindow = null
 }
 
+protected function onHomeTeamPropertyChange(event:PropertyChangeEvent):void {
+  teamPropertyChange('home', event.property, event.newValue)
+}
+
+protected function onVisitorTeamPropertyChange(event:PropertyChangeEvent):void {
+  teamPropertyChange('visitor', event.property, event.newValue)
+}
+
 protected function openDisplay(screen:Screen):void {
   var display:DisplayWindow = new DisplayWindow()
   var menuItem:MenuItem = menuItemForScreen(screen)
@@ -620,18 +648,6 @@ protected function periodListLabelFunction(value:int):String {
   return Period.toString(value)
 }
 
-protected function menuItemForScreen(screen:Screen):MenuItem {
-  var bounds:Rectangle = screen.bounds
-  var menuItems:IList = screenMenu.children
-  for (var i:int = 0; i < menuItems.length; ++i) {
-    var menuItem:MenuItem = MenuItem(menuItems.getItemAt(i))
-    var screen:Screen = Screen(menuItem.data)
-    if (bounds.equals(screen.bounds))
-      return menuItem
-  }
-  return null
-}
-
 protected function screenMenuItem(screen:Screen,
     recycle:MenuItemBase):MenuItemBase {
   var bounds:Rectangle = screen.bounds
@@ -644,6 +660,14 @@ protected function screenMenuItem(screen:Screen,
   menuItem.label = screenToString(screen) + ' (' + bounds.width + '×' +
       bounds.height + ')'
   return menuItem
+}
+
+protected function teamPropertyChange(team:String, property:Object,
+    value:*):void {
+  if (!updates)
+    updates = {}
+  updates[team + property.charAt(0).toUpperCase() + property.substring(1)] =
+      value
 }
 
 protected function updateDisplay(display:*):void {
@@ -659,9 +683,11 @@ protected function updateDisplay(display:*):void {
       timeoutClock:      bout.timeoutClock,
 
       homeJamScore:      bout.homeJamScore,
+      homeName:          bout.homeTeam.name,
       homeScore:         bout.homeScore,
 
       visitorJamScore:   bout.visitorJamScore,
+      visitorName:       bout.visitorTeam.name,
       visitorScore:      bout.visitorScore
     })
   }

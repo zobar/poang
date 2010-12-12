@@ -9,8 +9,11 @@ package qcrg {
         for (var property:String in newValues)
           values[property] = newValues[property]
       }
-      else
+      else {
+        for (var p:String in newValues)
+          trace(p + ': ' + newValues[p])
         values = newValues
+      }
       if ('intermissionClock' in newValues)
         updateIntermissionClock(newValues.intermissionClock)
       if ('jam' in newValues)
@@ -30,11 +33,15 @@ package qcrg {
 
       if ('homeJamScore' in newValues)
         updateHomeJamScore(newValues.homeJamScore)
+      if ('homeName' in newValues)
+        updateHomeName(newValues.homeName)
       if ('homeScore' in newValues)
         updateHomeScore(newValues.homeScore)
 
       if ('visitorJamScore' in newValues)
         updateVisitorJamScore(newValues.visitorJamScore)
+      if ('visitorName' in newValues)
+        updateVisitorName(newValues.visitorName)
       if ('visitorScore' in newValues)
         updateVisitorScore(newValues.visitorScore)
     }
@@ -184,6 +191,11 @@ package qcrg {
         this.homeJamScoreField.text = value ? value : ''
     }
 
+    protected function updateHomeName(value:String):void {
+      if ('homeNameField' in this)
+        this.homeNameField.text = value
+    }
+
     protected function updateHomeScore(value:int):void {
       if ('homeScoreField' in this)
         this.homeScoreField.text = value
@@ -192,6 +204,11 @@ package qcrg {
     protected function updateVisitorJamScore(value:int):void {
       if ('visitorJamScoreField' in this)
         this.visitorJamScoreField.text = value ? value : ''
+    }
+
+    protected function updateVisitorName(value:String):void {
+      if ('visitorNameField' in this)
+        this.visitorNameField.text = value
     }
 
     protected function updateVisitorScore(value:int):void {

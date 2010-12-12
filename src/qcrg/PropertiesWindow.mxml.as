@@ -14,8 +14,8 @@ protected function onInitialize(event:FlexEvent):void {
   helper = new WindowHelper('properties', this, QCRGScoreboard.app.preferences)
 }
 
-protected function onTitleFieldEvent(event:Event):void {
-  var titleField:TextInput = TextInput(event.currentTarget)
-  bout.title = titleField.text
-  titleField.selectAll()
+protected function onNameFieldEvent(event:Event):void {
+  var nameField:TextInput = TextInput(event.currentTarget)
+  bout.name = nameField.text
+  nameField.selectAll()
 }
