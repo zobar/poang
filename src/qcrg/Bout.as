@@ -1,6 +1,7 @@
 package qcrg {
   import flash.events.Event
   import flash.utils.getTimer
+  import mx.events.FlexEvent
   import mx.events.PropertyChangeEvent
 
   public class Bout extends AbstractRuleset {
@@ -292,6 +293,9 @@ package qcrg {
         propertiesWindow.activate()
       else {
         propertiesWindow = new PropertiesWindow()
+        QCRGScoreboard.app.removeEventListener(Event.ENTER_FRAME, onEnterFrame)
+        propertiesWindow.addEventListener(FlexEvent.CREATION_COMPLETE,
+            onPropertiesWindowCreationComplete)
         propertiesWindow.bout = this
         propertiesWindow.open()
         propertiesWindow.setFocus()
@@ -379,6 +383,13 @@ package qcrg {
 
     protected function onPropertiesWindowClose(event:Event):void {
       propertiesWindow = null
+    }
+
+    protected function
+        onPropertiesWindowCreationComplete(event:FlexEvent):void {
+      event.currentTarget.removeEventListener(FlexEvent.CREATION_COMPLETE,
+          onPropertiesWindowCreationComplete)
+      QCRGScoreboard.app.addEventListener(Event.ENTER_FRAME, onEnterFrame)
     }
   }
 }
