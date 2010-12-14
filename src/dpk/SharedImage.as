@@ -13,6 +13,7 @@ package dpk {
     }
     public function set bitmapData(value:BitmapData):void {
       _bitmapData = value
+      invalidateDisplayList()
       invalidateProperties()
       invalidateSize()
     }
@@ -26,14 +27,15 @@ package dpk {
     override protected function createChildren():void {
       super.createChildren()
       bitmap = new Bitmap()
+      bitmap.smoothing = true
       addChild(bitmap)
     }
 
     override protected function measure():void {
       super.measure()
       if (bitmapData) {
-        measuredHeight = measuredMinHeight = bitmapData.height
-        measuredWidth = measuredMinWidth = bitmapData.width
+        measuredHeight = bitmapData.height
+        measuredWidth = bitmapData.width
       }
     }
 

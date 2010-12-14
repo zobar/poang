@@ -3,6 +3,24 @@ package dpk.skins {
   import spark.skins.SparkSkin
 
   public class Skin extends SparkSkin {
+    [Bindable(event='backgroundImageChanged')]
+    public function get backgroundImage():Object {
+      return getStyle('backgroundImage')
+    }
+
+    public function set backgroundImage(value:Object):void {
+      setStyle('backgroundImage', value)
+    }
+
+    [Bindable(event='backgroundImageFillModeChanged')]
+    public function get backgroundImageFillMode():String {
+      return getStyle('backgroundImageFillMode')
+    }
+
+    public function set backgroundImageFillMode(value:String):void {
+      setStyle('backgroundImageFillMode', value)
+    }
+
     [Bindable(event='borderColorChanged')]
     public function get borderColor():uint {
       return getStyle('borderColor')
@@ -60,6 +78,10 @@ package dpk.skins {
     override public function styleChanged(styleProp:String):void {
       var all:Boolean = !styleProp || styleProp == 'styleName'
       super.styleChanged(styleProp)
+      if (all || styleProp == 'backgroundImage')
+        dispatchEvent(new Event('backgroundImageChanged'))
+      if (all || styleProp == 'backgroundImageFillMode')
+        dispatchEvent(new Event('backgroundImageFillModeChanged'))
       if (all || styleProp == 'borderColor')
         dispatchEvent(new Event('borderColorChanged'))
       if (all || styleProp == 'chromeColor')

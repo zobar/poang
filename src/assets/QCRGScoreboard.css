@@ -1,5 +1,6 @@
-@namespace mx 'library://ns.adobe.com/flex/mx';
-@namespace s  'library://ns.adobe.com/flex/spark';
+@namespace dpk 'dpk.*';
+@namespace mx  'library://ns.adobe.com/flex/mx';
+@namespace s   'library://ns.adobe.com/flex/spark';
 
 @font-face {
   fontFamily: 'Droid Sans';
@@ -56,6 +57,12 @@ mx|HTML {
   borderColor:   #999999;
   borderStyle:   solid;
   borderVisible: true;
+}
+
+dpk|ImageWell {
+  backgroundImage:         Embed('/assets/TransparencyGrid.png');
+  backgroundImageFillMode: repeat;
+  skinClass:               ClassReference('dpk.skins.ImageWellSkin');
 }
 
 mx|Tab {

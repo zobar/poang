@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<dpks:Skin height='100%' width='100%' xmlns:dpk='dpk.*' xmlns:dpks='dpk.skins.*'
+    xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:s='library://ns.adobe.com/flex/spark'>
+  <fx:Metadata><![CDATA[
+    [HostComponent('dpk.ImageWell')]
+  ]]></fx:Metadata>
+  <s:Rect bottom='1' left='1' right='1' top='1'>
+    <s:fill>
+      <s:BitmapFill fillMode='{backgroundImageFillMode}'
+          source='{backgroundImage}' x='-1' y='-1'/>
+    </s:fill>
+  </s:Rect>
+  <dpks:InsetGraft height='100%' left='0' owner='{this}' top='0'
+      width='100%'/>
+  <dpk:SharedImage id='imageDisplay' bottom='2' left='2' right='2' top='2'/>
+</dpks:Skin>

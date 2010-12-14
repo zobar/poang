@@ -1,0 +1,17 @@
+<dpk:SkinGraft xmlns:dpk='dpk.skins.*' xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:s='library://ns.adobe.com/flex/spark'>
+  <dpk:states>
+    <s:State name='normal'/>
+    <s:State name='disabled'/>
+  </dpk:states>
+  <s:Path bottom='1' left='1' right='1' top='1' data='M 0 1 L 0 0 L 1 0'>
+    <s:stroke>
+      <s:SolidColorStroke alpha='.12' caps='square' color='0x000000'
+          joints='miter'/>
+    </s:stroke>
+  </s:Path>
+  <s:Rect bottom='0' left='0' radiusX='{cornerRadius}' radiusY='{cornerRadius}'
+      right='0' top='0'>
+    <s:stroke><s:SolidColorStroke color='{borderColor}'/></s:stroke>
+  </s:Rect>
+</dpk:SkinGraft>
