@@ -34,10 +34,34 @@ s|CheckBox {
   skinClass: ClassReference('dpk.skins.CheckBoxSkin');
 }
 
+dpk|CheckBoxListItemRenderer {
+  paddingLeft:  3;
+  paddingRight: 3;
+}
+
+mx|DataGrid {
+  fontSize:      11;
+  paddingBottom: 0;
+  paddingLeft:   0;
+  paddingRight:  0;
+  paddingTop:    0;
+  verticalAlign: middle;
+}
+
 s|DropDownList {
   rollOverColor:  #3399ff;
   selectionColor: #99ccff;
   skinClass:      ClassReference('dpk.skins.DropDownListSkin');
+}
+
+s|FTEDataGridItemRenderer {
+  paddingLeft:  3;
+  paddingRight: 3;
+}
+
+dpk|IconButton {
+  cornerRadius: 0;
+  skinClass:    ClassReference('dpk.skins.IconButtonSkin');
 }
 
 s|Label {

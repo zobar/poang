@@ -36,8 +36,8 @@
       </s:LinearGradient>
     </s:fill>
   </s:Rect>
-  <s:Rect bottom='2' left='2' radiusX='{innerCornerRadius - .5}'
-      radiusY='{innerCornerRadius - .5}' right='2' top='2'>
+  <s:Rect bottom='2' left='2' radiusX='{Math.max(innerCornerRadius - .5, 0)}'
+      radiusY='{Math.max(innerCornerRadius - .5, 0)}' right='2' top='2'>
     <s:fill>
       <s:LinearGradient rotation='90'>
         <s:GradientEntry color='0xffffff' alpha='.38'

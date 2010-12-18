@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<s:Window initialize='onInitialize(event)' minHeight='355' minWidth='296'
+<s:Window initialize='onInitialize(event)' minHeight='481' minWidth='358'
     showStatusBar='false'
     title='{bout.name} {/^Mac OS/.test(Capabilities.os) ? "Info" : "Properties"}'
     xmlns:dpk='dpk.*'

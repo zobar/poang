@@ -59,7 +59,7 @@ package dpk.skins {
 
     [Bindable(event='cornerRadiusChanged')]
     public function get innerCornerRadius():Number {
-      return getStyle('cornerRadius') - 1
+      return Math.max(getStyle('cornerRadius') - 1, 0)
     }
 
     public function set innerCornerRadius(value:Number):void {
@@ -73,6 +73,42 @@ package dpk.skins {
 
     public function set outerCornerRadius(value:Number):void {
       setStyle('cornerRadius', value - 1)
+    }
+
+    [Bindable(event='paddingBottomChanged')]
+    public function get paddingBottom():Number {
+      return getStyle('paddingBottom')
+    }
+
+    public function set paddingBottom(value:Number):void {
+      setStyle('paddingBottom', value)
+    }
+
+    [Bindable(event='paddingLeftChanged')]
+    public function get paddingLeft():Number {
+      return getStyle('paddingLeft')
+    }
+
+    public function set paddingLeft(value:Number):void {
+      setStyle('paddingLeft', value)
+    }
+
+    [Bindable(event='paddingRightChanged')]
+    public function get paddingRight():Number {
+      return getStyle('paddingRight')
+    }
+
+    public function set paddingRight(value:Number):void {
+      setStyle('paddingRight', value)
+    }
+
+    [Bindable(event='paddingTopChanged')]
+    public function get paddingTop():Number {
+      return getStyle('paddingTop')
+    }
+
+    public function set paddingTop(value:Number):void {
+      setStyle('paddingTop', value)
     }
 
     override public function styleChanged(styleProp:String):void {
@@ -90,6 +126,14 @@ package dpk.skins {
         dispatchEvent(new Event('contentBackgroundColorChanged'))
       if (all || styleProp == 'cornerRadius')
         dispatchEvent(new Event('cornerRadiusChanged'))
+      if (all || styleProp == 'paddingBottom')
+        dispatchEvent(new Event('paddingBottomChanged'))
+      if (all || styleProp == 'paddingLeft')
+        dispatchEvent(new Event('paddingLeftChanged'))
+      if (all || styleProp == 'paddingRight')
+        dispatchEvent(new Event('paddingRightChanged'))
+      if (all || styleProp == 'paddingTop')
+        dispatchEvent(new Event('paddingTopChanged'))
     }
   }
 }

@@ -13,5 +13,5 @@
   </s:Rect>
   <dpks:InsetGraft height='100%' left='0' owner='{this}' top='0'
       width='100%'/>
-  <dpk:SharedImage id='imageDisplay' bottom='2' left='2' right='2' top='2'/>
+  <dpk:SharedImage id='imageDisplay' bottom='1' left='1' right='1' top='1'/>
 </dpks:Skin>

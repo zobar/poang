@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <s:VGroup xmlns:dpk='dpk.*'
     xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:mx='library://ns.adobe.com/flex/mx'
     xmlns:s='library://ns.adobe.com/flex/spark'>
   <fx:Script source='TeamEditor.mxml.as'/>
   <s:HGroup verticalAlign='middle' width='100%'>
@@ -8,5 +9,26 @@
         height='56' title='Open {team.name} Image' width='56'/>
     <s:TextInput enter='onNameFieldEvent(event)'
         focusOut='onNameFieldEvent(event)' text='{team.name}' width='100%'/>
+  </s:HGroup>
+  <s:HGroup height='100%' width='100%'>
+    <s:VGroup height='100%'>
+      <mx:DataGrid dataProvider='{team.people}' draggableColumns='false'
+          editable='true' height='100%' sortableColumns='false' width='202'>
+        <mx:columns>
+          <mx:DataGridColumn dataField='enabled' editorDataField='selected'
+              headerText='✓' itemRenderer='dpk.CheckBoxListItemRenderer'
+              rendererIsEditor='true' width='20'/>
+          <mx:DataGridColumn dataField='number' editable='false' headerText='#'
+              width='37'/>
+          <mx:DataGridColumn dataField='name' editable='false'
+              headerText='Name'/>
+        </mx:columns>
+      </mx:DataGrid>
+      <s:HGroup gap='0'>
+        <dpk:IconButton icon='@Embed("/assets/AddPerson.png")'/>
+        <dpk:IconButton icon='@Embed("/assets/RemovePerson.png")'/>
+      </s:HGroup>
+    </s:VGroup>
+    <s:BorderContainer height='100%' width='100%'/>
   </s:HGroup>
 </s:VGroup>
