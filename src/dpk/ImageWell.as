@@ -6,17 +6,21 @@ package dpk {
   import flash.display.LoaderInfo
   import flash.events.Event
   import flash.events.IOErrorEvent
+  import flash.events.KeyboardEvent
   import flash.events.MouseEvent
   import flash.filesystem.File
   import flash.net.FileFilter
   import flash.net.URLRequest
+  import flash.ui.Keyboard
+  import mx.managers.IFocusManagerComponent
   import spark.components.supportClasses.SkinnableComponent
 
   [Event(name='change')]
   [Style(name='backgroundImage')]
   [Style(name='backgroundImageFillMode', enumeration='clip,repeat,scale',
       type='String')]
-  public class ImageWell extends SkinnableComponent {
+  public class ImageWell extends SkinnableComponent
+      implements IFocusManagerComponent {
     [Bindable]
     public function get bitmapData():BitmapData {
       return _bitmapData
@@ -56,11 +60,22 @@ package dpk {
 
     public function ImageWell() {
       doubleClickEnabled = true
+      addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown)
+      addEventListener(MouseEvent.CLICK, onClick)
       addEventListener(MouseEvent.DOUBLE_CLICK, onDoubleClick)
     }
 
-    protected function onDoubleClick(event:MouseEvent):void {
+    public function open():void {
       file.browseForOpen(title, [new FileFilter('Images', '*.gif;*.jpg;*.png')])
+    }
+
+    protected function onClick(event:MouseEvent):void {
+      focusManager.setFocus(this)
+      focusManager.showFocus()
+    }
+
+    protected function onDoubleClick(event:MouseEvent):void {
+      open()
     }
 
     protected function onFileSelect(event:Event):void {
@@ -70,6 +85,19 @@ package dpk {
       loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR,
           onLoaderIOError)
       loader.load(new URLRequest(file.url))
+    }
+
+    protected function onKeyDown(event:KeyboardEvent):void {
+      switch (event.keyCode) {
+        case Keyboard.BACKSPACE:
+        case Keyboard.DELETE:
+          bitmapData = null
+          dispatchEvent(new Event(Event.CHANGE))
+          break
+        case Keyboard.ENTER:
+          open()
+          break
+      }
     }
 
     protected function onLoaderComplete(event:Event):void {

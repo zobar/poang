@@ -1,4 +1,5 @@
 package qcrg {
+  import flash.display.BitmapData
   import flash.display.MovieClip
 
   public dynamic class ScoreboardDisplay extends MovieClip {
@@ -28,6 +29,8 @@ package qcrg {
       if ('timeoutClock' in newValues)
         updateTimeoutClock(newValues.timeoutClock)
 
+      if ('homeImage' in newValues)
+        updateHomeImage(newValues.homeImage)
       if ('homeJamScore' in newValues)
         updateHomeJamScore(newValues.homeJamScore)
       if ('homeName' in newValues)
@@ -37,6 +40,8 @@ package qcrg {
       if ('homeTimeouts' in newValues)
         updateHomeTimeouts(newValues.homeTimeouts)
 
+      if ('visitorImage' in newValues)
+        updateVisitorImage(newValues.visitorImage)
       if ('visitorJamScore' in newValues)
         updateVisitorJamScore(newValues.visitorJamScore)
       if ('visitorName' in newValues)
@@ -187,6 +192,13 @@ package qcrg {
         this.timeoutClockLabel.visible = visible
     }
 
+    protected function updateHomeImage(value:BitmapData):void {
+      if ('homeImagePlaceholder' in this)
+        this.homeImagePlaceholder.bitmapData = value
+      if ('homeNameField' in this)
+        this.homeNameField.visible = !value
+    }
+
     protected function updateHomeJamScore(value:int):void {
       if ('homeJamScoreField' in this)
         this.homeJamScoreField.text = value ? value : ''
@@ -205,6 +217,13 @@ package qcrg {
     protected function updateHomeTimeouts(value:int):void {
       if ('homeTimeoutsField' in this)
         this.homeTimeoutsField.text = value
+    }
+
+    protected function updateVisitorImage(value:BitmapData):void {
+      if ('visitorImagePlaceholder' in this)
+        this.visitorImagePlaceholder.bitmapData = value
+      if ('visitorNameField' in this)
+        this.visitorNameField.visible = !value
     }
 
     protected function updateVisitorJamScore(value:int):void {

@@ -5,7 +5,7 @@
   <fx:Script source='TeamEditor.mxml.as'/>
   <s:HGroup verticalAlign='middle' width='100%'>
     <dpk:ImageWell bitmapData='{team.image}' change='onImageChange(event)'
-        height='56' width='56'/>
+        height='56' title='Open {team.name} Image' width='56'/>
     <s:TextInput enter='onNameFieldEvent(event)'
         focusOut='onNameFieldEvent(event)' text='{team.name}' width='100%'/>
   </s:HGroup>
