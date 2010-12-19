@@ -32,6 +32,10 @@ package qcrg {
       return result
     }
 
+    public function get complete():Boolean {
+      return _xml != null
+    }
+
     [Bindable]
     public var icon:BitmapData
 

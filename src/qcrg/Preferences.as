@@ -217,27 +217,17 @@ package qcrg {
     public function Preferences() {
       ruleset =
           new Ruleset(File.applicationDirectory.resolvePath('ruleset.xml').url)
+      ruleset.addEventListener(Event.COMPLETE, onRulesetComplete)
+      ruleset.addEventListener(IOErrorEvent.IO_ERROR, onRulesetIOError)
       file = File.applicationStorageDirectory.resolvePath('preferences.xml')
       if (file.exists)
         file.load()
       else {
         xml = <preferences/>
-        dispatchEvent(new Event(Event.COMPLETE))
+        if (ruleset.complete)
+          dispatchEvent(new Event(Event.COMPLETE))
       }
       QCRGScoreboard.app.addEventListener(Event.CLOSE, onApplicationClose)
-    }
-
-    protected function hasValue(key:String):Boolean {
-      return xml && xml.hasOwnProperty(key)
-    }
-
-    protected function onFileComplete(event:Event):void {
-      xml = XML(File(event.currentTarget).data)
-      dispatchEvent(event)
-    }
-
-    protected function onFileIOError(event:IOErrorEvent):void {
-      dispatchEvent(event)
     }
 
     protected function getBoolean(key:String, defaultValue:Boolean):Boolean {
@@ -279,6 +269,10 @@ package qcrg {
       return defaultValue
     }
 
+    protected function hasValue(key:String):Boolean {
+      return xml && xml.hasOwnProperty(key)
+    }
+
     protected function onApplicationClose(event:Event):void {
       var stream:FileStream = new FileStream()
       QCRGScoreboard.app.removeEventListener(Event.CLOSE, onApplicationClose)
@@ -286,6 +280,25 @@ package qcrg {
       stream.open(file, FileMode.WRITE)
       stream.writeUTFBytes(xml.toXMLString())
       stream.close()
+    }
+
+    protected function onFileComplete(event:Event):void {
+      xml = XML(File(event.currentTarget).data)
+      if (ruleset.complete)
+        dispatchEvent(event)
+    }
+
+    protected function onFileIOError(event:IOErrorEvent):void {
+      dispatchEvent(event)
+    }
+
+    protected function onRulesetComplete(event:Event):void {
+      if (complete)
+        dispatchEvent(event)
+    }
+
+    protected function onRulesetIOError(event:IOErrorEvent):void {
+      dispatchEvent(event)
     }
 
     protected function setBoolean(key:String, value:Boolean,
