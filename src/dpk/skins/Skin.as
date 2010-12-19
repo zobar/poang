@@ -111,6 +111,15 @@ package dpk.skins {
       setStyle('paddingTop', value)
     }
 
+    [Bindable(event='symbolColorChanged')]
+    public function get symbolColor():uint {
+      return getStyle('symbolColor')
+    }
+
+    public function set symbolColor(value:uint):void {
+      setStyle('symbolColor', value)
+    }
+
     override public function styleChanged(styleProp:String):void {
       var all:Boolean = !styleProp || styleProp == 'styleName'
       super.styleChanged(styleProp)
@@ -134,6 +143,8 @@ package dpk.skins {
         dispatchEvent(new Event('paddingRightChanged'))
       if (all || styleProp == 'paddingTop')
         dispatchEvent(new Event('paddingTopChanged'))
+      if (all || styleProp == 'symbolColor')
+        dispatchEvent(new Event('symbolColorChanged'))
     }
   }
 }

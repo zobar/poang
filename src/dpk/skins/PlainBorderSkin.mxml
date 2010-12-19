@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<dpk:Skin implements='mx.core.IRectangularBorder' xmlns:dpk='dpk.skins.*'
+    xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:s='library://ns.adobe.com/flex/spark'>
+  <fx:Script source='PlainBorderSkin.mxml.as'/>
+  <s:Rect id='border' bottom='0' left='0' right='0' top='0'>
+    <s:fill>
+      <s:SolidColor id='backgroundFill' color='{contentBackgroundColor}'/>
+    </s:fill>
+    <s:stroke>
+      <s:SolidColorStroke color='{borderColor}' joints='miter'/>
+    </s:stroke>
+  </s:Rect>
+</dpk:Skin>

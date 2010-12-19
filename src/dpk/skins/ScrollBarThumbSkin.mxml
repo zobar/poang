@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='utf-8'?>
+<dpk:SkinGraft minWidth='14' xmlns:dpk='dpk.skins.*' xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:s='library://ns.adobe.com/flex/spark'>
+  <dpk:states>
+    <s:State name='up'/>
+    <s:State name='over'/>
+    <s:State name='down'/>
+    <s:State name='disabled'/>
+  </dpk:states>
+  <s:Rect bottom='0' left='0' radiusX='{cornerRadius}' radiusY='{cornerRadius}'
+      right='-1' top='0'>
+    <s:fill><s:SolidColor color='{contentBackgroundColor}'/></s:fill>
+    <s:stroke>
+      <s:SolidColorStroke color='{borderColor}' joints='miter'/>
+    </s:stroke>
+  </s:Rect>
+  <s:Rect bottom='2' left='2' radiusX='{innerCornerRadius - 1}'
+      radiusY='{innerCornerRadius - 1}' right='1' top='2'>
+    <s:fill>
+      <s:LinearGradient>
+        <s:GradientEntry color='0xffffff' alpha='.38'/>
+        <s:GradientEntry color='0xffffff' alpha='.19'/>
+        <s:GradientEntry color='0x000000' alpha='.09'/>
+      </s:LinearGradient>
+    </s:fill>
+  </s:Rect>
+  <s:Rect bottom='1' left='1' radiusX='{innerCornerRadius}'
+      radiusY='{innerCornerRadius}' right='0' top='1'>
+    <s:stroke>
+      <s:LinearGradientStroke joints='miter'>
+        <s:GradientEntry color='0xffffff' alpha='.81'/>
+        <s:GradientEntry color='0xffffff' alpha='.21'/>
+      </s:LinearGradientStroke>
+    </s:stroke>
+  </s:Rect>
+  <s:Rect bottom='1' includeIn='over' left='1' radiusX='{innerCornerRadius}'
+      radiusY='{innerCornerRadius}' right='0' top='1'>
+    <s:fill>
+      <s:LinearGradient>
+        <s:GradientEntry color='0xffffff' alpha='.84'/>
+        <s:GradientEntry color='0xffffff' alpha='.46'/>
+      </s:LinearGradient>
+    </s:fill>
+  </s:Rect>
+  <s:Rect bottom='1' includeIn='down' left='1' radiusX='{innerCornerRadius}'
+      radiusY='{innerCornerRadius}' right='0' top='1'>
+    <s:fill><s:SolidColor alpha='.12' color='0x000000'/></s:fill>
+  </s:Rect>
+  <s:Group height='8' horizontalCenter='0' verticalCenter='0' width='6'>
+    <s:Line left='0' right='0' top='0' xFrom='0' xTo='1' yFrom='0' yTo='0'>
+      <s:stroke>
+        <s:SolidColorStroke alpha='.18' caps='square' color='0x000000'/>
+      </s:stroke>
+    </s:Line>
+    <s:Line left='0' right='0' top='1' xFrom='0' xTo='1' yFrom='0' yTo='0'>
+      <s:stroke>
+        <s:SolidColorStroke alpha='.36' caps='square' color='0xffffff'/>
+      </s:stroke>
+    </s:Line>
+    <s:Line left='0' right='0' top='3' xFrom='0' xTo='1' yFrom='0' yTo='0'>
+      <s:stroke>
+        <s:SolidColorStroke alpha='.18' caps='square' color='0x000000'/>
+      </s:stroke>
+    </s:Line>
+    <s:Line left='0' right='0' top='4' xFrom='0' xTo='1' yFrom='0' yTo='0'>
+      <s:stroke>
+        <s:SolidColorStroke alpha='.36' caps='square' color='0xffffff'/>
+      </s:stroke>
+    </s:Line>
+    <s:Line left='0' right='0' top='6' xFrom='0' xTo='1' yFrom='0' yTo='0'>
+      <s:stroke>
+        <s:SolidColorStroke alpha='.18' caps='square' color='0x000000'/>
+      </s:stroke>
+    </s:Line>
+    <s:Line left='0' right='0' top='7' xFrom='0' xTo='1' yFrom='0' yTo='0'>
+      <s:stroke>
+        <s:SolidColorStroke alpha='.36' caps='square' color='0xffffff'/>
+      </s:stroke>
+    </s:Line>
+  </s:Group>
+</dpk:SkinGraft>

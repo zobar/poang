@@ -18,6 +18,7 @@ global {
   chromeColor:            #3399ff;
   contentBackgroundColor: #eeeeee;
   fontFamily:             'Droid Sans';
+  symbolColor:            #003366;
 }
 
 s|BorderContainer {
@@ -40,12 +41,18 @@ dpk|CheckBoxListItemRenderer {
 }
 
 mx|DataGrid {
-  fontSize:      11;
-  paddingBottom: 0;
-  paddingLeft:   0;
-  paddingRight:  0;
-  paddingTop:    0;
-  verticalAlign: middle;
+  borderSkin:            ClassReference('dpk.skins.PlainBorderSkin');
+  fontSize:              11;
+  headerBackgroundSkin:
+      ClassReference('dpk.skins.DataGridHeaderBackgroundSkin');
+  headerSeparatorSkin:
+      ClassReference('dpk.skins.DataGridHeaderSeparatorSkin');
+  paddingBottom:         0;
+  paddingLeft:           0;
+  paddingRight:          0;
+  paddingTop:            0;
+  verticalAlign:         middle;
+  verticalGridLineColor: #999999;
 }
 
 s|DropDownList {
@@ -78,15 +85,22 @@ s|Label {
 }
 
 mx|HTML {
-  borderColor:   #999999;
-  borderStyle:   solid;
-  borderVisible: true;
+  borderSkin:  ClassReference('dpk.skins.PlainBorderSkin');
+  borderStyle: solid;
 }
 
 dpk|ImageWell {
   backgroundImage:         Embed('/assets/TransparencyGrid.png');
   backgroundImageFillMode: repeat;
   skinClass:               ClassReference('dpk.skins.ImageWellSkin');
+}
+
+mx|ScrollBar {
+  cornerRadius:  7;
+  downArrowSkin: ClassReference('dpk.skins.ScrollBarDownButtonSkin');
+  thumbSkin:     ClassReference('dpk.skins.ScrollBarThumbSkin');
+  trackSkin:     ClassReference('dpk.skins.ScrollBarTrackSkin');
+  upArrowSkin:   ClassReference('dpk.skins.ScrollBarUpButtonSkin');
 }
 
 mx|Tab {

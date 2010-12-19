@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<dpk:Skin xmlns:dpk='dpk.skins.*' xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:s='library://ns.adobe.com/flex/spark'>
+  <s:Rect bottom='0' left='0' right='0' top='0'>
+    <s:fill><s:SolidColor color='{contentBackgroundColor}'/></s:fill>
+  </s:Rect>
+  <s:Rect bottom='0' left='0' right='0' top='0'>
+    <s:fill>
+      <s:LinearGradient rotation='90'>
+        <s:GradientEntry alpha='0' color='0x000000'/>
+        <s:GradientEntry alpha='.12' color='0x000000'/>
+      </s:LinearGradient>
+    </s:fill>
+  </s:Rect>
+  <s:Line bottom='0' left='0' right='0' xFrom='0' xTo='1' yFrom='0' yTo='0'>
+    <s:stroke>
+      <s:SolidColorStroke caps='square' color='{borderColor}'/>
+    </s:stroke>
+  </s:Line>
+</dpk:Skin>

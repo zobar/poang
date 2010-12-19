@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<dpk:Skin width='2' xmlns:dpk='dpk.skins.*'
+    xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:s='library://ns.adobe.com/flex/spark'>
+  <s:Rect bottom='0' right='0' top='0' width='1'>
+    <s:fill>
+      <s:LinearGradient rotation='90'>
+        <s:GradientEntry alpha='.33' color='{borderColor}'/>
+        <s:GradientEntry color='{borderColor}'/>
+      </s:LinearGradient>
+    </s:fill>
+  </s:Rect>
+</dpk:Skin>
