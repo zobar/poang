@@ -311,7 +311,8 @@ package qcrg {
             --homeTimeouts
           else
             --visitorTimeouts
-          _lineupClock = 0
+          _lineupClock = lineupLength
+          periodClockRunning = false
           timeoutClock = timeoutLength
           clockChanged('lineupClock', oldLineupClock)
         }
@@ -355,15 +356,12 @@ package qcrg {
           }
         }
         else if (period > 0) {
-          if (_periodClock && periodClockRunning && !timeoutClock) {
+          if (_periodClock && periodClockRunning) {
             _periodClock = Math.max(_periodClock - elapsed, 0)
             clockChanged('periodClock', oldPeriodClock)
           }
-          if (timeoutClock) {
+          if (timeoutClock)
             timeoutClock = Math.max(timeoutClock - elapsed, 0)
-            if (!timeoutClock)
-              periodClockRunning = Boolean(_jamClock) || Boolean(_lineupClock)
-          }
           else if (_lineupClock) {
             _lineupClock = Math.max(_lineupClock - elapsed, 0)
             if (!_lineupClock)
