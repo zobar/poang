@@ -39,11 +39,6 @@
     line-height: 1.3;
   }
 
-  .figcaption {
-    font-size:  .85em;
-    text-align: center;
-  }
-
   .figure {
     float:  left;
     margin: 0;
@@ -65,6 +60,16 @@
     padding-top: 3px;
   }
 
+  #installer {
+    position: relative;
+  }
+
+  #installer object {
+    left:     196px;
+    position: absolute;
+    top:      110px;
+  }
+
   .main {
     background:    rgba(255, 255, 255, .6);
     border:        1px solid black;
@@ -84,35 +89,64 @@
 </div>
 <div class='wrapper'>
   <div class='figure'>
-    <img alt='POÄNG' height='240' src='poang.png' width='464'>
-    <div class='figcaption'>
-      <strong>POÄNG</strong> is a roller derby scoreboard. Accept no
-      <a href='http://ikea.com/us/en/catalog/categories/series/07472'>
-      substitutes</a>.
+    <div id='installer'>
+      <img alt='POÄNG' height='240' src='poang.png' width='464'>
+      <object id='installer' data='badge.swf' height='180' type='application/x-shockwave-flash'
+          width='217'>
+        <param name='flashvars' value='airversion=2.5&appname=Poäng&appurl=http://github.com/zobar/poang/raw/development/dist/Poang.air'>
+        <param name='wmode' value='transparent'>
+      </object>
     </div>
   </div>
   <div class='main'>
     <p>
-      <a href='http://bit.ly/qcrg-scoreboard'>QCRG Scoreboard</a> is being retired
-      after three seasons of reliable service, with <strong>POÄNG</strong>
-      scheduled to take its place in January 2011. Adventure-seekers are
-      encouraged to
-      <a href='https://github.com/zobar/qcrg-scoreboard/blob/development/README.md'>read
-      about</a> or
-      <a href='https://github.com/zobar/qcrg-scoreboard/raw/development/dist/QCRGScoreboard.air'>download</a>
-      the latest development version.  The technically inclined can follow –or
-      better yet, join in– the progress of this new open source effort on
-      <a href='http://github.com/zobar/qcrg-scoreboard'>GitHub</a>.  For now,
-      discussion of <strong>POÄNG</strong> will be carried on in the
-      <a href='http://groups.google.com/group/qcrg-scoreboard'>Google group</a>
-      for QCRG Scoreboard.
+      <strong>POÄNG</strong> is coming! We’re turning three years of experience
+      gained and lessons learned with the reliable but quirky
+      <a href='http://bit.ly/qcrg-scoreboard'>QCRG Scoreboard</a> into a new
+      <a href='http://github.com/zobar/poang'>open source</a> scoreboard
+      project.  <strong>POÄNG</strong> will have some great new features right
+      off the bat:
     </p>
+    <ul>
+      <li>
+        <strong>Easy to install.</strong> All you have to do is click the
+        “Install Now” button at left and you’re on your way.
+      </li>
+      <li>
+        <strong>No configuration necessary.</strong> Just open the application
+        and you’re ready to host a simple scrimmage following the
+        <a href='http://wftda.com/rules/wftda-rules.pdf'>latest WFTDA rules</a>.
+      </li>
+      <li>
+        <strong>Easy to read.</strong> The high-contrast display is designed for
+        bright arenas where even powerful projectors can sometimes be difficult
+        to read.
+      </li>
+      <li>
+        <strong>Slick.</strong> <strong>POÄNG</strong> is the first roller derby
+        scoreboard that integrates skaters’ pictures right into the
+        presentation.
+      </li>
+      <li>
+        <strong>Smart.</strong> <strong>POÄNG</strong> always opens to the last
+        bout you’ve edited, and it keeps track of all the teams and skaters
+        you’ve entered so you don’t have to.
+      </li>
+      <li>
+        <strong>Flexible.</strong> Just because <strong>POÄNG</strong> is
+        WFTDA-compliant doesn’t mean it has to be.  Change number of periods,
+        period length, intermission length, and more to accommodate expo bouts,
+        junior derby, and scrimmages.
+      </li>
+      <li>
+        <strong>Difficult to pronounce.</strong> Nothing’s perfect– it sounds
+        like “pwang” and means “points” in Swedish.  It’s also an
+        <a href='http://ikea.com/us/en/catalog/categories/series/07472'>armchair</a>.
+    </ul>
     <p>
-      If you are downloading <strong>POÄNG</strong> for prerelease evaluation,
-      please go to the Updates tab in the Preferences/Settings dialog before doing
-      anything else and set your preferred release track to “development.”  The
-      code is changing quickly, and this will ensure that you get the most recent
-      updates.
+      …and with so many more great features on the way, <strong>POÄNG</strong>
+      keeps itself up-to-date.  Just go into the Preferences or Settings dialog
+      and select the “development” release track so you don’t get left behind.
     </p>
   </div>
 </div>
