@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<project default='build' name='qcrg-scoreboard'>
+<project default='build' name='poang'>
   <condition property='FLEX_HOME' value='C:\Program Files\Flex'
       else='/opt/flex'>
     <os family='windows'/>
@@ -8,8 +8,8 @@
   <property name='configuration' value='debug'/>
   <property name='version'       value='3.0.0'/>
 
-  <property name='app.main' value='QCRGScoreboard'/>
-  <property name='app.name' value='QCRG Scoreboard'/>
+  <property name='app.main' value='Poang'/>
+  <property name='app.name' value='Poang'/>
 
   <property name='build'    location='build'/>
   <property name='dist'     location='dist' />

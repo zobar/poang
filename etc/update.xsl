@@ -11,6 +11,6 @@
       <li>six</li>
     </ul>
   </changes>
-  <location>dist/QCRGScoreboard.air</location>
+  <location>dist/Poang.air</location>
   <version><xsl:value-of select='$version'/></version>
 </update>

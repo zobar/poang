@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='utf-8'?>
+<s:WindowedApplication applicationComplete='onApplicationComplete(event)'
+    autoExit='false' close='onClose(event)' enterFrame='onEnterFrame(event)'
+    frameRate='20' height='368' initialize='onInitialize(event)'
+    minHeight='393' minWidth='346' preinitialize='onPreinitialize(event)'
+    showStatusBar='false' title='{bout.name}' width='346' xmlns:dpk='dpk.*'
+    xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:mx='library://ns.adobe.com/flex/mx' xmlns:poang='poang.*'
+    xmlns:s='library://ns.adobe.com/flex/spark'>
+  <fx:Script source='Poang.mxml.as'/>
+  <fx:Style source='/assets/Poang.css'/>
+  <s:layout>
+    <s:VerticalLayout horizontalAlign='center' paddingBottom='12'
+        paddingLeft='12' paddingRight='12' paddingTop='6'/>
+  </s:layout>
+  <s:menu>
+    <dpk:NativeMenu>
+      <dpk:MenuItem name='application'>
+        <dpk:MenuItem name='about'/>
+        <dpk:Separator/>
+        <dpk:MenuItem keyEquivalent=',' label='Preferences…'
+            select='onPreferencesSelect(event)'/>
+        <dpk:Separator/>
+        <dpk:MenuItem name='hide'/>
+        <dpk:MenuItem name='hide_others'/>
+        <dpk:MenuItem name='show_all'/>
+        <dpk:Separator/>
+        <dpk:MenuItem keyEquivalent='q' label='Quit' osMatch='^Mac OS'
+            select='onQuitSelect(event)'/>
+      </dpk:MenuItem>
+      <dpk:MenuItem label='File' name='file'>
+        <dpk:MenuItem keyEquivalent='n' label='New'
+            select='onNewSelect(event)'/>
+        <dpk:MenuItem keyEquivalent='w' label='Close'
+            select='onCloseSelect(event)'/>
+        <dpk:Separator/>
+        <dpk:MenuItem keyEquivalent='i' label='Properties…'
+            osMatch='^(?!Mac OS)' select='onPropertiesSelect(event)'/>
+        <dpk:MenuItem keyEquivalent='i' label='Get Info…' osMatch='^Mac OS'
+            select='onPropertiesSelect(event)'/>
+        <dpk:Separator/>
+        <dpk:MenuItem keyEquivalent='q' label='Quit' osMatch='^(?!Mac OS)'
+            select='onQuitSelect(event)'/>
+      </dpk:MenuItem>
+      <dpk:MenuItem label='Edit' name='edit'>
+        <dpk:MenuItem keyEquivalent='x' label='Cut' name='cut'/>
+        <dpk:MenuItem keyEquivalent='c' label='Copy' name='copy'/>
+        <dpk:MenuItem keyEquivalent='v' label='Paste' name='paste'/>
+        <dpk:MenuItem label='Delete' name='delete'/>
+        <dpk:MenuItem keyEquivalent='a' label='Select All' name='select_all'/>
+        <dpk:Separator/>
+        <dpk:MenuItem name='special_characters'/>
+        <dpk:MenuItem label='Preferences' osMatch='^(?!Mac OS|Windows)'
+            select='onPreferencesSelect(event)'/>
+      </dpk:MenuItem>
+      <dpk:MenuItem label='View'>
+        <dpk:MenuItemGroup id='screenMenu' dataProvider='{screens}'
+            menuItemFunction='screenMenuItem' select='onScreenSelect(event)'/>
+        <dpk:Separator/>
+        <dpk:MenuItem label='Rescan' select='onRescanSelect(event)'/>
+      </dpk:MenuItem>
+      <dpk:MenuItem label='Tools' osMatch='^Windows'>
+        <dpk:MenuItem label='Settings' select='onPreferencesSelect(event)'/>
+      </dpk:MenuItem>
+      <dpk:MenuItem name='window'>
+        <dpk:MenuItem name='minimize'/>
+        <dpk:MenuItem name='zoom'/>
+        <dpk:Separator/>
+        <dpk:MenuItem name='bring_all_to_front'/>
+      </dpk:MenuItem>
+    </dpk:NativeMenu>
+  </s:menu>
+  <s:Group height='100%' width='100%'>
+    <s:layout>
+      <dpk:AspectRatioLayout adjustHeight='2' adjustWidth='2'/>
+    </s:layout>
+    <s:BorderContainer id='preview' height='100%'
+        resize='onPreviewResize(event)' width='100%'>
+      <poang:Display group='{displayGroup}' height='100%' width='100%'/>
+    </s:BorderContainer>
+  </s:Group>
+  <s:HGroup gap='12'>
+    <s:VGroup width='138'>
+      <s:HGroup verticalAlign='middle' width='100%'>
+        <s:Label text='Clock:' width='39'/>
+        <s:TextInput id='periodClockField' focusIn='onFieldFocusIn(event)'
+            focusOut='onPeriodClockFieldFocusOut(event)' restrict='0-9'
+            width='100%'/>
+      </s:HGroup>
+      <s:HGroup verticalAlign='middle' width='100%'>
+        <s:Label text='Period:' width='39'/>
+        <s:DropDownList id='periodList' change='onPeriodListChange(event)'
+            dataProvider='{periods}' focusIn='onPeriodListFocusIn(event)'
+            focusOut='onPeriodListFocusOut(event)'
+            labelFunction='periodListLabelFunction' width='100%'/>
+      </s:HGroup>
+      <s:HGroup verticalAlign='middle' width='100%'>
+        <s:Label text='Jam #:' width='39'/>
+        <s:TextInput id='jamField' focusIn='onFieldFocusIn(event)'
+            focusOut='onJamFieldFocusOut(event)' restrict='0-9'
+            width='100%'/>
+      </s:HGroup>
+    </s:VGroup>
+    <s:VGroup width='170'>
+      <s:HGroup verticalAlign='middle' width='100%'>
+        <s:Label text='Jam:' width='72'/>
+        <s:TextInput id='jamClockField' focusIn='onFieldFocusIn(event)'
+            focusOut='onJamClockFieldFocusOut(event)' restrict='0-9'
+            width='100%'/>
+      </s:HGroup>
+      <s:HGroup verticalAlign='middle' width='100%'>
+        <s:Label text='Lineup:' width='72'/>
+        <s:TextInput id='lineupClockField' focusIn='onFieldFocusIn(event)'
+            focusOut='onLineupClockFieldFocusOut(event)' restrict='0-9'
+            width='100%'/>
+      </s:HGroup>
+      <s:HGroup verticalAlign='middle' width='100%'>
+        <s:Label text='Timeout:' width='72'/>
+        <s:TextInput id='timeoutClockField' focusIn='onFieldFocusIn(event)'
+            focusOut='onTimeoutClockFieldFocusOut(event)' restrict='0-9'
+            width='100%'/>
+      </s:HGroup>
+      <s:HGroup verticalAlign='middle' width='100%'>
+        <s:Label text='Intermission:' width='72'/>
+        <s:TextInput id='intermissionClockField' focusIn='onFieldFocusIn(event)'
+            focusOut='onIntermissionClockFieldFocusOut(event)' restrict='0-9'
+            width='100%'/>
+      </s:HGroup>
+    </s:VGroup>
+  </s:HGroup>
+</s:WindowedApplication>

@@ -2,11 +2,13 @@
 <application xmlns='http://ns.adobe.com/air/application/2.5'
     xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
   <xsl:param name='version'/>
-  <filename>QCRG Scoreboard</filename>
-  <id>net.qcrg.scoreboard</id>
+  <description>Roller derby scoreboard</description>
+  <filename>Poang</filename>
+  <id>gg.poang</id>
   <initialWindow>
-    <content>QCRGScoreboard.swf</content>
+    <content>Poang.swf</content>
   </initialWindow>
+  <name>Poäng</name>
   <versionNumber><xsl:value-of select='$version'/></versionNumber>
 </application>
 
