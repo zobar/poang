@@ -4,7 +4,7 @@ import spark.events.IndexChangeEvent
 [Bindable]
 public function get ruleset():Ruleset {
   if (!_ruleset)
-    _ruleset = QCRGScoreboard.app.preferences.ruleset
+    _ruleset = Ruleset(QCRGScoreboard.app.preferences.ruleset)
   return _ruleset
 }
 public function set ruleset(value:Ruleset):void {

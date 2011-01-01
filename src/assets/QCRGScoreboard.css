@@ -51,6 +51,7 @@ mx|DataGrid {
   paddingLeft:           0;
   paddingRight:          0;
   paddingTop:            0;
+  selectionDuration:     0;
   verticalAlign:         middle;
   verticalGridLineColor: #999999;
 }

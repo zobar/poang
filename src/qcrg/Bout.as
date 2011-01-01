@@ -1,12 +1,11 @@
 package qcrg {
   import flash.events.Event
+  import flash.events.EventDispatcher
   import flash.utils.getTimer
   import mx.events.FlexEvent
   import mx.events.PropertyChangeEvent
 
-  public class Bout extends AbstractRuleset {
-    protected static var lastUntitledNumber:int
-
+  public class Bout extends AbstractLibraryRuleset {
     [Bindable]
     public var intermissionClock:int
 
@@ -36,6 +35,11 @@ package qcrg {
         _leadJammer = Team.NONE
     }
     protected var _leadJammer:String
+
+    override internal function set library(value:Library):void {
+      super.library = value
+      library.bout = this
+    }
 
     [Bindable]
     public function get lineupClock():int {
@@ -71,19 +75,20 @@ package qcrg {
 
     protected var periodClockRunning:Boolean
 
+    override public function get ruleset():IRuleset {
+      return library.preferences
+    }
+
     [Bindable]
     public var timeoutClock:int
 
     [Bindable]
     public function get name():String {
-      if (_name == null)
-        _name = 'Untitled Bout ' + (++lastUntitledNumber)
-      return _name
+      return getString('name', 'Untitled Bout')
     }
     public function set name(value:String):void {
-      _name = value
+      setString('name', value, 'Untitled Bout')
     }
-    protected var _name:String
 
     [Bindable]
     public function get homeJamScore():int {
@@ -105,12 +110,11 @@ package qcrg {
 
     [Bindable]
     public function get homeTeam():Team {
-      return _homeTeam
+      return getObject(Team, 'homeTeam')
     }
     public function set homeTeam(value:Team):void {
-      _homeTeam = value
+      setObject('homeTeam', value)
     }
-    protected var _homeTeam:Team
 
     [Bindable]
     public function get homeTimeouts():int {
@@ -141,12 +145,11 @@ package qcrg {
 
     [Bindable]
     public function get visitorTeam():Team {
-      return _visitorTeam
+      return getObject(Team, 'visitorTeam')
     }
     public function set visitorTeam(value:Team):void {
-      _visitorTeam = value
+      setObject('visitorTeam', value)
     }
-    protected var _visitorTeam:Team
 
     [Bindable]
     public function get visitorTimeouts():int {
@@ -174,8 +177,6 @@ package qcrg {
     public function Bout() {
       var app:QCRGScoreboard = QCRGScoreboard.app
       var preferences:Preferences = app.preferences
-      homeTeam = new Team()
-      homeTeam.name = Team.HOME
       intermissionClock = 0
       _jamClock = 0
       lastPeriod = 0
@@ -186,10 +187,6 @@ package qcrg {
       _periodClock = 0
       periodClockRunning = true
       timeoutClock = 0
-      visitorTeam = new Team()
-      visitorTeam.name = Team.VISITOR
-      for each (var rule:String in Ruleset.ruleNames)
-        this[rule] = preferences[rule]
       app.addEventListener(Event.ENTER_FRAME, onEnterFrame)
     }
 

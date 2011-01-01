@@ -26,7 +26,7 @@
            file='${FLEX_HOME}/ant/flexTasks.tasks'/>
 
   <target name='clean'>
-    <delete failonerror='false' includeemptydirs='true'>
+    <delete failonerror='false' includeemptydirs='true' verbose='true'>
       <fileset defaultexcludes='false' dir='.'>
         <include name='**/.DS_Store'/>
         <include name='build/'/>

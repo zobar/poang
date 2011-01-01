@@ -36,10 +36,14 @@ public function get bout():Bout {
 }
 public function set bout(value:Bout):void {
   if (bout) {
-    bout.homeTeam.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
-        onHomeTeamPropertyChange)
-    bout.visitorTeam.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
-        onVisitorTeamPropertyChange)
+    if (bout.homeTeam) {
+      bout.homeTeam.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+          onHomeTeamPropertyChange)
+    }
+    if (bout.visitorTeam) {
+      bout.visitorTeam.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+          onVisitorTeamPropertyChange)
+    }
     bout.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
         onBoutPropertyChange)
   }
@@ -65,10 +69,14 @@ public function set bout(value:Bout):void {
     updatePeriods()
     bout.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
         onBoutPropertyChange)
-    bout.homeTeam.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
-        onHomeTeamPropertyChange)
-    bout.visitorTeam.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
-        onVisitorTeamPropertyChange)
+    if (bout.homeTeam) {
+      bout.homeTeam.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+          onHomeTeamPropertyChange)
+    }
+    if (bout.visitorTeam) {
+      bout.visitorTeam.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+          onVisitorTeamPropertyChange)
+    }
   }
 }
 protected var _bout:Bout
@@ -82,8 +90,17 @@ protected var displays:ArrayCollection
 
 protected var helper:WindowHelper
 
-[Bindable]
-public var preferences:Preferences
+public function get library():Library {
+  return _library
+}
+public function set library(value:Library):void {
+  _library = value
+}
+protected var _library:Library
+
+public function get preferences():Preferences {
+  return library.preferences
+}
 
 public function get preferencesWindow():PreferencesWindow {
   return _preferencesWindow
@@ -241,6 +258,7 @@ protected function onApplicationComplete(event:FlexEvent):void {
 
 protected function onBoutPropertyChange(event:PropertyChangeEvent):void {
   var focused:IFocusManagerComponent = focusManager.getFocus()
+  var oldValue:* = event.oldValue
   var property:Object = event.property
   var value:* = event.newValue
   switch (property) {
@@ -274,6 +292,30 @@ protected function onBoutPropertyChange(event:PropertyChangeEvent):void {
     case 'timeoutClock':
       if (timeoutClockField != focused)
         timeoutClockField.text = formatTime(value)
+      break
+
+    case 'homeTeam':
+      if (oldValue) {
+        oldValue.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+            onHomeTeamPropertyChange)
+      }
+      if (value) {
+        value.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+            onHomeTeamPropertyChange)
+      }
+      updateTeamDisplay('home')
+      break
+
+    case 'visitorTeam':
+      if (oldValue) {
+        oldValue.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+            onVisitorTeamPropertyChange)
+      }
+      if (value) {
+        value.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+            onVisitorTeamPropertyChange)
+      }
+      updateTeamDisplay('visitor')
       break
   }
   if (!updates)
@@ -315,10 +357,9 @@ protected function onDisplayLoaderComplete(event:Event):void {
 
 protected function onEnterFrame(event:Event):void {
   var content:DisplayObject = displayGroup.content
-  if (updates && 'update' in content) {
+  if (content && updates && 'update' in content)
     content['update'](updates)
-    updates = null
-  }
+  updates = null
 }
 
 protected function onFieldChange(event:TextOperationEvent):void {
@@ -342,14 +383,13 @@ protected function onFieldFocusOut(event:FocusEvent):void {
 }
 
 protected function onInitialize(event:FlexEvent):void {
-  preferences = new Preferences()
-  if (preferences.complete)
-    onPreferencesComplete(null)
-  preferences.addEventListener(Event.COMPLETE, onPreferencesComplete)
-  helper = new WindowHelper('main', this, preferences)
   displayGroup = new DisplayGroup()
   displays = new ArrayCollection()
   updater = new GithubUpdater('zobar', 'qcrg-scoreboard', 'dist/update.xml')
+  library = new Library()
+  BindingUtils.bindProperty(this, 'bout', library, 'bout')
+  library.addEventListener(Event.COMPLETE, onLibraryComplete)
+  library.load(File.applicationStorageDirectory.resolvePath('library.xml').url)
 }
 
 protected function onIntermissionClockFieldFocusOut(event:FocusEvent):void {
@@ -442,8 +482,22 @@ protected function onKeyDown(event:KeyboardEvent):void {
     event.preventDefault()
 }
 
+protected function onLibraryComplete(event:Event):void {
+  helper = new WindowHelper('main', this, preferences)
+  if (!library.bout)
+    library.newBout()
+  updateScreens()
+  BindingUtils.bindProperty(updater, 'branch', preferences, 'releaseTrack')
+  if (preferences.autoUpdate)
+    updater.check()
+}
+
 protected function onLineupClockFieldFocusOut(event:FocusEvent):void {
   fieldFocusOut(event, 'lineupClock', parseTime, formatTime)
+}
+
+protected function onNewSelect(event:NativeMenuEvent):void {
+  library.newBout()
 }
 
 protected function onPeriodClockFieldFocusOut(event:FocusEvent):void {
@@ -463,14 +517,6 @@ protected function onPeriodListFocusOut(event:FocusEvent):void {
     bout.period = periodList.selectedItem
   else
     periodList.selectedItem = bout.period
-}
-
-protected function onPreferencesComplete(event:Event):void {
-  bout = new Bout()
-  updateScreens()
-  BindingUtils.bindProperty(updater, 'branch', preferences, 'releaseTrack')
-  if (preferences.autoUpdate)
-    updater.check()
 }
 
 protected function onPreferencesSelect(event:NativeMenuEvent):void {
@@ -607,7 +653,7 @@ protected function teamPropertyChange(team:String, property:Object,
 
 protected function updateDisplay(display:*):void {
   if (bout && display && 'update' in display) {
-    display.update({
+    var values:Object = {
       intermissionClock: bout.intermissionClock,
       jam:               bout.jam,
       jamClock:          bout.jamClock,
@@ -618,15 +664,16 @@ protected function updateDisplay(display:*):void {
       timeoutClock:      bout.timeoutClock,
 
       homeJamScore:      bout.homeJamScore,
-      homeName:          bout.homeTeam.name,
       homeScore:         bout.homeScore,
       homeTimeouts:      bout.homeTimeouts,
 
       visitorJamScore:   bout.visitorJamScore,
-      visitorName:       bout.visitorTeam.name,
       visitorScore:      bout.visitorScore,
       visitorTimeouts:   bout.visitorTimeouts
-    })
+    }
+    updateTeamDisplay('home', values)
+    updateTeamDisplay('visitor', values)
+    display.update(values)
   }
 }
 
@@ -635,4 +682,18 @@ protected function updatePeriods():void {
   for (var i:int = 2; i <= bout.periods; ++i)
     p.push(i)
   periods.source = p.concat(-2, -3)
+}
+
+protected function updateTeamDisplay(which:String, values:Object=null):Object {
+  var team:Team = bout[which + 'Team']
+  if (team) {
+    if (!values) {
+      if (!updates)
+        updates = {}
+      values = updates
+    }
+    values[which + 'Image'] = team.image
+    values[which + 'Name'] = team.name
+  }
+  return values
 }

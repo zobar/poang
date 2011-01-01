@@ -12,6 +12,7 @@ package dpk {
   import flash.net.FileFilter
   import flash.net.URLRequest
   import flash.ui.Keyboard
+  import flash.utils.ByteArray
   import mx.managers.IFocusManagerComponent
   import spark.components.supportClasses.SkinnableComponent
 
@@ -33,17 +34,26 @@ package dpk {
     }
     protected var _bitmapData:BitmapData
 
+    [Bindable]
+    public var data:ByteArray
+
     protected function get file():File {
       if (!_file)
         file = new File()
       return _file
     }
     protected function set file(value:File):void {
-      if (_file)
+      if (_file) {
+        _file.removeEventListener(Event.COMPLETE, onFileComplete)
+        _file.removeEventListener(IOErrorEvent.IO_ERROR, onFileIOError)
         _file.removeEventListener(Event.SELECT, onFileSelect)
+      }
       _file = value
-      if (_file)
+      if (_file) {
+        _file.addEventListener(Event.COMPLETE, onFileComplete)
+        _file.addEventListener(IOErrorEvent.IO_ERROR, onFileIOError)
         _file.addEventListener(Event.SELECT, onFileSelect)
+      }
     }
     protected var _file:File
 
@@ -78,13 +88,24 @@ package dpk {
       open()
     }
 
-    protected function onFileSelect(event:Event):void {
+    protected function onFileComplete(event:Event):void {
       var loader:Loader = new Loader()
+      data = file.data
       loader.contentLoaderInfo.addEventListener(Event.COMPLETE,
           onLoaderComplete)
       loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR,
           onLoaderIOError)
-      loader.load(new URLRequest(file.url))
+      loader.loadBytes(data)
+    }
+
+    protected function onFileIOError(event:Event):void {
+      bitmapData = null
+      data = null
+      dispatchEvent(new Event(Event.CHANGE))
+    }
+
+    protected function onFileSelect(event:Event):void {
+      file.load()
     }
 
     protected function onKeyDown(event:KeyboardEvent):void {
@@ -92,6 +113,7 @@ package dpk {
         case Keyboard.BACKSPACE:
         case Keyboard.DELETE:
           bitmapData = null
+          data = null
           dispatchEvent(new Event(Event.CHANGE))
           break
         case Keyboard.ENTER:
@@ -102,22 +124,24 @@ package dpk {
 
     protected function onLoaderComplete(event:Event):void {
       var loaderInfo:LoaderInfo = LoaderInfo(event.currentTarget)
-      var content:DisplayObject = loaderInfo.loader.content
       loaderInfo.removeEventListener(Event.COMPLETE, onLoaderComplete)
       loaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, onLoaderIOError)
+      var content:DisplayObject = loaderInfo.content
       if (content is Bitmap)
         bitmapData = Bitmap(content).bitmapData
-      else
+      else {
         bitmapData = null
+        data = null
+      }
       dispatchEvent(new Event(Event.CHANGE))
     }
 
-    protected function onLoaderIOError(event:Event):void {
+    protected function onLoaderIOError(event:IOErrorEvent):void {
       var loaderInfo:LoaderInfo = LoaderInfo(event.currentTarget)
-      var content:DisplayObject = loaderInfo.loader.content
       loaderInfo.removeEventListener(Event.COMPLETE, onLoaderComplete)
       loaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, onLoaderIOError)
       bitmapData = null
+      data = null
       dispatchEvent(new Event(Event.CHANGE))
     }
 

@@ -1,9 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<s:Window initialize='onInitialize(event)' minHeight='481' minWidth='358'
+<s:Window initialize='onInitialize(event)' minHeight='489' minWidth='470'
     showStatusBar='false'
     title='{bout.name} {/^Mac OS/.test(Capabilities.os) ? "Info" : "Properties"}'
-    xmlns:dpk='dpk.*'
-    xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:dpk='dpk.*' xmlns:fx='http://ns.adobe.com/mxml/2009'
     xmlns:mx='library://ns.adobe.com/flex/mx' xmlns:qcrg='qcrg.*'
     xmlns:s='library://ns.adobe.com/flex/spark'>
   <fx:Script source='PropertiesWindow.mxml.as'/>
@@ -28,13 +27,15 @@
       <s:layout>
         <s:VerticalLayout paddingBottom='6' paddingLeft='6'  paddingRight='6'/>
       </s:layout>
-      <qcrg:TeamEditor height='100%' team='{bout.homeTeam}' width='100%'/>
+      <qcrg:TeamEditor change='onHomeTeamChange(event)' height='100%'
+          team='{bout.homeTeam}' width='100%'/>
     </s:NavigatorContent>
     <s:NavigatorContent height='100%' label='Visitor' width='100%'>
       <s:layout>
         <s:VerticalLayout paddingBottom='6' paddingLeft='6'  paddingRight='6'/>
       </s:layout>
-      <qcrg:TeamEditor height='100%' team='{bout.visitorTeam}' width='100%'/>
+      <qcrg:TeamEditor change='onVisitorTeamChange(event)' height='100%'
+          team='{bout.visitorTeam}' width='100%'/>
     </s:NavigatorContent>
   </mx:TabNavigator>
   <s:HGroup horizontalAlign='right' width='100%'>

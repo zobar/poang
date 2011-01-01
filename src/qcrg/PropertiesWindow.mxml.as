@@ -19,3 +19,12 @@ protected function onNameFieldEvent(event:Event):void {
   bout.name = nameField.text
   nameField.selectAll()
 }
+
+protected function onHomeTeamChange(event:Event):void {
+  bout.homeTeam = TeamEditor(event.currentTarget).team
+}
+
+protected function onVisitorTeamChange(event:Event):void {
+  bout.visitorTeam = TeamEditor(event.currentTarget).team
+}
+

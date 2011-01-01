@@ -1,15 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
-<s:SparkSkin xmlns:dpk='dpk.skins.*' xmlns:fx='http://ns.adobe.com/mxml/2009'
+<dpk:Skin alpha.disabled='.67' xmlns:dpk='dpk.skins.*'
+    xmlns:fx='http://ns.adobe.com/mxml/2009'
     xmlns:s='library://ns.adobe.com/flex/spark'>
   <fx:Metadata><![CDATA[
     [HostComponent('dpk.IconButton')]
   ]]></fx:Metadata>
-  <s:states>
+  <dpk:states>
     <s:State name='up'/>
     <s:State name='over'/>
     <s:State name='down'/>
     <s:State name='disabled'/>
-  </s:states>
+  </dpk:states>
   <dpk:ButtonGraft height='100%' left='0' owner='{this}' top='0' width='100%'/>
   <s:BitmapImage id='iconDisplay' bottom='3' left='3' right='3' top='3'/>
-</s:SparkSkin>
+</dpk:Skin>

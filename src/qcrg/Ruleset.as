@@ -7,12 +7,10 @@ package qcrg {
   import flash.display.LoaderInfo
   import flash.events.Event
   import flash.events.IOErrorEvent
-  import flash.net.URLLoader
+  import flash.filesystem.File
   import flash.net.URLRequest
 
-  [Event(name='complete')]
-  [Event(name='ioError', type='flash.events.IOErrorEvent')]
-  public class Ruleset extends AbstractRuleset {
+  public class Ruleset extends Loadable implements IRuleset {
     protected static var formats:Object = {
       intermissionLength:   formatTime,
       jamLength:            formatTime,
@@ -32,9 +30,15 @@ package qcrg {
       return result
     }
 
-    public function get complete():Boolean {
-      return _xml != null
-    }
+    [Bindable] public var intermissionLength:int
+    [Bindable] public var jamLength:int
+    [Bindable] public var lineupLength:int
+    [Bindable] public var overtimeLineupLength:int
+    [Bindable] public var periodLength:int
+    [Bindable] public var periods:int
+    [Bindable] public var timeoutLength:int
+    [Bindable] public var timeouts:int
+    [Bindable] public var timeoutsPer:String
 
     [Bindable]
     public var icon:BitmapData
@@ -42,15 +46,10 @@ package qcrg {
     [Bindable]
     public var name:String
 
-    protected var url:String
-
-    protected function get xml():XML {
-      return _xml
-    }
-    protected function set xml(value:XML):void {
+    override protected function set xml(value:XML):void {
       icon = null
-      _xml = value
-      if (xml) {
+      super.xml = value
+      if (xml && xml.hasComplexContent()) {
         name = xml.@name
         for each (var ruleName:String in ruleNames)
           this[ruleName] = getXML(ruleName).@value
@@ -64,15 +63,9 @@ package qcrg {
         }
       }
     }
-    protected var _xml:XML
 
     protected static function formatTime(value:int):String {
       return qcrg.formatTime(value, true)
-    }
-
-    public function Ruleset(url:String) {
-      this.url = url
-      new URLLoaderHelper(url, onFileComplete)
     }
 
     public function getDescription(ruleName:String):String {
@@ -93,16 +86,6 @@ package qcrg {
 
     protected function getXML(ruleName:String):XML {
       return XML(xml.rule.(@name==ruleName))
-    }
-
-    protected function onFileComplete(event:Event):void {
-      var loader:URLLoader = URLLoader(event.currentTarget)
-      xml = XML(loader.data)
-      dispatchEvent(event)
-    }
-
-    protected function onFileIOError(event:IOErrorEvent):void {
-      dispatchEvent(event)
     }
 
     protected function onIconLoaderComplete(event:Event):void {

@@ -29,6 +29,8 @@
             select='onQuitSelect(event)'/>
       </dpk:MenuItem>
       <dpk:MenuItem label='File' name='file'>
+        <dpk:MenuItem keyEquivalent='n' label='New'
+            select='onNewSelect(event)'/>
         <dpk:MenuItem keyEquivalent='w' label='Close'
             select='onCloseSelect(event)'/>
         <dpk:Separator/>
