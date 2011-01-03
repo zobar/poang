@@ -11,6 +11,8 @@ package poang {
       setBitmap('image', value)
     }
 
+    [Bindable] public var isJammer:Boolean
+
     override internal function set library(value:Library):void {
       super.library = value
       library.addPerson(this)

@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<s:VGroup xmlns:dpk='dpk.*' xmlns:fx='http://ns.adobe.com/mxml/2009'
+    xmlns:mx='library://ns.adobe.com/flex/mx'
+    xmlns:s='library://ns.adobe.com/flex/spark'>
+  <fx:Script source='TeamViewer.mxml.as'/>
+  <s:HGroup maxWidth='202' verticalAlign='middle' width='100%'>
+    <s:Label lineBreak='toFit' maxDisplayedLines='1' styleName='titleText'
+        text='{team.name}' width='100%'/>
+    <dpk:IconButton click='onEditTeamClick(event)'
+        icon='@Embed("/assets/EditTeam.png")' right='0'/>
+  </s:HGroup>
+  <mx:DataGrid id='personDataGrid' dataProvider='{team.people}'
+      draggableColumns='false' editable='true' height='100%'
+      itemEditBeginning='onPeopleItemEditBeginning(event)'
+      sortableColumns='false' width='202'>
+    <mx:columns>
+      <mx:DataGridColumn dataField='number' editable='false' headerText='#'
+          width='37'/>
+      <mx:DataGridColumn dataField='name' editable='false' headerText='Name'/>
+      <mx:DataGridColumn id='jammerColumn' dataField='isJammer'
+          editorDataField='selected' headerText='★'
+          itemRenderer='dpk.CheckBoxListItemRenderer' rendererIsEditor='true'
+          width='20'/>
+    </mx:columns>
+  </mx:DataGrid>
+</s:VGroup>

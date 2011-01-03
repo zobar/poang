@@ -249,7 +249,7 @@ protected function menuItemForScreen(screen:Screen):MenuItem {
 protected function onApplicationComplete(event:FlexEvent):void {
   var loader:Loader = new Loader()
   loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onDisplayLoaderComplete)
-  loader.load(new URLRequest('QueenCity3.swf'))
+  loader.load(new URLRequest('Framsta.swf'))
   stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown, true)
   // Linux glitch: doesn't adjust layout after adding menu bar.  On other
   // platforms, these should already be equal.
@@ -605,12 +605,55 @@ protected function onUpdateNotificationWindowClose(event:Event):void {
   updateNotificationWindow = null
 }
 
+protected function onHomeJammerPropertyChange(event:PropertyChangeEvent):void {
+  jammerPropertyChange('home', event.property, event.newValue)
+}
+
 protected function onHomeTeamPropertyChange(event:PropertyChangeEvent):void {
-  teamPropertyChange('home', event.property, event.newValue)
+  var property:Object = event.property
+  var value:* = event.newValue
+  if (property == 'jammer') {
+    var oldValue:* = event.oldValue
+    if (oldValue) {
+      oldValue.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+        onHomeJammerPropertyChange)
+    }
+    if (value) {
+      value.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+          onHomeJammerPropertyChange)
+    }
+  }
+  teamPropertyChange('home', event.property, value)
+}
+
+protected function
+    onVisitorJammerPropertyChange(event:PropertyChangeEvent):void {
+  jammerPropertyChange('visitor', event.property, event.newValue)
 }
 
 protected function onVisitorTeamPropertyChange(event:PropertyChangeEvent):void {
-  teamPropertyChange('visitor', event.property, event.newValue)
+  var property:Object = event.property
+  var value:* = event.newValue
+  if (property == 'jammer') {
+    var oldValue:* = event.oldValue
+    if (oldValue) {
+      oldValue.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+        onVisitorJammerPropertyChange)
+    }
+    if (value) {
+      value.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+          onVisitorJammerPropertyChange)
+    }
+  }
+  teamPropertyChange('visitor', event.property, value)
+}
+
+protected function jammerPropertyChange(which:String, property:Object,
+    value:*):void {
+  if (!updates)
+    updates = {}
+  updates[which + 'Jammer' + property.charAt(0).toUpperCase() +
+      property.substring(1)] = value
 }
 
 protected function openDisplay(screen:Screen):void {
@@ -643,12 +686,16 @@ protected function screenMenuItem(screen:Screen,
   return menuItem
 }
 
-protected function teamPropertyChange(team:String, property:Object,
+protected function teamPropertyChange(which:String, property:Object,
     value:*):void {
   if (!updates)
     updates = {}
-  updates[team + property.charAt(0).toUpperCase() + property.substring(1)] =
-      value
+  if (property == 'jammer')
+    updateJammerDisplay(which, updates)
+  else {
+    updates[which + property.charAt(0).toUpperCase() + property.substring(1)] =
+        value
+  }
 }
 
 protected function updateDisplay(display:*):void {
@@ -677,6 +724,26 @@ protected function updateDisplay(display:*):void {
   }
 }
 
+protected function updateJammerDisplay(which:String, values:Object=null):Object {
+  var jammer:Person = bout[which + 'Team'].jammer
+  if (jammer) {
+    if (!values) {
+      if (!updates)
+        updates = {}
+      values = updates
+    }
+    values[which + 'JammerImage'] = jammer.image
+    values[which + 'JammerName'] = jammer.name
+    values[which + 'JammerNumber'] = jammer.number
+  }
+  else {
+    values[which + 'JammerImage'] =
+        values[which + 'JammerName'] =
+        values[which + 'JammerNumber'] = null
+  }
+  return values
+}
+
 protected function updatePeriods():void {
   var p:Array = [0, 1, -1]
   for (var i:int = 2; i <= bout.periods; ++i)
@@ -695,5 +762,8 @@ protected function updateTeamDisplay(which:String, values:Object=null):Object {
     values[which + 'Image'] = team.image
     values[which + 'Name'] = team.name
   }
+  else
+    values[which + 'Image'] = values[which + 'Name'] = null
+  updateJammerDisplay(which, values)
   return values
 }

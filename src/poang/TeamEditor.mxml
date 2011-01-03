@@ -16,9 +16,9 @@
         selectedItem='{team}' width='100%'/>
   </s:HGroup>
   <s:HGroup height='100%' width='100%'>
-    <mx:DataGrid id='personList' dataProvider='{team.people}'
-        draggableColumns='false' editable='true' height='100%'
-        sortableColumns='false' width='202'>
+    <mx:DataGrid id='personList' dataProvider='{team.people}' dragEnabled='true'
+        draggableColumns='false' dragMoveEnabled='true' dropEnabled='true'
+        editable='true' height='100%' sortableColumns='false' width='202'>
       <mx:columns>
         <mx:DataGridColumn dataField='number' editable='false' headerText='#'
             width='37'/>

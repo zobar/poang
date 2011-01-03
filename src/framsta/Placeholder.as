@@ -1,4 +1,4 @@
-package poang {
+package framsta {
   import dpk.fit
   import flash.display.Bitmap
   import flash.display.BitmapData

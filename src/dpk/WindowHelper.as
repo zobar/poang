@@ -1,10 +1,12 @@
 package dpk {
   import flash.display.NativeWindowDisplayState
+  import flash.display.Stage
   import flash.events.Event
   import flash.events.IEventDispatcher
   import flash.geom.Rectangle
   import mx.core.IWindow
-  import mx.events.FlexEvent
+  import mx.core.UIComponent
+  import mx.events.AIREvent
   import mx.events.FlexNativeWindowBoundsEvent
 
   public class WindowHelper {
@@ -26,33 +28,38 @@ package dpk {
       _name = name
       this.preferences = preferences
       _window = window
-      w.addEventListener(FlexEvent.CREATION_COMPLETE, onCreationComplete)
+      w.addEventListener(AIREvent.WINDOW_COMPLETE, onWindowComplete)
       w.addEventListener(Event.CLOSE, onWindowClose)
-    }
-
-    protected function onCreationComplete(event:FlexEvent):void {
-      var w:IEventDispatcher = IEventDispatcher(window)
-      w.removeEventListener(FlexEvent.CREATION_COMPLETE, onCreationComplete)
-      if (preferences[name + 'WindowMaximized'])
-        window.maximize()
-      else {
-        var windowBounds:Rectangle = preferences[name + 'Window']
-        if (windowBounds)
-          window.nativeWindow.bounds = windowBounds
-      }
-      w.addEventListener(FlexNativeWindowBoundsEvent.WINDOW_MOVE,
-          onWindowMove)
-      w.addEventListener(FlexNativeWindowBoundsEvent.WINDOW_RESIZE,
-          onWindowResize)
     }
 
     protected function onWindowClose(event:Event):void {
       var w:IEventDispatcher = IEventDispatcher(window)
-      w.removeEventListener(FlexEvent.CREATION_COMPLETE, onCreationComplete)
+      w.removeEventListener(AIREvent.WINDOW_COMPLETE, onWindowComplete)
       w.removeEventListener(Event.CLOSE, onWindowClose)
       w.removeEventListener(FlexNativeWindowBoundsEvent.WINDOW_MOVE,
           onWindowMove)
       w.removeEventListener(FlexNativeWindowBoundsEvent.WINDOW_RESIZE,
+          onWindowResize)
+    }
+
+    protected function onWindowComplete(event:AIREvent):void {
+      var w:IEventDispatcher = IEventDispatcher(window)
+      w.removeEventListener(AIREvent.WINDOW_COMPLETE, onWindowComplete)
+      if (preferences[name + 'WindowMaximized'])
+        window.maximize()
+      else {
+        var windowBounds:Rectangle = preferences[name + 'Window']
+        if (windowBounds) {
+          var component:UIComponent = UIComponent(window)
+          var stage:Stage = component.stage
+          window.nativeWindow.bounds = windowBounds
+          component.height = stage.stageHeight
+          component.width = stage.stageWidth
+        }
+      }
+      w.addEventListener(FlexNativeWindowBoundsEvent.WINDOW_MOVE,
+          onWindowMove)
+      w.addEventListener(FlexNativeWindowBoundsEvent.WINDOW_RESIZE,
           onWindowResize)
     }
 

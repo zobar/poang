@@ -52,6 +52,11 @@ package dpk {
     }
     protected var _complete:Boolean
 
+    public function get excludes():RegExp {
+      return _excludes
+    }
+    protected var _excludes:RegExp
+
     public function get file():File {
       return _file
     }
@@ -78,7 +83,8 @@ package dpk {
     protected var _user:String
 
     public function GithubUpdater(user:String, repository:String,
-        path:String):void {
+        path:String, excludes:RegExp=null):void {
+      _excludes = excludes || /^gh-pages$/
       _path = path
       _repository = repository
       _user = user
@@ -112,8 +118,11 @@ package dpk {
       var branchNames:Array = []
       var loader:URLLoader = URLLoader(event.currentTarget)
       var data:XML = XML(loader.data)
-      for each (var branch:XML in XML(loader.data).children())
-        branchNames.push(branch.name().toString())
+      for each (var branch:XML in XML(loader.data).children()) {
+        var name:String = branch.name().toString()
+        if (!excludes.test(name))
+          branchNames.push(name)
+      }
       branches.source = branchNames
     }
 

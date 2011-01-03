@@ -33,6 +33,8 @@
         <include name='dist/'/>
       </fileset>
     </delete>
+    <chmod dir='.' includes='**/*' perm='755' type='dir'/>
+    <chmod dir='.' includes='**/*' perm='644' type='file'/>
   </target>
 
   <target name='build' depends='xslt.temp'>

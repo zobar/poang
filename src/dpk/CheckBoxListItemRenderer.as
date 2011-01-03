@@ -32,8 +32,9 @@ package dpk {
 
     override public function validateProperties():void {
       if (dataChanged && listData && 'dataField' in listData) {
+        var dataField:String = listData['dataField']
         dataChanged = false
-        selected = data && data[listData['dataField']]
+        selected = data && dataField in data && data[dataField]
       }
       super.validateProperties()
     }

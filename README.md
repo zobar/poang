@@ -1,5 +1,5 @@
-POÄNG
-=====
+POÄNG roller derby scoreboard
+=============================
 
 by Z, [Queen City Roller Girls](http://qcrg.net)
 ------------------------------------------------

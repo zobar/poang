@@ -32,7 +32,6 @@ package poang {
       return _bout
     }
     public function set bout(value:Bout):void {
-      trace('setting bout to ' + value)
       if (value != bout) {
         if (bout)
           removeItem(bout)
@@ -129,6 +128,11 @@ package poang {
     public function getObject(uid:String, element:XML=null):LibraryItem {
       var item:LibraryItem = objects[uid]
       var updated:Date
+      if (!item) {
+        var elements:XMLList = xml.*.(@id == uid)
+        if (elements.length)
+          element = elements[0]
+      }
       if (element) {
         if (!item)
           item = createObject(element)

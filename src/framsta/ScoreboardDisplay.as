@@ -1,17 +1,24 @@
-package poang {
+package framsta {
   import flash.display.BitmapData
   import flash.display.MovieClip
+  import poang.formatTime
 
   public dynamic class ScoreboardDisplay extends MovieClip {
     protected var values:Object
 
     public function update(newValues:Object):void {
+      var property:String
       if (values) {
-        for (var property:String in newValues)
+        for (property in newValues) {
+          trace(property + ' -> ' + newValues[property])
           values[property] = newValues[property]
+        }
       }
-      else
+      else {
+        for (property in newValues)
+          trace(property + ' = ' + newValues[property])
         values = newValues
+      }
       if ('intermissionClock' in newValues)
         updateIntermissionClock(newValues.intermissionClock)
       if ('jam' in newValues)
@@ -31,6 +38,12 @@ package poang {
 
       if ('homeImage' in newValues)
         updateHomeImage(newValues.homeImage)
+      if ('homeJammerImage' in newValues)
+        updateHomeJammerImage(newValues.homeJammerImage)
+      if ('homeJammerName' in newValues)
+        updateHomeJammerName(newValues.homeJammerName)
+      if ('homeJammerNumber' in newValues)
+        updateHomeJammerNumber(newValues.homeJammerNumber)
       if ('homeJamScore' in newValues)
         updateHomeJamScore(newValues.homeJamScore)
       if ('homeName' in newValues)
@@ -42,6 +55,12 @@ package poang {
 
       if ('visitorImage' in newValues)
         updateVisitorImage(newValues.visitorImage)
+      if ('visitorJammerImage' in newValues)
+        updateVisitorJammerImage(newValues.visitorJammerImage)
+      if ('visitorJammerName' in newValues)
+        updateVisitorJammerName(newValues.visitorJammerName)
+      if ('visitorJammerNumber' in newValues)
+        updateVisitorJammerNumber(newValues.visitorJammerNumber)
       if ('visitorJamScore' in newValues)
         updateVisitorJamScore(newValues.visitorJamScore)
       if ('visitorName' in newValues)
@@ -90,6 +109,7 @@ package poang {
     }
 
     protected function updateLeadJammer(value:String):void {
+      var jammerImagesVisible:Boolean = !value
       if ('homeLeadJammerIndicator' in this) {
         var homeLeadJammerIndicator:MovieClip = this.homeLeadJammerIndicator
         if (value == Team.HOME) {
@@ -115,6 +135,10 @@ package poang {
           visitorLeadJammerIndicator.visible = false
         }
       }
+      if ('homeJammerImagePlaceholder' in this)
+        this.homeJammerImagePlaceholder.visible = jammerImagesVisible
+      if ('visitorJammerImagePlaceholder' in this)
+        this.visitorJammerImagePlaceholder.visible = jammerImagesVisible
     }
 
     protected function updateLineupClock(value:int):void {
@@ -199,6 +223,21 @@ package poang {
         this.homeNameField.visible = !value
     }
 
+    protected function updateHomeJammerImage(value:BitmapData):void {
+      if ('homeJammerImagePlaceholder' in this)
+        this.homeJammerImagePlaceholder.bitmapData = value
+    }
+
+    protected function updateHomeJammerName(value:String):void {
+      if ('homeJammerNameField' in this)
+        this.homeJammerNameField.text = value ? value : ''
+    }
+
+    protected function updateHomeJammerNumber(value:String):void {
+      if ('homeJammerNumberField' in this)
+        this.homeJammerNumberField.text = value ? value : ''
+    }
+
     protected function updateHomeJamScore(value:int):void {
       if ('homeJamScoreField' in this)
         this.homeJamScoreField.text = value ? value : ''
@@ -224,6 +263,21 @@ package poang {
         this.visitorImagePlaceholder.bitmapData = value
       if ('visitorNameField' in this)
         this.visitorNameField.visible = !value
+    }
+
+    protected function updateVisitorJammerImage(value:BitmapData):void {
+      if ('visitorJammerImagePlaceholder' in this)
+        this.visitorJammerImagePlaceholder.bitmapData = value
+    }
+
+    protected function updateVisitorJammerName(value:String):void {
+      if ('visitorJammerNameField' in this)
+        this.visitorJammerNameField.text = value ? value : ''
+    }
+
+    protected function updateVisitorJammerNumber(value:String):void {
+      if ('visitorJammerNumberField' in this)
+        this.visitorJammerNumberField.text = value ? value : ''
     }
 
     protected function updateVisitorJamScore(value:int):void {

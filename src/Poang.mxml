@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='utf-8'?>
 <s:WindowedApplication applicationComplete='onApplicationComplete(event)'
     autoExit='false' close='onClose(event)' enterFrame='onEnterFrame(event)'
-    frameRate='20' height='368' initialize='onInitialize(event)'
-    minHeight='393' minWidth='346' preinitialize='onPreinitialize(event)'
-    showStatusBar='false' title='{bout.name}' width='346' xmlns:dpk='dpk.*'
+    frameRate='20' initialize='onInitialize(event)' minHeight='393'
+    minWidth='774' preinitialize='onPreinitialize(event)' showStatusBar='false'
+    title='{bout.name}' xmlns:dpk='dpk.*'
     xmlns:fx='http://ns.adobe.com/mxml/2009'
     xmlns:mx='library://ns.adobe.com/flex/mx' xmlns:poang='poang.*'
     xmlns:s='library://ns.adobe.com/flex/spark'>
   <fx:Script source='Poang.mxml.as'/>
   <fx:Style source='/assets/Poang.css'/>
   <s:layout>
-    <s:VerticalLayout horizontalAlign='center' paddingBottom='12'
-        paddingLeft='12' paddingRight='12' paddingTop='6'/>
+    <s:HorizontalLayout gap='12' paddingBottom='12' paddingLeft='12'
+        paddingRight='12' paddingTop='6'/>
   </s:layout>
   <s:menu>
     <dpk:NativeMenu>
@@ -70,62 +70,67 @@
       </dpk:MenuItem>
     </dpk:NativeMenu>
   </s:menu>
-  <s:Group height='100%' width='100%'>
-    <s:layout>
-      <dpk:AspectRatioLayout adjustHeight='2' adjustWidth='2'/>
-    </s:layout>
-    <s:BorderContainer id='preview' height='100%'
-        resize='onPreviewResize(event)' width='100%'>
-      <poang:Display group='{displayGroup}' height='100%' width='100%'/>
-    </s:BorderContainer>
-  </s:Group>
-  <s:HGroup gap='12'>
-    <s:VGroup width='138'>
-      <s:HGroup verticalAlign='middle' width='100%'>
-        <s:Label text='Clock:' width='39'/>
-        <s:TextInput id='periodClockField' focusIn='onFieldFocusIn(event)'
-            focusOut='onPeriodClockFieldFocusOut(event)' restrict='0-9'
-            width='100%'/>
-      </s:HGroup>
-      <s:HGroup verticalAlign='middle' width='100%'>
-        <s:Label text='Period:' width='39'/>
-        <s:DropDownList id='periodList' change='onPeriodListChange(event)'
-            dataProvider='{periods}' focusIn='onPeriodListFocusIn(event)'
-            focusOut='onPeriodListFocusOut(event)'
-            labelFunction='periodListLabelFunction' width='100%'/>
-      </s:HGroup>
-      <s:HGroup verticalAlign='middle' width='100%'>
-        <s:Label text='Jam #:' width='39'/>
-        <s:TextInput id='jamField' focusIn='onFieldFocusIn(event)'
-            focusOut='onJamFieldFocusOut(event)' restrict='0-9'
-            width='100%'/>
-      </s:HGroup>
-    </s:VGroup>
-    <s:VGroup width='170'>
-      <s:HGroup verticalAlign='middle' width='100%'>
-        <s:Label text='Jam:' width='72'/>
-        <s:TextInput id='jamClockField' focusIn='onFieldFocusIn(event)'
-            focusOut='onJamClockFieldFocusOut(event)' restrict='0-9'
-            width='100%'/>
-      </s:HGroup>
-      <s:HGroup verticalAlign='middle' width='100%'>
-        <s:Label text='Lineup:' width='72'/>
-        <s:TextInput id='lineupClockField' focusIn='onFieldFocusIn(event)'
-            focusOut='onLineupClockFieldFocusOut(event)' restrict='0-9'
-            width='100%'/>
-      </s:HGroup>
-      <s:HGroup verticalAlign='middle' width='100%'>
-        <s:Label text='Timeout:' width='72'/>
-        <s:TextInput id='timeoutClockField' focusIn='onFieldFocusIn(event)'
-            focusOut='onTimeoutClockFieldFocusOut(event)' restrict='0-9'
-            width='100%'/>
-      </s:HGroup>
-      <s:HGroup verticalAlign='middle' width='100%'>
-        <s:Label text='Intermission:' width='72'/>
-        <s:TextInput id='intermissionClockField' focusIn='onFieldFocusIn(event)'
-            focusOut='onIntermissionClockFieldFocusOut(event)' restrict='0-9'
-            width='100%'/>
-      </s:HGroup>
-    </s:VGroup>
-  </s:HGroup>
+  <s:VGroup height='100%' horizontalAlign='center' width='100%'>
+    <s:Group height='100%' width='100%'>
+      <s:layout>
+        <dpk:AspectRatioLayout adjustHeight='2' adjustWidth='2'/>
+      </s:layout>
+      <s:BorderContainer id='preview' height='100%'
+          resize='onPreviewResize(event)' width='100%'>
+        <poang:Display group='{displayGroup}' height='100%' width='100%'/>
+      </s:BorderContainer>
+    </s:Group>
+    <s:HGroup gap='12'>
+      <s:VGroup width='139'>
+        <s:HGroup verticalAlign='middle' width='100%'>
+          <s:Label text='Clock:' width='39'/>
+          <s:TextInput id='periodClockField' focusIn='onFieldFocusIn(event)'
+              focusOut='onPeriodClockFieldFocusOut(event)' restrict='0-9'
+              width='100%'/>
+        </s:HGroup>
+        <s:HGroup verticalAlign='middle' width='100%'>
+          <s:Label text='Period:' width='39'/>
+          <s:DropDownList id='periodList' change='onPeriodListChange(event)'
+              dataProvider='{periods}' focusIn='onPeriodListFocusIn(event)'
+              focusOut='onPeriodListFocusOut(event)'
+              labelFunction='periodListLabelFunction' width='100%'/>
+        </s:HGroup>
+        <s:HGroup verticalAlign='middle' width='100%'>
+          <s:Label text='Jam #:' width='39'/>
+          <s:TextInput id='jamField' focusIn='onFieldFocusIn(event)'
+              focusOut='onJamFieldFocusOut(event)' restrict='0-9'
+              width='100%'/>
+        </s:HGroup>
+      </s:VGroup>
+      <s:VGroup width='171'>
+        <s:HGroup verticalAlign='middle' width='100%'>
+          <s:Label text='Jam:' width='72'/>
+          <s:TextInput id='jamClockField' focusIn='onFieldFocusIn(event)'
+              focusOut='onJamClockFieldFocusOut(event)' restrict='0-9'
+              width='100%'/>
+        </s:HGroup>
+        <s:HGroup verticalAlign='middle' width='100%'>
+          <s:Label text='Lineup:' width='72'/>
+          <s:TextInput id='lineupClockField' focusIn='onFieldFocusIn(event)'
+              focusOut='onLineupClockFieldFocusOut(event)' restrict='0-9'
+              width='100%'/>
+        </s:HGroup>
+        <s:HGroup verticalAlign='middle' width='100%'>
+          <s:Label text='Timeout:' width='72'/>
+          <s:TextInput id='timeoutClockField' focusIn='onFieldFocusIn(event)'
+              focusOut='onTimeoutClockFieldFocusOut(event)' restrict='0-9'
+              width='100%'/>
+        </s:HGroup>
+        <s:HGroup verticalAlign='middle' width='100%'>
+          <s:Label text='Intermission:' width='72'/>
+          <s:TextInput id='intermissionClockField'
+              focusIn='onFieldFocusIn(event)'
+              focusOut='onIntermissionClockFieldFocusOut(event)' restrict='0-9'
+              width='100%'/>
+        </s:HGroup>
+      </s:VGroup>
+    </s:HGroup>
+  </s:VGroup>
+  <poang:TeamViewer height='100%' team='{bout.homeTeam}'/>
+  <poang:TeamViewer height='100%' team='{bout.visitorTeam}'/>
 </s:WindowedApplication>

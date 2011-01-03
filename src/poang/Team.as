@@ -17,6 +17,19 @@ package poang {
     }
 
     [Bindable]
+    public function get jammer():Person {
+      return _jammer
+    }
+    public function set jammer(value:Person):void {
+      if (jammer)
+        jammer.isJammer = false
+      _jammer = value
+      if (jammer)
+        jammer.isJammer = true
+    }
+    protected var _jammer:Person
+
+    [Bindable]
     public function get name():String {
       return getString('name')
     }

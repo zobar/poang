@@ -32,7 +32,7 @@ package poang {
       if (jamClock)
         _leadJammer = value
       else
-        _leadJammer = Team.NONE
+        _leadJammer = null
     }
     protected var _leadJammer:String
 
@@ -180,7 +180,7 @@ package poang {
       intermissionClock = 0
       _jamClock = 0
       lastPeriod = 0
-      leadJammer = Team.NONE
+      leadJammer = null
       _lineupClock = 0
       officialTimeout = false
       period = Period.NONE
@@ -235,9 +235,10 @@ package poang {
               visitorJamScore = 0
             }
             else {
-              // Start lineup
+              // End Jam / Start lineup
+              homeTeam.jammer = visitorTeam.jammer = null
               _jamClock = 0
-              leadJammer = Team.NONE
+              leadJammer = null
               if (_periodClock < lineupLength)
                 _lineupClock = _periodClock
               else
@@ -296,6 +297,18 @@ package poang {
         propertiesWindow.bout = this
         propertiesWindow.open()
         propertiesWindow.setFocus()
+      }
+    }
+
+    public function editTeam(team:Team):void {
+      var index:int
+      if (team == homeTeam)
+        index = 1
+      else if (team == visitorTeam)
+        index = 2
+      if (index) {
+        editProperties()
+        propertiesWindow.tabs.selectedIndex = index
       }
     }
 
