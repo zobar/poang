@@ -7,9 +7,8 @@ package framsta {
     protected var values:Object
 
     public function update(newValues:Object):void {
-      var property:String
       if (values) {
-        for (property in newValues)
+        for (var property:String in newValues)
           values[property] = newValues[property]
       }
       else

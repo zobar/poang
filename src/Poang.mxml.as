@@ -249,7 +249,8 @@ protected function menuItemForScreen(screen:Screen):MenuItem {
 protected function onApplicationComplete(event:FlexEvent):void {
   var loader:Loader = new Loader()
   loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onDisplayLoaderComplete)
-  loader.load(new URLRequest('Framsta.swf'))
+//  loader.load(new URLRequest('Framsta.swf'))
+  loader.load(new URLRequest('IntroHome.swf'))
   stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown, true)
   // Linux glitch: doesn't adjust layout after adding menu bar.  On other
   // platforms, these should already be equal.
