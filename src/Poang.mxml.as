@@ -387,7 +387,6 @@ protected function onInitialize(event:FlexEvent):void {
   displays = new ArrayCollection()
   updater = new GithubUpdater('zobar', 'poang', 'dist/update.xml')
   library = new Library()
-  BindingUtils.bindProperty(this, 'bout', library, 'bout')
   library.addEventListener(Event.COMPLETE, onLibraryComplete)
   library.load(File.applicationStorageDirectory.resolvePath('library.xml').url)
 }
@@ -431,15 +430,15 @@ protected function onKeyDown(event:KeyboardEvent):void {
       bout.homeTimeouts = Math.max(bout.homeTimeouts - 1, 0)
       break
     case Keyboard.G:
-      if (bout.jamClock)
+      if (bout.jamClock && bout.period > 0)
         bout.leadJammer = Team.HOME
       break
     case Keyboard.H:
-      if (bout.jamClock)
+      if (bout.jamClock && bout.period > 0)
         bout.leadJammer = Team.NONE
       break
     case Keyboard.J:
-      if (bout.jamClock)
+      if (bout.jamClock && bout.period > 0)
         bout.leadJammer = Team.VISITOR
       break
     case Keyboard.N:
@@ -484,6 +483,7 @@ protected function onKeyDown(event:KeyboardEvent):void {
 
 protected function onLibraryComplete(event:Event):void {
   helper = new WindowHelper('main', this, preferences)
+  BindingUtils.bindProperty(this, 'bout', library, 'bout')
   if (!library.bout)
     library.newBout()
   updateScreens()

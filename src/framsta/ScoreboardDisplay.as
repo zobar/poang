@@ -9,16 +9,12 @@ package framsta {
     public function update(newValues:Object):void {
       var property:String
       if (values) {
-        for (property in newValues) {
-          trace(property + ' -> ' + newValues[property])
-          values[property] = newValues[property]
-        }
-      }
-      else {
         for (property in newValues)
-          trace(property + ' = ' + newValues[property])
-        values = newValues
+          values[property] = newValues[property]
       }
+      else
+        values = newValues
+
       if ('intermissionClock' in newValues)
         updateIntermissionClock(newValues.intermissionClock)
       if ('jam' in newValues)
@@ -75,152 +71,227 @@ package framsta {
       return poang.formatTime(value)
     }
 
-    protected function updateIntermissionClock(value:int):void {
-      var visible:Boolean = value && values.period <= 0
-      if ('intermissionClockField' in this) {
-        var intermissionClockField:* = this.intermissionClockField
-        intermissionClockField.text = formatTime(value)
-        intermissionClockField.visible = visible
-      }
+    protected function get intermissionClockVisible():Boolean {
+      return values.intermissionClock && values.period <= 0
+    }
+
+    protected function get jamClockVisible():Boolean {
+      return values.jamClock && !values.lineupClock && !values.timeoutClock
+    }
+
+    protected function get jamVisible():Boolean {
+      return values.jam
+    }
+
+    protected function get lineupClockVisible():Boolean {
+      return values.lineupClock &&
+          (!values.timeoutClock || values.period == Period.OVERTIME)
+    }
+
+    protected function get periodClockVisible():Boolean {
+      return values.periodClock
+    }
+
+    protected function get periodVisible():Boolean {
+      return values.period <= 0
+    }
+
+    protected function get periodNumberVisible():Boolean {
+      return values.period > 0
+    }
+
+    protected function get timeoutClockVisible():Boolean {
+      return values.timeoutClock && values.period != Period.OVERTIME
+    }
+
+    protected function get timeoutsVisible():Boolean {
+      return values.period > 0
+    }
+
+    protected function get homeJammerImageVisible():Boolean {
+      return true
+    }
+
+    protected function get homeLeadJammerVisible():Boolean {
+      return values.leadJammer == Team.HOME
+    }
+
+    protected function get homeNameVisible():Boolean {
+      return true
+    }
+
+    protected function get visitorJammerImageVisible():Boolean {
+      return true
+    }
+
+    protected function get visitorLeadJammerVisible():Boolean {
+      return values.leadJammer == Team.VISITOR
+    }
+
+    protected function get visitorNameVisible():Boolean {
+      return true
+    }
+
+    protected function showIntermissionClock(visible:Boolean):void {
+      if ('intermissionClockField' in this)
+        this.intermissionClockField.visible = visible
       if ('intermissionClockLabel' in this)
         this.intermissionClockLabel.visible = visible
     }
 
-    protected function updateJam(value:int):void {
-      var visible:Boolean = Boolean(value)
-      if ('jamField' in this) {
-        var jamField:* = this.jamField
-        jamField.text = value
-        jamField.visible = visible
-      }
+    protected function showJam(visible:Boolean):void {
+      if ('jamField' in this)
+        this.jamField.visible = visible
       if ('jamLabel' in this)
         this.jamLabel.visible = visible
     }
 
-    protected function updateJamClock(value:int):void {
-      var visible:Boolean = value && !values.lineupClock && !values.timeoutClock
-      if ('jamClockField' in this) {
-        var jamClockField:* = this.jamClockField
-        jamClockField.text = formatTime(value)
-        jamClockField.visible = visible
-      }
+    protected function showJamClock(visible:Boolean):void {
+      if ('jamClockField' in this)
+        this.jamClockField.visible = visible
       if ('jamClockLabel' in this)
         this.jamClockLabel.visible = visible
     }
 
-    protected function updateLeadJammer(value:String):void {
-      var jammerImagesVisible:Boolean = !value
-      if ('homeLeadJammerIndicator' in this) {
-        var homeLeadJammerIndicator:MovieClip = this.homeLeadJammerIndicator
-        if (value == Team.HOME) {
-          homeLeadJammerIndicator.gotoAndPlay(1)
-          homeLeadJammerIndicator.visible = true
-        }
-        else {
-          homeLeadJammerIndicator.gotoAndStop(
-              homeLeadJammerIndicator.totalFrames)
-          homeLeadJammerIndicator.visible = false
-        }
-      }
-      if ('visitorLeadJammerIndicator' in this) {
-        var visitorLeadJammerIndicator:MovieClip =
-            this.visitorLeadJammerIndicator
-        if (value == Team.VISITOR) {
-          visitorLeadJammerIndicator.gotoAndPlay(1)
-          visitorLeadJammerIndicator.visible = true
-        }
-        else {
-          visitorLeadJammerIndicator.gotoAndStop(
-              visitorLeadJammerIndicator.totalFrames)
-          visitorLeadJammerIndicator.visible = false
-        }
-      }
-      if ('homeJammerImagePlaceholder' in this)
-        this.homeJammerImagePlaceholder.visible = jammerImagesVisible
-      if ('visitorJammerImagePlaceholder' in this)
-        this.visitorJammerImagePlaceholder.visible = jammerImagesVisible
-    }
-
-    protected function updateLineupClock(value:int):void {
-      var jamClock:int = values.jamClock
-      var visible:Boolean = Boolean(value) && (!values.timeoutClock || values.period == Period.OVERTIME)
-      var jamClockVisible:Boolean = jamClock && !value && !visible
-      if ('jamClockField' in this)
-        this.jamClockField.visible = jamClockVisible
-      if ('jamClockLabel' in this)
-        this.jamClockLabel.visible = jamClockVisible
-      if ('lineupClockField' in this) {
-        var lineupClockField:* = this.lineupClockField
-        lineupClockField.text = formatTime(value)
-        lineupClockField.visible = visible
-      }
+    protected function showLineupClock(visible:Boolean):void {
+      if ('lineupClockField' in this)
+        this.lineupClockField.visible = visible
       if ('lineupClockLabel' in this)
         this.lineupClockLabel.visible = visible
     }
 
+    protected function showPeriod(visible:Boolean):void {
+      if ('periodField' in this)
+        this.periodField.visible = visible
+    }
+
+    protected function showPeriodClock(visible:Boolean):void {
+      if ('periodClockField' in this)
+        this.periodClockField.visible = visible
+    }
+
+    protected function showPeriodNumber(visible:Boolean):void {
+      if ('periodNumberField' in this)
+        this.periodNumberField.visible = visible
+      if ('periodLabel' in this)
+        this.periodLabel.visible = visible
+    }
+
+    protected function showTimeoutClock(visible:Boolean):void {
+      if ('timeoutClockField' in this)
+        this.timeoutClockField.visible = visible
+      if ('timeoutClockLabel' in this)
+        this.timeoutClockLabel.visible = visible
+    }
+
+    protected function showTimeouts(visible:Boolean):void {
+      if ('timeoutsLabel' in this)
+        this.timeoutsLabel.visible = visible
+      if ('homeTimeoutsField' in this)
+        this.homeTimeoutsField.visible = visible
+      if ('visitorTimeoutsField' in this)
+        this.visitorTimeoutsField.visible = visible
+    }
+
+    protected function showHomeJammerImage(visible:Boolean):void {
+      if ('homeJammerImagePlaceholder' in this)
+        this.homeJammerImagePlaceholder.visible = visible
+    }
+
+    protected function showHomeJammerName(visible:Boolean):void {
+      if ('homeJammerNameField' in this)
+        this.homeJammerNameField.visible = visible
+    }
+
+    protected function showHomeLeadJammer(visible:Boolean):void {
+      if ('homeLeadJammerIndicator' in this)
+        this.homeLeadJammerIndicator.visible = visible
+    }
+
+    protected function showHomeName(visible:Boolean):void {
+      if ('homeNameField' in this)
+        this.homeNameField.visible = visible
+    }
+
+    protected function showVisitorJammerImage(visible:Boolean):void {
+      if ('visitorJammerImagePlaceholder' in this)
+        this.visitorJammerImagePlaceholder.visible = visible
+    }
+
+    protected function showVisitorJammerName(visible:Boolean):void {
+      if ('visitorJammerNameField' in this)
+        this.visitorJammerNameField.visible = visible
+    }
+
+    protected function showVisitorLeadJammer(visible:Boolean):void {
+      if ('visitorLeadJammerIndicator' in this)
+        this.visitorLeadJammerIndicator.visible = visible
+    }
+
+    protected function showVisitorName(visible:Boolean):void {
+      if ('visitorNameField' in this)
+        this.visitorNameField.visible = visible
+    }
+
+    protected function updateIntermissionClock(value:int):void {
+      if ('intermissionClockField' in this)
+        this.intermissionClockField.text = formatTime(value)
+      showIntermissionClock(intermissionClockVisible)
+    }
+
+    protected function updateJam(value:int):void {
+      if ('jamField' in this)
+        this.jamField.text = value
+      showJam(jamVisible)
+    }
+
+    protected function updateJamClock(value:int):void {
+      if ('jamClockField' in this)
+        this.jamClockField.text = formatTime(value)
+      showJamClock(jamClockVisible)
+    }
+
+    protected function updateLeadJammer(value:String):void {
+      showHomeLeadJammer(homeLeadJammerVisible)
+      showVisitorLeadJammer(visitorLeadJammerVisible)
+    }
+
+    protected function updateLineupClock(value:int):void {
+      if ('lineupClockField' in this)
+        this.lineupClockField.text = formatTime(value)
+      showJamClock(jamClockVisible)
+      showLineupClock(lineupClockVisible)
+    }
+
     protected function updatePeriod(value:int):void {
-      var periodField:* = 'periodField' in this ? this.periodField : null
-      var periodLabel:* = 'periodLabel' in this ? this.periodLabel : null
-      var periodNumberField:* = 'periodNumberField' in this ?
-          this.periodNumberField : null
-      if (value > 0) {
-        if (periodField)
-          periodField.visible = false
-        if (periodLabel)
-          periodLabel.visible = true
-        if (periodNumberField) {
-          periodNumberField.text = value
-          periodNumberField.visible = true
-        }
-      }
-      else {
-        if (periodField) {
-          periodField.text = Period.toString(value)
-          periodField.visible = true
-        }
-        if (periodLabel)
-          periodLabel.visible = false
-        if (periodNumberField)
-          periodNumberField.visible = false
-      }
+      if (value > 0)
+        this.periodNumberField.text = value
+      this.periodField.text = Period.toString(value)
+      showIntermissionClock(intermissionClockVisible)
+      showLineupClock(lineupClockVisible)
+      showPeriod(periodVisible)
+      showPeriodNumber(periodNumberVisible)
+      showTimeoutClock(timeoutClockVisible)
+      showTimeouts(timeoutsVisible)
     }
 
     protected function updatePeriodClock(value:int):void {
-      var visible:Boolean = Boolean(value)
-      if ('periodClockField' in this) {
-        var periodClockField:* = this.periodClockField
-        periodClockField.text = formatTime(value)
-        periodClockField.visible = visible
-      }
+      if ('periodClockField' in this)
+        this.periodClockField.text = formatTime(value)
+      showPeriodClock(periodClockVisible)
     }
 
     protected function updateTimeoutClock(value:int):void {
-      var lineupClock:int = values.lineupClock
-      var visible:Boolean = Boolean(value) && values.period != Period.OVERTIME
-      var jamClockVisible:Boolean = values.jamClock && !lineupClock && !visible
-      var lineupClockVisible:Boolean = lineupClock && !visible
-      if ('jamClockField' in this)
-        this.jamClockField.visible = jamClockVisible
-      if ('jamClockLabel' in this)
-        this.jamClockLabel.visible = jamClockVisible
-      if ('lineupClockField' in this)
-        this.lineupClockField.visible = lineupClockVisible
-      if ('lineupClockLabel' in this)
-        this.lineupClockLabel.visible = lineupClockVisible
-      if ('timeoutClockField' in this) {
-        var timeoutClockField:* = this.timeoutClockField
-        timeoutClockField.text = formatTime(value)
-        timeoutClockField.visible = visible
-      }
-      if ('timeoutClockLabel' in this)
-        this.timeoutClockLabel.visible = visible
+      if ('timeoutClockField' in this)
+        this.timeoutClockField.text = formatTime(value)
+      showJamClock(jamClockVisible)
+      showLineupClock(lineupClockVisible)
+      showTimeoutClock(timeoutClockVisible)
     }
 
     protected function updateHomeImage(value:BitmapData):void {
       if ('homeImagePlaceholder' in this)
         this.homeImagePlaceholder.bitmapData = value
-      if ('homeNameField' in this)
-        this.homeNameField.visible = !value
     }
 
     protected function updateHomeJammerImage(value:BitmapData):void {
@@ -261,8 +332,6 @@ package framsta {
     protected function updateVisitorImage(value:BitmapData):void {
       if ('visitorImagePlaceholder' in this)
         this.visitorImagePlaceholder.bitmapData = value
-      if ('visitorNameField' in this)
-        this.visitorNameField.visible = !value
     }
 
     protected function updateVisitorJammerImage(value:BitmapData):void {

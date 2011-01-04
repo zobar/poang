@@ -80,7 +80,15 @@ package poang {
     }
 
     [Bindable]
-    public var timeoutClock:int
+    public function get timeoutClock():int {
+      return _timeoutClock
+    }
+    public function set timeoutClock(value:int):void {
+      _timeoutClock = value
+      if (timeoutClock)
+        periodClockRunning = false
+    }
+    protected var _timeoutClock:int
 
     [Bindable]
     public function get name():String {
@@ -201,6 +209,8 @@ package poang {
             // OT: End jam
             _periodClock = 0
             _jamClock = 0
+            homeTeam.jammer = null
+            visitorTeam.jammer = null
           }
           else if (_periodClock) {
             // OT: Start jam
@@ -219,7 +229,9 @@ package poang {
             // OT: End game
             period = Period.FINAL
             homeJamScore = 0
+            homeTeam.jammer = null
             visitorJamScore = 0
+            visitorTeam.jammer = null
           }
         }
         else {
@@ -236,7 +248,8 @@ package poang {
             }
             else {
               // End Jam / Start lineup
-              homeTeam.jammer = visitorTeam.jammer = null
+              homeTeam.jammer = null
+              visitorTeam.jammer = null
               _jamClock = 0
               leadJammer = null
               if (_periodClock < lineupLength)
@@ -247,7 +260,10 @@ package poang {
           }
           else {
             homeJamScore = 0
+            homeTeam.jammer = null
+            leadJammer = null
             visitorJamScore = 0
+            visitorTeam.jammer = null
             if (period == periods) {
               if (homeScore == visitorScore) {
                 // Go into overtime
