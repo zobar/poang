@@ -1,9 +1,11 @@
 package poang {
+  import flash.display.Bitmap
   import flash.display.BitmapData
   import flash.display.DisplayObject
   import flash.events.Event
   import flash.events.EventDispatcher
   import flash.geom.Matrix
+  import flash.geom.Matrix3D
   import flash.geom.PerspectiveProjection
   import flash.geom.Rectangle
   import mx.collections.ArrayCollection
@@ -24,7 +26,17 @@ package poang {
     }
     protected var _content:DisplayObject
 
-    public var contentBounds:Rectangle
+    public function get contentBounds():Rectangle {
+      return _contentBounds
+    }
+    public function set contentBounds(value:Rectangle):void {
+      _contentBounds = value
+      contentBoundsChanged = true
+      invalidate()
+    }
+    protected var _contentBounds:Rectangle
+
+    protected var contentBoundsChanged:Boolean
     protected var contentTransform:Matrix
     protected var drawn:BitmapData
     protected var maxSize:Rectangle
@@ -56,7 +68,8 @@ package poang {
       _content = value
       if (content) {
         contentBounds = bounds ? bounds : content.getBounds(content)
-        content.addEventListener(Event.ENTER_FRAME, onContentEnterFrame)
+        if (!(content is Bitmap))
+          content.addEventListener(Event.ENTER_FRAME, onContentEnterFrame)
       }
       invalidate()
     }
@@ -135,7 +148,8 @@ package poang {
 
     protected function invalidate():void {
       if (content && maxSize && !maxSize.isEmpty()) {
-        if (!bitmapData || bitmapData.height != maxSize.height ||
+        if (contentBoundsChanged || !bitmapData ||
+            bitmapData.height != maxSize.height ||
             bitmapData.width != maxSize.width) {
           var scale:Number = Math.min(maxSize.width / contentBounds.width,
               maxSize.height / contentBounds.height)
@@ -149,6 +163,7 @@ package poang {
       }
       else
         bitmapData = null
+      contentBoundsChanged = false
     }
   }
 }

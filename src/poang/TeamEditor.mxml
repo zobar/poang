@@ -18,7 +18,8 @@
   <s:HGroup height='100%' width='100%'>
     <mx:DataGrid id='personList' dataProvider='{team.people}' dragEnabled='true'
         draggableColumns='false' dragMoveEnabled='true' dropEnabled='true'
-        editable='true' height='100%' sortableColumns='false' width='202'>
+        editable='true' height='100%' resizableColumns='false'
+        sortableColumns='false' width='202'>
       <mx:columns>
         <mx:DataGridColumn dataField='number' editable='false' headerText='#'
             width='37'/>

@@ -1,5 +1,5 @@
 <?xml version=`1.0' encoding='utf-8'?>
-<ruleset icon='wftda-21.png' name='WFTDA 2010-05-26'>
+<ruleset icon='WFTDA.png' name='WFTDA 2010-05-26'>
   <rule name='intermissionLength' value='600000' description='at least 5:00'
       citation='2.3.2'/>
   <rule name='jamLength' value='120000' citation='2.4.2'/>

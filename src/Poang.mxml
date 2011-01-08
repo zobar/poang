@@ -2,7 +2,7 @@
 <s:WindowedApplication applicationComplete='onApplicationComplete(event)'
     autoExit='false' close='onClose(event)' enterFrame='onEnterFrame(event)'
     frameRate='20' initialize='onInitialize(event)' minHeight='393'
-    minWidth='774' preinitialize='onPreinitialize(event)' showStatusBar='false'
+    minWidth='951' preinitialize='onPreinitialize(event)' showStatusBar='false'
     title='{bout.name}' xmlns:dpk='dpk.*'
     xmlns:fx='http://ns.adobe.com/mxml/2009'
     xmlns:mx='library://ns.adobe.com/flex/mx' xmlns:poang='poang.*'
@@ -70,6 +70,8 @@
       </dpk:MenuItem>
     </dpk:NativeMenu>
   </s:menu>
+  <poang:TeamPanel height='100%' team='{bout.homeTeam}'/>
+  <poang:TeamPanel height='100%' team='{bout.visitorTeam}'/>
   <s:VGroup height='100%' horizontalAlign='center' width='100%'>
     <s:Group height='100%' width='100%'>
       <s:layout>
@@ -131,6 +133,6 @@
       </s:VGroup>
     </s:HGroup>
   </s:VGroup>
-  <poang:TeamViewer height='100%' team='{bout.homeTeam}'/>
-  <poang:TeamViewer height='100%' team='{bout.visitorTeam}'/>
+  <poang:MediaPanel id='mediaPanel' change='onMediaPanelChange(event)'
+      height='100%' media='{library.media}'/>
 </s:WindowedApplication>

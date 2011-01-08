@@ -1,4 +1,5 @@
 package poang {
+  import dpk.extensionForData
   import flash.display.Bitmap
   import flash.display.BitmapData
   import flash.display.DisplayObject
@@ -15,17 +16,32 @@ package poang {
   import mx.collections.ArrayCollection
   import mx.events.PropertyChangeEvent
   import mx.graphics.codec.PNGEncoder
+  import mx.utils.UIDUtil
 
   [Event(type='complete')]
   public class Library extends Loadable {
-    protected static var bitmapCache:Object
+    protected static var cache:Object
 
     protected static var classes:Object = {
       bout:        Bout,
+      media:       Media,
       person:      Person,
       preferences: Preferences,
       team:        Team
     };
+
+    protected static function getCache(directory:String, filename:String):* {
+      return cache && cache[directory + '/' + filename]
+    }
+
+    protected static function setCache(directory:String, filename:String,
+        value:*):void {
+      var key:String = directory + '/' + filename
+      if (!cache)
+        cache = {}
+      if (!(key in cache))
+        cache[key] = value
+    }
 
     [Bindable]
     public function get bout():Bout {
@@ -47,15 +63,12 @@ package poang {
     }
     protected var _complete:Boolean
 
-    override protected function set file(value:File):void {
-      super.file = value
-      images = file.parent.resolvePath('images')
-    }
+    [Bindable]
+    public var media:ArrayCollection
 
-    protected var images:File
     protected var objects:Object
     protected var pending:Array
-    protected var pendingBitmaps:Object
+    protected var pendingLoads:Object
     [Bindable] public var people:ArrayCollection
 
     public function get preferences():Preferences {
@@ -76,6 +89,7 @@ package poang {
       super.xml = value
       if (xml) {
         bout = null
+        media = new ArrayCollection()
         objects = {}
         people = new ArrayCollection()
         _preferences = null
@@ -106,6 +120,11 @@ package poang {
         item.library = this
     }
 
+    public function addMedia(value:Media):void {
+      if (media.getItemIndex(value) == -1)
+        media.addItem(value)
+    }
+
     public function addPerson(person:Person):void {
       if (people.getItemIndex(person) == -1)
         people.addItem(person)
@@ -121,6 +140,15 @@ package poang {
         var team:Team = Team(teams.getItemAt(i))
         if (name == team.name)
           return team
+      }
+      return null
+    }
+
+    public function findMedia(name:String):Media {
+      for (var i:int = 0; i < media.length; ++i) {
+        var m:Media = Media(media.getItemAt(i))
+        if (name == m.name)
+          return m
       }
       return null
     }
@@ -162,82 +190,59 @@ package poang {
 
     internal function getBitmap(filename:String, item:LibraryItem,
         property:String):BitmapData {
-      var result:BitmapData
-      if (bitmapCache && (filename in bitmapCache))
-        result = bitmapCache[filename]
-      else {
-        var file:File = images.resolvePath(filename)
-        if (file.exists) {
-          var pending:Object
-          if (!pendingBitmaps)
-            pendingBitmaps = {}
-          pending = pendingBitmaps[filename]
-          if (pending) {
-            var properties:Array = pending[item.uid]
-            if (properties) {
-              if (properties.indexOf(property) == -1)
-                properties.push(property)
-            }
-            else
-              pending[item.uid] = [property]
-          }
-          if (!pending) {
-            var loader:Loader = new Loader()
-            loader.contentLoaderInfo.addEventListener(Event.COMPLETE,
-                onBitmapComplete)
-            loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR,
-                onBitmapIOError)
-            pendingBitmaps[filename] = pending = {}
-            pending[item.uid] = [property]
-            loader.load(new URLRequest(file.url))
-          }
-        }
+      var result:BitmapData = getCache('images', filename)
+      if (!result) {
+        loadData('images', filename, item, property, onBitmapComplete,
+            onBitmapIOError)
+      }
+      return result
+    }
+
+    internal function getMedia(filename:String, item:LibraryItem,
+        property:String):DisplayObject {
+      var result:DisplayObject = getCache('media', filename)
+      if (!result) {
+        loadData('media', filename, item, property, onMediaComplete,
+            onMediaIOError)
       }
       return result
     }
 
     internal function setBitmap(uid:String, bitmap:BitmapData,
         data:ByteArray=null):String {
-      var file:File
       var filename:String = uid
-
       if (!data)
         data = new PNGEncoder().encode(bitmap)
-      switch (data[0]) {
-        case 0x46:
-          filename += '.swf'
-          break
-        case 0x47:
-          filename += '.gif'
-          break
-        case 0x89:
-          filename += '.png'
-          break
-        case 0xff:
-          filename += '.jpg'
-          break
-      }
-
-      cacheBitmap(filename, bitmap)
-
-      if (!images.exists)
-        images.createDirectory()
-      file = images.resolvePath(filename)
-      if (!file.exists) {
-        var stream:FileStream = new FileStream()
-        stream.open(file, FileMode.WRITE)
-        stream.writeBytes(data)
-        stream.close()
-      }
-
+      filename += dpk.extensionForData(data)
+      setCache('images', filename, bitmap)
+      setData('images', filename, data)
       return filename
     }
 
-    protected function cacheBitmap(filename:String, bitmap:BitmapData):void {
-      if (!bitmapCache)
-        bitmapCache = {}
-      if (!(filename in bitmapCache))
-        bitmapCache[filename] = bitmap
+    internal function setData(directory:String, filename:String,
+        data:ByteArray):void {
+      var dir:File = file.parent.resolvePath(directory)
+      var f:File
+      if (!dir.exists)
+        dir.createDirectory()
+      f = dir.resolvePath(filename)
+      if (!f.exists) {
+        var stream:FileStream = new FileStream()
+        stream.open(f, FileMode.WRITE)
+        stream.writeBytes(data)
+        stream.close()
+      }
+    }
+
+    internal function setMedia(filename:String, displayObject:DisplayObject,
+        data:ByteArray=null):String {
+      if (!data)
+        data = displayObject.loaderInfo.bytes
+      filename += dpk.extensionForData(data)
+      setCache('media', filename, displayObject)
+      if (UIDUtil.isUID(filename))
+        setData('media', filename, data)
+      return filename
     }
 
     protected function createObject(element:XML):LibraryItem {
@@ -257,6 +262,54 @@ package poang {
       return result
     }
 
+    protected function loadData(directory:String, filename:String,
+        item:LibraryItem, property:String, completeHandler:Function,
+        ioErrorHandler:Function):void {
+      var f:File
+      for each (var parent:File in [File.applicationDirectory, file.parent]) {
+        f = parent.resolvePath(directory).resolvePath(filename)
+        if (f.exists)
+          break
+      }
+      if (f.exists) {
+        var pending:Object
+        if (!pendingLoads)
+          pendingLoads = {}
+        pending = pendingLoads[filename]
+        if (pending) {
+          var properties:Array = pending[item.uid]
+          if (properties) {
+            if (properties.indexOf(property) == -1)
+              properties.push(property)
+          }
+          else
+            pending[item.uid] = [property]
+        }
+        else {
+          var loader:Loader = new Loader()
+          loader.contentLoaderInfo.addEventListener(Event.COMPLETE,
+              completeHandler)
+          loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR,
+              ioErrorHandler)
+          pendingLoads[filename] = pending = {}
+          pending[item.uid] = [property]
+          loader.load(new URLRequest(f.url))
+        }
+      }
+    }
+
+    protected function notifyPending(filename:String, value:*):void {
+      var pending:Object = pendingLoads[filename]
+      for (var uid:String in pending) {
+        var item:LibraryItem = getObject(uid)
+        for each (var property:String in pending[uid]) {
+          item.dispatchEvent(PropertyChangeEvent.createUpdateEvent(item,
+              property, null, value))
+        }
+      }
+      delete pendingLoads[filename]
+    }
+
     protected function onApplicationClose(event:Event):void {
       var stream:FileStream = new FileStream()
       Poang.app.removeEventListener(Event.CLOSE, onApplicationClose)
@@ -273,23 +326,20 @@ package poang {
       loaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, onBitmapIOError)
       if (content is Bitmap) {
         var bitmapData:BitmapData = Bitmap(content).bitmapData
-        var filename:String = loaderInfo.url.match(/[^\/]*$/)[0]
-        var pending:Object = pendingBitmaps[filename]
-        cacheBitmap(filename, bitmapData)
-        for (var uid:String in pending) {
-          var item:LibraryItem = getObject(uid)
-          for each (var property:String in pending[uid]) {
-            item.dispatchEvent(PropertyChangeEvent.createUpdateEvent(item,
-                property, null, bitmapData))
-          }
-        }
+        var filename:String =
+            decodeURIComponent(loaderInfo.url.match(/[^\/]*$/)[0])
+        setCache('images', filename, bitmapData)
+        notifyPending(filename, bitmapData)
       }
     }
 
     protected function onBitmapIOError(event:IOErrorEvent):void {
       var loaderInfo:LoaderInfo = LoaderInfo(event.currentTarget)
+      var filename:String =
+          decodeURIComponent(loaderInfo.url.match(/[^\/]*$/)[0])
       loaderInfo.removeEventListener(Event.COMPLETE, onBitmapComplete)
       loaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, onBitmapIOError)
+      delete pendingLoads[filename]
     }
 
     override protected function onFileComplete(event:Event):void {
@@ -309,6 +359,26 @@ package poang {
         if (complete)
           dispatchEvent(new Event(Event.COMPLETE))
       }
+    }
+
+    protected function onMediaComplete(event:Event):void {
+      var loaderInfo:LoaderInfo = LoaderInfo(event.currentTarget)
+      var content:DisplayObject = loaderInfo.content
+      var filename:String =
+          decodeURIComponent(loaderInfo.url.match(/[^\/]*$/)[0])
+      loaderInfo.removeEventListener(Event.COMPLETE, onMediaComplete)
+      loaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, onMediaIOError)
+      setCache('media', filename, content)
+      notifyPending(filename, content)
+    }
+
+    protected function onMediaIOError(event:IOErrorEvent):void {
+      var loaderInfo:LoaderInfo = LoaderInfo(event.currentTarget)
+      var filename:String =
+          decodeURIComponent(loaderInfo.url.match(/[^\/]*$/)[0])
+      loaderInfo.removeEventListener(Event.COMPLETE, onMediaComplete)
+      loaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, onMediaIOError)
+      delete pendingLoads[filename]
     }
   }
 }

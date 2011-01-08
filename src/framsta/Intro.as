@@ -63,6 +63,8 @@ package framsta {
       }
       else
         bout = values
+      if ('mediaName' in values)
+        updateWhich()
       if (which + 'Image' in values)
         updateImage()
       if (which + 'JammerName' in values)
@@ -99,6 +101,14 @@ package framsta {
       var personNumber:String = which + 'JammerNumber'
       if (bout && personNumberField && personNumber in bout)
         personNumberField.text = bout[personNumber] ? bout[personNumber] : ''
+    }
+
+    protected function updateWhich():void {
+      var mediaName:String = bout.mediaName
+      if (/visitor/i.test(mediaName))
+        which = 'visitor'
+      else
+        which = 'home'
     }
   }
 }

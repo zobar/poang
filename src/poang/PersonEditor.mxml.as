@@ -19,7 +19,8 @@ protected function labelToPersonFunction(value:String):Object {
 }
 
 protected function onImageChange(event:Event):void {
-  person.image = ImageWell(event.currentTarget).bitmapData
+  var imageWell:ImageWell = ImageWell(event.currentTarget)
+  person.setImage(imageWell.bitmapData, imageWell.data)
 }
 
 protected function onNumberFieldEvent(event:Event):void {

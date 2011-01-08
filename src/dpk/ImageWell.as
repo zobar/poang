@@ -76,7 +76,8 @@ package dpk {
     }
 
     public function open():void {
-      file.browseForOpen(title, [new FileFilter('Images', '*.gif;*.jpg;*.png')])
+      file.browseForOpen(title,
+          [new FileFilter('Images', '*.gif;*.jpeg;*.jpg;*.png')])
     }
 
     protected function onClick(event:MouseEvent):void {

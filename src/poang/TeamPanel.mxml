@@ -2,7 +2,7 @@
 <s:VGroup xmlns:dpk='dpk.*' xmlns:fx='http://ns.adobe.com/mxml/2009'
     xmlns:mx='library://ns.adobe.com/flex/mx'
     xmlns:s='library://ns.adobe.com/flex/spark'>
-  <fx:Script source='TeamViewer.mxml.as'/>
+  <fx:Script source='TeamPanel.mxml.as'/>
   <s:HGroup maxWidth='202' verticalAlign='middle' width='100%'>
     <s:Label lineBreak='toFit' maxDisplayedLines='1' styleName='titleText'
         text='{team.name}' width='100%'/>
@@ -12,7 +12,7 @@
   <mx:DataGrid id='personDataGrid' dataProvider='{team.people}'
       draggableColumns='false' editable='true' height='100%'
       itemEditBeginning='onPeopleItemEditBeginning(event)'
-      sortableColumns='false' width='202'>
+      resizableColumns='false' sortableColumns='false' width='202'>
     <mx:columns>
       <mx:DataGridColumn dataField='number' editable='false' headerText='#'
           width='37'/>

@@ -90,6 +90,7 @@ protected var displays:ArrayCollection
 
 protected var helper:WindowHelper
 
+[Bindable]
 public function get library():Library {
   return _library
 }
@@ -247,10 +248,7 @@ protected function menuItemForScreen(screen:Screen):MenuItem {
 }
 
 protected function onApplicationComplete(event:FlexEvent):void {
-  var loader:Loader = new Loader()
-  loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onDisplayLoaderComplete)
-//  loader.load(new URLRequest('Framsta.swf'))
-  loader.load(new URLRequest('IntroHome.swf'))
+  BindingUtils.bindSetter(setMedia, mediaPanel, ['selectedMedia', 'content'])
   stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown, true)
   // Linux glitch: doesn't adjust layout after adding menu bar.  On other
   // platforms, these should already be equal.
@@ -319,9 +317,7 @@ protected function onBoutPropertyChange(event:PropertyChangeEvent):void {
       updateTeamDisplay('visitor')
       break
   }
-  if (!updates)
-    updates = {}
-  updates[property] = value
+  updateProperty(property, value)
 }
 
 protected function onClose(event:Event):void {
@@ -345,15 +341,6 @@ protected function onDisplayClose(event:Event):void {
     displays.removeItemAt(index)
   if (menuItem)
     menuItem.checked = false
-}
-
-protected function onDisplayLoaderComplete(event:Event):void {
-  var loaderInfo:LoaderInfo = LoaderInfo(event.currentTarget)
-  var loader:Loader = loaderInfo.loader
-  var content:DisplayObject = loader.content
-  updateDisplay(content)
-  displayGroup.setContent(content, new Rectangle(0, 0, loaderInfo.width,
-      loaderInfo.height))
 }
 
 protected function onEnterFrame(event:Event):void {
@@ -483,10 +470,20 @@ protected function onKeyDown(event:KeyboardEvent):void {
 }
 
 protected function onLibraryComplete(event:Event):void {
+  var mediaFolder:File = File.applicationDirectory.resolvePath('media')
   helper = new WindowHelper('main', this, preferences)
   BindingUtils.bindProperty(this, 'bout', library, 'bout')
   if (!library.bout)
     library.newBout()
+  if (mediaFolder.exists) {
+    for each (var builtin:File in mediaFolder.getDirectoryListing()) {
+      var name:String = builtin.name.match(/([^\/]*)\.([^.]*)$/)[1]
+      if (!library.findMedia(name))
+        Media.createMedia(builtin, library, true)
+    }
+  }
+  if (library.media.length)
+    mediaPanel.selectedMedia = Media(library.media.getItemAt(0))
   updateScreens()
   BindingUtils.bindProperty(updater, 'branch', preferences, 'releaseTrack')
   if (preferences.autoUpdate)
@@ -495,6 +492,22 @@ protected function onLibraryComplete(event:Event):void {
 
 protected function onLineupClockFieldFocusOut(event:FocusEvent):void {
   fieldFocusOut(event, 'lineupClock', parseTime, formatTime)
+}
+
+protected function setMedia(content:DisplayObject):void {
+  if (content) {
+    var loaderInfo:LoaderInfo = content.loaderInfo
+    updateDisplay(content)
+    displayGroup.setContent(content, new Rectangle(0, 0, loaderInfo.width,
+        loaderInfo.height))
+  }
+  else
+    displayGroup.content = null
+}
+
+protected function onMediaPanelChange(event:Event):void {
+  var media:Media = mediaPanel.selectedMedia
+  updateProperty('mediaName', media ? media.name : null)
 }
 
 protected function onNewSelect(event:NativeMenuEvent):void {
@@ -651,10 +664,8 @@ protected function onVisitorTeamPropertyChange(event:PropertyChangeEvent):void {
 
 protected function jammerPropertyChange(which:String, property:Object,
     value:*):void {
-  if (!updates)
-    updates = {}
-  updates[which + 'Jammer' + property.charAt(0).toUpperCase() +
-      property.substring(1)] = value
+  updateProperty(which + 'Jammer' + property.charAt(0).toUpperCase() +
+      property.substring(1), value)
 }
 
 protected function openDisplay(screen:Screen):void {
@@ -689,24 +700,23 @@ protected function screenMenuItem(screen:Screen,
 
 protected function teamPropertyChange(which:String, property:Object,
     value:*):void {
-  if (!updates)
-    updates = {}
   if (property == 'jammer')
     updateJammerDisplay(which, updates)
   else {
-    updates[which + property.charAt(0).toUpperCase() + property.substring(1)] =
-        value
+    updateProperty(which + property.charAt(0).toUpperCase() + property.substring(1), value)
   }
 }
 
 protected function updateDisplay(display:*):void {
   if (bout && display && 'update' in display) {
+    var media:Media = mediaPanel.selectedMedia
     var values:Object = {
       intermissionClock: bout.intermissionClock,
       jam:               bout.jam,
       jamClock:          bout.jamClock,
       leadJammer:        bout.leadJammer,
       lineupClock:       bout.lineupClock,
+      mediaName:         media ? media.name : null,
       period:            bout.period,
       periodClock:       bout.periodClock,
       timeoutClock:      bout.timeoutClock,
@@ -750,6 +760,12 @@ protected function updatePeriods():void {
   for (var i:int = 2; i <= bout.periods; ++i)
     p.push(i)
   periods.source = p.concat(-2, -3)
+}
+
+protected function updateProperty(property:Object, value:*):void {
+  if (!updates)
+    updates = {}
+  updates[property] = value
 }
 
 protected function updateTeamDisplay(which:String, values:Object=null):Object {

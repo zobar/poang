@@ -1,5 +1,6 @@
 package poang {
   import flash.display.BitmapData
+  import flash.display.DisplayObject
   import flash.events.Event
   import flash.events.EventDispatcher
   import flash.events.IOErrorEvent
@@ -110,6 +111,11 @@ package poang {
           result.push(parseInt(part))
       }
       return result
+    }
+
+    protected function getMedia(key:String):DisplayObject {
+      var filename:String = getString(key)
+      return filename ? library.getMedia(filename, this, key) : null
     }
 
     protected function getObject(class_:Class, key:String):* {
@@ -267,6 +273,22 @@ package poang {
     protected function setIntArray(key:String, value:Array):void {
       if (value)
         setString(key, value.join(' '))
+      else
+        setString(key, null)
+    }
+
+    protected function setMedia(key:String, value:DisplayObject,
+        data:ByteArray=null, name:String=null):void {
+      if (value) {
+        var oldValue:DisplayObject = data ? getMedia(key) : null
+        if (name == null)
+          name = UIDUtil.getUID(value)
+        setString(key, library.setMedia(name, value, data))
+        if (data) {
+          dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, key,
+              oldValue, value))
+        }
+      }
       else
         setString(key, null)
     }

@@ -1,5 +1,6 @@
 package poang {
   import flash.display.BitmapData
+  import flash.utils.ByteArray
   import mx.collections.ArrayCollection
 
   public class Person extends LibraryItem {
@@ -32,6 +33,10 @@ package poang {
     }
     public function set number(value:String):void {
       setString('number', value)
+    }
+
+    public function setImage(bitmap:BitmapData, data:ByteArray):void {
+      setBitmap('image', bitmap, data)
     }
   }
 }
