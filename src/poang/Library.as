@@ -236,11 +236,12 @@ package poang {
 
     internal function setMedia(filename:String, displayObject:DisplayObject,
         data:ByteArray=null):String {
+      var external:Boolean = UIDUtil.isUID(filename)
       if (!data)
         data = displayObject.loaderInfo.bytes
       filename += dpk.extensionForData(data)
       setCache('media', filename, displayObject)
-      if (UIDUtil.isUID(filename))
+      if (external)
         setData('media', filename, data)
       return filename
     }
