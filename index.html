@@ -23,13 +23,27 @@
 
   .attribution {
     font-size:   0.75em;
-    margin:      0 1.34em 0 480px;
-    text-align:  center;
-    white-space: nowrap;
+    margin:      0 auto;
+    max-width:   640px;
+    text-align:  right;
   }
 
-  .banner {
-    margin-right: 1em;
+  #banner {
+    margin: 0 1em 1em;
+  }
+
+  #banner h1, #banner h2 {
+    text-align: right;
+  }
+
+  #banner h2 {
+    border-top: 2px solid black;
+    margin-top: -4px;
+    padding-top: 3px;
+  }
+
+  #banner, h1, h2, strong {
+    font-family: FuturaHeavy, Verdana, sans-serif;
   }
 
   body {
@@ -39,20 +53,18 @@
     line-height: 1.3;
   }
 
-  h1, h2, strong {
-    font-family: FuturaHeavy, Verdana, sans-serif;
+  #buy {
+    float:        left;
+    margin-right: 1em;
   }
 
   h1, h2 {
     margin:     0;
-    text-align: right;
   }
 
   h2 {
-    border-top: 2px solid black;
     font-size:  1.2em;
-    margin-top: -4px;
-    padding-top: 3px;
+    text-align: center;
   }
 
   #installer {
@@ -67,7 +79,7 @@
     top:      141px;
   }
 
-  .main {
+  #main {
     background:    rgba(255, 255, 255, .6);
     border:        1px solid black;
     border-radius: 1em;
@@ -75,28 +87,37 @@
     max-width:     640px;
     padding:       0 1em;
   }
+
+  #navigation {
+    float: left;
+  }
 </style>
 <title>POÄNG roller derby scoreboard</title>
-<div class='banner'>
+<div id='banner'>
   <h1>POÄNG</h1>
+  <div id='navigation'>
+    <a href='http://docs.poang.gg'>docs</a>
+    • <a href='http://group.poang.gg'>group</a>
+    • <a href='http://bugs.poang.gg'>bugs</a>
+    • <a href='http://code.poang.gg'>code</a>
+  </div>
   <h2>roller derby scoreboard</h2>
 </div>
 <div id='installer'>
   <img alt='POÄNG' height='240' src='poang.png' width='464'>
   <object data='badge.swf' height='180' type='application/x-shockwave-flash'
       width='217'>
-    <param name='flashvars' value='airversion=2.5&appname=Poäng&appurl=http://github.com/zobar/poang/raw/development/dist/Poang.air'>
+    <param name='flashvars' value='airversion=2.5&appname=Poäng&appurl=http://code.poang.gg/raw/stable/dist/Poang.air'>
     <param name='wmode' value='transparent'>
   </object>
 </div>
-<div class='main'>
+<div id='main'>
   <p>
-    <strong>POÄNG</strong> is coming! We’re turning three years of experience
+    <strong>POÄNG</strong> is here! We’ve turned three years of experience
     gained and lessons learned with the reliable but quirky
     <a href='http://bit.ly/qcrg-scoreboard'>QCRG Scoreboard</a> into a new
-    <a href='http://github.com/zobar/poang'>open source</a> scoreboard
-    project.  <strong>POÄNG</strong> will have some great new features right
-    off the bat:
+    open source scoreboard project.  <strong>POÄNG</strong> has some great new
+    features right off the bat:
   </p>
   <ul>
     <li>
@@ -139,11 +160,12 @@
       like “pwang” and means “points” in Swedish.  It’s also an
       <a href='http://ikea.com/us/en/catalog/categories/series/07472'>armchair</a>.
   </ul>
+  <h2 class='buy'>“POÄNG is so great, you should sell it!”</h2>
   <p>
-    …and with so many more great features on the way, make sure
-    <strong>POÄNG</strong> keeps itself up-to-date.  Just go into the
-    Preferences or Settings dialog and select the “development” release track so
-    you don’t get left behind.
+    <a href='http://www.pledgie.com/campaigns/14387' id='buy'><img alt='Click here to lend your support to: POÄNG and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/14387.png?skin_name=chrome' border='0' /></a>
+    <strong>POÄNG</strong> is free of charge, but I'm such a nice guy I’ll let
+    you buy it anyway.  Click the badge at left to tell me what you think it’s
+    worth. (-:
   </p>
 </div>
 <div class='attribution'>
