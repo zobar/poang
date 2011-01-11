@@ -62,7 +62,8 @@ protected function onMediaItemEditBeginning(event:DataGridEvent):void {
 }
 
 protected function onRemoveMediaClick(event:MouseEvent):void {
-  var indices:Array = mediaDataGrid.selectedIndices.sort(Array.DESCENDING)
+  var indices:Array = mediaDataGrid.selectedIndices.sort(
+      Array.DESCENDING | Array.NUMERIC)
   for each (var index:int in indices)
     media.removeItemAt(index)
 }

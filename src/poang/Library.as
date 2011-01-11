@@ -14,6 +14,8 @@ package poang {
   import flash.utils.ByteArray
   import flash.utils.getQualifiedClassName
   import mx.collections.ArrayCollection
+  import mx.events.CollectionEvent
+  import mx.events.CollectionEventKind
   import mx.events.PropertyChangeEvent
   import mx.graphics.codec.PNGEncoder
   import mx.utils.UIDUtil
@@ -64,7 +66,21 @@ package poang {
     protected var _complete:Boolean
 
     [Bindable]
-    public var media:ArrayCollection
+    public function get media():ArrayCollection {
+      return _media
+    }
+    public function set media(value:ArrayCollection):void {
+      if (media) {
+        media.removeEventListener(CollectionEvent.COLLECTION_CHANGE,
+            onMediaCollectionChange)
+      }
+      _media = value
+      if (media) {
+        media.addEventListener(CollectionEvent.COLLECTION_CHANGE,
+            onMediaCollectionChange)
+      }
+    }
+    protected var _media:ArrayCollection
 
     protected var objects:Object
     protected var pending:Array
@@ -359,6 +375,45 @@ package poang {
         _complete = !pending.length
         if (complete)
           dispatchEvent(new Event(Event.COMPLETE))
+      }
+    }
+
+    protected function
+        onMediaCollectionChange(event:CollectionEvent):void {
+      var changeEvent:PropertyChangeEvent
+      var cursor:XML
+      var i:int
+      var item:Media
+      switch (event.kind) {
+        case CollectionEventKind.ADD:
+          cursor = xml.media[event.location - 1][0]
+          for each (item in event.items) {
+            // We need to remove the item so that we can re-insert it in the
+            // right place.
+            removeItem(item)
+            cursor = xml.insertChildAfter(cursor, item.xml)
+          }
+          break
+        case CollectionEventKind.REMOVE:
+          for each (item in event.items)
+            delete xml.media[event.location]
+          break
+        case CollectionEventKind.REPLACE:
+          i = event.location
+          for each (changeEvent in event.items) {
+            item = Media(changeEvent.newValue)
+            xml.media[i++] = item.xml
+          }
+          break
+        case CollectionEventKind.RESET:
+          i = xml.media.length
+          while (i)
+            delete xml.media[--i]
+          for (i = 0; i < event.currentTarget.length; ++i) {
+            item = event.currentTarget.getItemAt(i)
+            xml.media += item.xml
+          }
+          break
       }
     }
 
