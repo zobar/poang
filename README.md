@@ -1,16 +1,18 @@
 POÄNG roller derby scoreboard
 =============================
 
-by Z, [Queen City Roller Girls](http://qcrg.net)
-------------------------------------------------
+by [Z](mailto:z@poang.gg), [Queen City Roller Girls](http://qcrg.net)
 
-*POÄNG is under active development,* though it is not quite ready for prime
-time.  For production use, [QCRG Scoreboard 2][] is still recommended.
-Please visit the [Google Group][] to get support from the developers and other
-users.
+Important Links
+---------------
 
-[QCRG Scoreboard 2]: http://bit.ly/qcrg-scoreboard
-[Google Group]:      http://groups.google.com/group/qcrg-scoreboard
+* **Project home page & installer:** [http://poang.gg](http://poang.gg)
+* **Online manual:** [http://docs.poang.gg](http://docs.poang.gg)
+* **Discussion:** [http://group.poang.gg](http://group.poang.gg)
+* **Bug tracker:** [http://bugs.poang.gg](http://bugs.poang.gg)
+* **Source code:** [http://code.poang.gg](http://code.poang.gg)
+* **QCRG Scoreboard 2** (previous version):
+  [http://bit.ly/qcrg-scoreboard](http://bit.ly/qcrg-scoreboard)
 
 
 Supported Platforms
@@ -23,9 +25,9 @@ POÄNG is tested and supported on the following platforms:
 - Ubuntu Linux 10.10 "Maverick Meerkat," 32-bit Intel
 
 It is expected to run satisfactorily on any of the [supported desktop
-platforms][] for Adobe AIR 2.5.
-
-[supported desktop platforms]: http://adobe.com/products/air/systemreqs#desktop
+platforms](http://adobe.com/products/air/systemreqs#desktop) for Adobe AIR 2.5.
+For more detailed information, please [consult the
+manual](http://docs.poang.gg/Supported-platforms).
 
 
 Installation
@@ -45,9 +47,8 @@ Updates
 
 By default, POÄNG will check to see if a newer stable version is available when
 you start the application.  If you go into the Preferences or Settings dialog
-box, you can turn off automatic checking, check manually, or change your
-preferred release track.  The release track you choose will determine which
-update notifications you receive:
+box, you can change your preferred release track.  The release track you choose
+will determine which update notifications you receive:
 
 - **stable** _(default):_ These releases have been tested on all supported
   platforms, and have performed satisfactorily in at least one regulation bout
@@ -61,3 +62,9 @@ update notifications you receive:
 - **others:** Other release tracks will show up in the menu from time to time.
   You should not use these unless specifically instructed to do so by a
   developer.
+
+"POÄNG is so great, you should sell it!"
+----------------------------------------
+
+POÄNG is free of charge, but I'm such a nice guy I'll let you buy it anyway.
+Visit the [store](http://buy.poang.gg) to tell me what you think it's worth. (-:
