@@ -4,15 +4,76 @@ package framsta {
   import poang.formatTime
 
   public dynamic class ScoreboardDisplay extends MovieClip {
-    protected var values:Object
+    public var bout:Object
+
+    public function get intermissionClockVisible():Boolean {
+      return bout.intermissionClock && bout.period <= 0
+    }
+
+    public function get jamClockVisible():Boolean {
+      return bout.jamClock && !bout.lineupClock && !bout.timeoutClock
+    }
+
+    public function get jamVisible():Boolean {
+      return bout.period && bout.jam
+    }
+
+    public function get lineupClockVisible():Boolean {
+      return bout.lineupClock &&
+          (!bout.timeoutClock || bout.period == Period.OVERTIME)
+    }
+
+    public function get periodClockVisible():Boolean {
+      return bout.periodClock
+    }
+
+    public function get periodVisible():Boolean {
+      return bout.period <= 0
+    }
+
+    public function get periodNumberVisible():Boolean {
+      return bout.period > 0
+    }
+
+    public function get timeoutClockVisible():Boolean {
+      return bout.timeoutClock && bout.period != Period.OVERTIME
+    }
+
+    public function get timeoutsVisible():Boolean {
+      return bout.period > 0
+    }
+
+    public function get homeJammerImageVisible():Boolean {
+      return true
+    }
+
+    public function get homeLeadJammerVisible():Boolean {
+      return bout.leadJammer == Team.HOME
+    }
+
+    public function get homeNameVisible():Boolean {
+      return true
+    }
+
+    public function get visitorJammerImageVisible():Boolean {
+      return true
+    }
+
+    public function get visitorLeadJammerVisible():Boolean {
+      return bout.leadJammer == Team.VISITOR
+    }
+
+    public function get visitorNameVisible():Boolean {
+      return true
+    }
 
     public function update(newValues:Object):void {
-      if (values) {
+      if (bout) {
         for (var property:String in newValues)
-          values[property] = newValues[property]
+          bout[property] = newValues[property]
       }
       else
-        values = newValues
+        bout = newValues
 
       if ('intermissionClock' in newValues)
         updateIntermissionClock(newValues.intermissionClock)
@@ -68,67 +129,6 @@ package framsta {
 
     protected function formatTime(value:int):String {
       return poang.formatTime(value)
-    }
-
-    protected function get intermissionClockVisible():Boolean {
-      return values.intermissionClock && values.period <= 0
-    }
-
-    protected function get jamClockVisible():Boolean {
-      return values.jamClock && !values.lineupClock && !values.timeoutClock
-    }
-
-    protected function get jamVisible():Boolean {
-      return values.jam
-    }
-
-    protected function get lineupClockVisible():Boolean {
-      return values.lineupClock &&
-          (!values.timeoutClock || values.period == Period.OVERTIME)
-    }
-
-    protected function get periodClockVisible():Boolean {
-      return values.periodClock
-    }
-
-    protected function get periodVisible():Boolean {
-      return values.period <= 0
-    }
-
-    protected function get periodNumberVisible():Boolean {
-      return values.period > 0
-    }
-
-    protected function get timeoutClockVisible():Boolean {
-      return values.timeoutClock && values.period != Period.OVERTIME
-    }
-
-    protected function get timeoutsVisible():Boolean {
-      return values.period > 0
-    }
-
-    protected function get homeJammerImageVisible():Boolean {
-      return true
-    }
-
-    protected function get homeLeadJammerVisible():Boolean {
-      return values.leadJammer == Team.HOME
-    }
-
-    protected function get homeNameVisible():Boolean {
-      return true
-    }
-
-    protected function get visitorJammerImageVisible():Boolean {
-      return true
-    }
-
-    protected function get visitorLeadJammerVisible():Boolean {
-      return values.leadJammer == Team.VISITOR
-    }
-
-    protected function get visitorNameVisible():Boolean {
-      return true
     }
 
     protected function showIntermissionClock(visible:Boolean):void {

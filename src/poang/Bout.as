@@ -239,7 +239,8 @@ package poang {
             if (_lineupClock || timeoutClock ||
                 (_periodClock && !periodClockRunning)) {
               // Start next jam
-              jam += 1
+              if (_periodClock != periodLength)
+                jam += 1
               jamClock = jamLength
               _lineupClock = 0
               timeoutClock = 0
@@ -278,14 +279,15 @@ package poang {
               }
             }
             else {
-              jam = 0
               if (period > 0) {
                 // Start intermission
                 intermissionClock = intermissionLength
+                jam = 0
                 period = Period.INTERMISSION
               }
               else {
                 // Start next period
+                jam = 1
                 period = lastPeriod + 1
                 _periodClock = periodLength
                 intermissionClock = 0

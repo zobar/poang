@@ -1,50 +1,46 @@
-﻿package framsta {
+package framsta {
   import flash.display.BitmapData
+  import flash.display.MovieClip
 
   public class Framsta extends ScoreboardDisplay {
-    override protected function get jamVisible():Boolean {
-      return super.jamVisible && values.jamClock && !values.lineupClock &&
-          !values.timeoutClock
+    override public function get timeoutsVisible():Boolean {
+      return super.timeoutsVisible && !bout.jamClock &&
+          (bout.lineupClock || bout.timeoutClock) &&
+          !bout.homeJammerImage && !bout.visitorJammerImage
     }
 
-    override protected function get timeoutsVisible():Boolean {
-      return super.timeoutsVisible && !values.jamClock &&
-          (values.lineupClock || values.timeoutClock) &&
-          !values.homeJammerImage && !values.visitorJammerImage
+    override public function get homeJammerImageVisible():Boolean {
+      return super.homeJammerImageVisible && !bout.leadJammer
     }
 
-    override protected function get homeJammerImageVisible():Boolean {
-      return super.homeJammerImageVisible && !values.leadJammer
+    override public function get homeNameVisible():Boolean {
+      return super.homeNameVisible && !bout.homeImage
     }
 
-    override protected function get homeNameVisible():Boolean {
-      return super.homeNameVisible && !values.homeImage
+    override public function get visitorJammerImageVisible():Boolean {
+      return super.visitorJammerImageVisible && !bout.leadJammer
     }
 
-    override protected function get visitorJammerImageVisible():Boolean {
-      return super.visitorJammerImageVisible && !values.leadJammer
-    }
-
-    override protected function get visitorNameVisible():Boolean {
-      return super.visitorNameVisible && !values.visitorImage
+    override public function get visitorNameVisible():Boolean {
+      return super.visitorNameVisible && !bout.visitorImage
     }
 
     override protected function showHomeLeadJammer(visible:Boolean):void {
+      var indicator:MovieClip = homeJammer.leadJammerIndicator
       super.showHomeLeadJammer(visible)
-      if (visible)
-        homeLeadJammerIndicator.gotoAndPlay(1)
-      else
-        homeLeadJammerIndicator.gotoAndStop(homeLeadJammerIndicator.totalFrames)
+      if (indicator)
+        indicator.visible = visible
+      if (homeJammer.currentFrameLabel != 'leadJammer')
+        homeJammer.gotoAndPlay('startLeadJammer')
     }
 
     override protected function showVisitorLeadJammer(visible:Boolean):void {
+      var indicator:MovieClip = visitorJammer.leadJammerIndicator
       super.showVisitorLeadJammer(visible)
-      if (visible)
-        visitorLeadJammerIndicator.gotoAndPlay(1)
-      else {
-        visitorLeadJammerIndicator.gotoAndStop(
-            visitorLeadJammerIndicator.totalFrames)
-      }
+      if (indicator)
+        indicator.visible = visible
+      if (visitorJammer.currentFrameLabel != 'leadJammer')
+        visitorJammer.gotoAndPlay('startLeadJammer')
     }
 
     override protected function updateJamClock(value:int):void {
@@ -77,8 +73,27 @@
     }
 
     override protected function updateHomeJammerImage(value:BitmapData):void {
+      var placeholder:Placeholder = homeJammer.imagePlaceholder
       super.updateHomeJammerImage(value)
-      showTimeouts(timeoutsVisible)
+      if (placeholder)
+        placeholder.bitmapData = value
+    }
+
+    override protected function updateHomeJammerName(value:String):void {
+      var nameField = homeJammer.nameField
+      super.updateHomeJammerName(value)
+      if (value) {
+        if (nameField)
+          homeJammer.nameField.text = value
+        if (homeJammer.currentFrame == homeJammer.totalFrames)
+          homeJammer.gotoAndPlay(1)
+      }
+      else {
+        if (nameField)
+          homeJammer.nameField.text = ''
+        if (!bout.leadJammer)
+          homeJammer.gotoAndStop(homeJammer.totalFrames)
+      }
     }
 
     override protected function updateVisitorImage(value:BitmapData):void {
@@ -88,8 +103,27 @@
 
     override protected function
         updateVisitorJammerImage(value:BitmapData):void {
+      var placeholder:Placeholder = visitorJammer.imagePlaceholder
       super.updateVisitorJammerImage(value)
-      showTimeouts(timeoutsVisible)
+      if (placeholder)
+        placeholder.bitmapData = value
+    }
+
+    override protected function updateVisitorJammerName(value:String):void {
+      var nameField = visitorJammer.nameField
+      super.updateVisitorJammerName(value)
+      if (value) {
+        if (nameField)
+          visitorJammer.nameField.text = value
+        if (visitorJammer.currentFrame == visitorJammer.totalFrames)
+          visitorJammer.gotoAndPlay(1)
+      }
+      else {
+        if (nameField)
+          visitorJammer.nameField.text = ''
+        if (!bout.leadJammer)
+          visitorJammer.gotoAndStop(visitorJammer.totalFrames)
+      }
     }
   }
 }
