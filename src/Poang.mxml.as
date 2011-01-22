@@ -248,7 +248,7 @@ protected function menuItemForScreen(screen:Screen):MenuItem {
 }
 
 protected function onApplicationComplete(event:FlexEvent):void {
-  BindingUtils.bindSetter(setMedia, mediaPanel, ['selectedMedia', 'content'])
+  BindingUtils.bindSetter(setMedia, mediaPanel, ['currentMedia', 'content'])
   stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown, true)
   // Linux glitch: doesn't adjust layout after adding menu bar.  On other
   // platforms, these should already be equal.
@@ -485,6 +485,8 @@ protected function onLibraryComplete(event:Event):void {
   if (library.media.length)
     mediaPanel.selectedMedia = Media(library.media.getItemAt(0))
   updateScreens()
+  BindingUtils.bindProperty(mediaPanel, 'slideShowLength', preferences,
+      'slideShowLength')
   BindingUtils.bindProperty(updater, 'branch', preferences, 'releaseTrack')
   if (preferences.autoUpdate)
     updater.check()
@@ -506,7 +508,7 @@ protected function setMedia(content:DisplayObject):void {
 }
 
 protected function onMediaPanelChange(event:Event):void {
-  var media:Media = mediaPanel.selectedMedia
+  var media:Media = mediaPanel.currentMedia
   updateProperty('mediaName', media ? media.name : null)
 }
 
@@ -709,7 +711,7 @@ protected function teamPropertyChange(which:String, property:Object,
 
 protected function updateDisplay(display:*):void {
   if (bout && display && 'update' in display) {
-    var media:Media = mediaPanel.selectedMedia
+    var media:Media = mediaPanel.currentMedia
     var values:Object = {
       intermissionClock: bout.intermissionClock,
       jam:               bout.jam,

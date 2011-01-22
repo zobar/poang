@@ -87,3 +87,7 @@ protected function
     onReleaseTracksCollectionChange(event:CollectionEvent):void {
   releaseTrackList.selectedItem = releaseTrack
 }
+
+protected function onSlideShowLengthEvent(event:Event):void {
+  preferences.slideShowLength = parseTime(TextInput(event.currentTarget).text)
+}

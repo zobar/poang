@@ -30,7 +30,7 @@ package framsta {
       super.showHomeLeadJammer(visible)
       if (indicator)
         indicator.visible = visible
-      if (homeJammer.currentFrameLabel != 'leadJammer')
+      if (bout.leadJammer && homeJammer.currentFrameLabel != 'leadJammer')
         homeJammer.gotoAndPlay('startLeadJammer')
     }
 
@@ -39,7 +39,7 @@ package framsta {
       super.showVisitorLeadJammer(visible)
       if (indicator)
         indicator.visible = visible
-      if (visitorJammer.currentFrameLabel != 'leadJammer')
+      if (bout.leadJammer && visitorJammer.currentFrameLabel != 'leadJammer')
         visitorJammer.gotoAndPlay('startLeadJammer')
     }
 

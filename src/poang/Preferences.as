@@ -1,4 +1,5 @@
 package poang {
+  import dpk.seconds
   import flash.events.Event
   import flash.events.EventDispatcher
   import flash.events.IOErrorEvent
@@ -81,6 +82,14 @@ package poang {
     }
     public function set releaseTrack(value:String):void {
       setString('releaseTrack', value, 'stable')
+    }
+
+    [Bindable]
+    public function get slideShowLength():int {
+      return getInt('slideShowLength', seconds(20))
+    }
+    public function set slideShowLength(value:int):void {
+      setInt('slideShowLength', value, seconds(20))
     }
 
     [Bindable]

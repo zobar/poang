@@ -68,21 +68,7 @@ package poang {
       setString('name', value, '')
     }
 
-    [Bindable]
-    public function get show():Boolean {
-      return _show
-    }
-    public function set show(value:Boolean):void {
-      _show = value
-      if (content is MovieClip) {
-        var movieClip:MovieClip = MovieClip(content)
-        if (show)
-          movieClip.gotoAndPlay(1)
-        else
-          movieClip.gotoAndStop(movieClip.totalFrames)
-      }
-    }
-    protected var _show:Boolean
+    [Bindable] public var show:Boolean
 
     public function setContent(value:DisplayObject, data:ByteArray):void {
       setMedia('content', value, data, internal ? name : null)

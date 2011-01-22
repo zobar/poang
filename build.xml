@@ -6,7 +6,7 @@
   </condition>
 
   <property name='configuration' value='debug'/>
-  <property name='version'       value='3.0.1'/>
+  <property name='version'       value='3.0.2'/>
 
   <property name='app.main' value='Poang'/>
   <property name='app.name' value='Poang'/>
@@ -80,7 +80,6 @@
       <arg value='.'/>
     </java>
     <copy includeEmptyDirs='false' todir='${dist}'>
-      <fileset dir='${FLEX_HOME}/samples/badge' includes='badge.swf'/>
       <fileset dir='${share}'>
         <exclude name='**/*.cache'/>
         <exclude name='**/*.swz'/>

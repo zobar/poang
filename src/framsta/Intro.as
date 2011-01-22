@@ -57,17 +57,21 @@ package framsta {
     }
 
     public function update(values:Object):void {
-      if (bout) {
+      var firstUpdate:Boolean = (bout == null)
+      var oldJammerName:String = firstUpdate ? null : bout[which + 'JammerName']
+      if (firstUpdate)
+        bout = values
+      else {
         for (var property:String in values)
           bout[property] = values[property]
       }
-      else
-        bout = values
       if ('mediaName' in values)
         updateWhich()
       if (which + 'Image' in values)
         updateImage()
-      if (which + 'JammerName' in values)
+      if (firstUpdate)
+        gotoAndPlay(1)
+      else if (bout[which + 'JammerName'] != oldJammerName)
         play()
       if (which + 'Name' in values)
         updateName()

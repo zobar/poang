@@ -10,6 +10,17 @@
         paddingRight='12' paddingTop='12'/>
   </s:layout>
   <mx:TabNavigator height='100%' width='100%'>
+    <s:NavigatorContent height='100%' label='Display' width='100%'>
+      <s:layout>
+        <s:VerticalLayout paddingBottom='6' paddingLeft='6' paddingRight='6'/>
+      </s:layout>
+      <s:HGroup verticalAlign='middle' width='100%'>
+        <s:Label text='Slide show length:'/>
+        <s:TextInput enter='onSlideShowLengthEvent(event)'
+          focusOut='onSlideShowLengthEvent(event)' restrict='0-9'
+          text='{formatTime(preferences.slideShowLength, true)}' width='100%'/>
+      </s:HGroup>
+    </s:NavigatorContent>
     <s:NavigatorContent height='100%' label='Default Rules' width='100%'>
       <s:layout>
         <s:VerticalLayout paddingBottom='6' paddingLeft='6' paddingRight='6'/>

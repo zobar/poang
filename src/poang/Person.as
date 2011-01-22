@@ -29,10 +29,10 @@ package poang {
 
     [Bindable]
     public function get number():String {
-      return getString('number')
+      return getString('number', '')
     }
     public function set number(value:String):void {
-      setString('number', value)
+      setString('number', value, '')
     }
 
     public function setImage(bitmap:BitmapData, data:ByteArray):void {
