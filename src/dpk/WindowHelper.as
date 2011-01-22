@@ -28,7 +28,10 @@ package dpk {
       _name = name
       this.preferences = preferences
       _window = window
-      w.addEventListener(AIREvent.WINDOW_COMPLETE, onWindowComplete)
+      if (window.nativeWindow.visible)
+        onWindowComplete(null)
+      else
+        w.addEventListener(AIREvent.WINDOW_COMPLETE, onWindowComplete)
       w.addEventListener(Event.CLOSE, onWindowClose)
     }
 
