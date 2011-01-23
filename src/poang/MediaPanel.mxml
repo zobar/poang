@@ -9,9 +9,10 @@
   <fx:Script source='MediaPanel.mxml.as'/>
   <mx:DataGrid id='mediaDataGrid' allowMultipleSelection='true'
       dataProvider='{media}' dragEnabled='true' dragMoveEnabled='true'
-      draggableColumns='false' dropEnabled='true' editable='true'
-      itemEditBeginning='onMediaItemEditBeginning(event)' height='100%'
-      resizableColumns='false' sortableColumns='false' verticalGridLines='false'
+      draggableColumns='false' dropEnabled='true' editable='true' height='100%'
+      itemEditBeginning='onMediaItemEditBeginning(event)'
+      resizableColumns='false' sortableColumns='false' tabFocusEnabled='false'
+      verticalGridLines='false'
       width='165'>
     <mx:columns>
       <mx:DataGridColumn id='showColumn' dataField='show' headerText='✓'
@@ -22,13 +23,13 @@
   <s:HGroup>
     <s:HGroup gap='0'>
       <dpk:IconButton click='onAddMediaClick(event)'
-          icon='@Embed("/assets/AddMedia.png")'/>
+          icon='@Embed("/assets/AddMedia.png")' tabFocusEnabled='false'/>
       <dpk:IconButton click='onRemoveMediaClick(event)'
           enabled='{mediaDataGrid.selectedItem}'
-          icon='@Embed("/assets/RemoveMedia.png")'/>
+          icon='@Embed("/assets/RemoveMedia.png")' tabFocusEnabled='false'/>
     </s:HGroup>
     <dpk:IconButton click='onSlideShowClick(event)'
         enabled='{mediaDataGrid.selectedItems.length > 1}'
-        icon='@Embed("/assets/SlideShow.png")'/>
+        icon='@Embed("/assets/SlideShow.png")' tabFocusEnabled='false'/>
   </s:HGroup>
 </s:VGroup>

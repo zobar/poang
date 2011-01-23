@@ -7,12 +7,14 @@
     <s:Label lineBreak='toFit' maxDisplayedLines='1' styleName='titleText'
         text='{team.name}' width='100%'/>
     <dpk:IconButton click='onEditTeamClick(event)'
-        icon='@Embed("/assets/EditTeam.png")' right='0'/>
+        icon='@Embed("/assets/EditTeam.png")' right='0'
+        tabFocusEnabled='false'/>
   </s:HGroup>
   <mx:DataGrid id='personDataGrid' dataProvider='{team.people}'
       draggableColumns='false' editable='true' height='100%'
       itemEditBeginning='onPeopleItemEditBeginning(event)'
-      resizableColumns='false' sortableColumns='false' width='202'>
+      resizableColumns='false' sortableColumns='false' tabFocusEnabled='false'
+      width='202'>
     <mx:columns>
       <mx:DataGridColumn dataField='number' editable='false' headerText='#'
           width='37'/>

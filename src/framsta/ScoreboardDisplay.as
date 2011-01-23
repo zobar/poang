@@ -15,7 +15,7 @@ package framsta {
     }
 
     public function get jamVisible():Boolean {
-      return bout.period && bout.jam
+      return bout.period > 0 && bout.jam
     }
 
     public function get lineupClockVisible():Boolean {
@@ -267,6 +267,7 @@ package framsta {
         this.periodNumberField.text = value
       this.periodField.text = Period.toString(value)
       showIntermissionClock(intermissionClockVisible)
+      showJam(jamVisible)
       showLineupClock(lineupClockVisible)
       showPeriod(periodVisible)
       showPeriodNumber(periodNumberVisible)

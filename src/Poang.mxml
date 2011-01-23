@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <s:WindowedApplication applicationComplete='onApplicationComplete(event)'
     autoExit='false' close='onClose(event)' enterFrame='onEnterFrame(event)'
-    frameRate='20' initialize='onInitialize(event)' minHeight='393'
+    frameRate='20' initialize='onInitialize(event)' minHeight='426'
     minWidth='951' preinitialize='onPreinitialize(event)' showStatusBar='false'
     title='{bout.name}' xmlns:dpk='dpk.*'
     xmlns:fx='http://ns.adobe.com/mxml/2009'
@@ -83,52 +83,83 @@
       </s:BorderContainer>
     </s:Group>
     <s:HGroup gap='12'>
-      <s:VGroup width='139'>
+      <s:VGroup width='155'>
         <s:HGroup verticalAlign='middle' width='100%'>
-          <s:Label text='Clock:' width='39'/>
+          <s:Label text='Clock:' width='54'/>
           <s:TextInput id='periodClockField' focusIn='onFieldFocusIn(event)'
               focusOut='onPeriodClockFieldFocusOut(event)' restrict='0-9'
-              width='100%'/>
+              tabIndex='1' width='100%'/>
         </s:HGroup>
         <s:HGroup verticalAlign='middle' width='100%'>
-          <s:Label text='Period:' width='39'/>
+          <s:Label text='Period:' width='54'/>
           <s:DropDownList id='periodList' change='onPeriodListChange(event)'
               dataProvider='{periods}' focusIn='onPeriodListFocusIn(event)'
               focusOut='onPeriodListFocusOut(event)'
-              labelFunction='periodListLabelFunction' width='100%'/>
+              labelFunction='periodListLabelFunction' tabIndex='2'
+              width='100%'/>
         </s:HGroup>
         <s:HGroup verticalAlign='middle' width='100%'>
-          <s:Label text='Jam #:' width='39'/>
+          <s:Label text='Jam #:' width='54'/>
           <s:TextInput id='jamField' focusIn='onFieldFocusIn(event)'
-              focusOut='onJamFieldFocusOut(event)' restrict='0-9'
+              focusOut='onJamFieldFocusOut(event)' restrict='0-9' tabIndex='3'
               width='100%'/>
         </s:HGroup>
       </s:VGroup>
-      <s:VGroup width='171'>
+      <s:VGroup width='155'>
         <s:HGroup verticalAlign='middle' width='100%'>
           <s:Label text='Jam:' width='72'/>
           <s:TextInput id='jamClockField' focusIn='onFieldFocusIn(event)'
               focusOut='onJamClockFieldFocusOut(event)' restrict='0-9'
-              width='100%'/>
+              tabIndex='6' width='100%'/>
         </s:HGroup>
         <s:HGroup verticalAlign='middle' width='100%'>
           <s:Label text='Lineup:' width='72'/>
           <s:TextInput id='lineupClockField' focusIn='onFieldFocusIn(event)'
               focusOut='onLineupClockFieldFocusOut(event)' restrict='0-9'
-              width='100%'/>
+              tabIndex='7' width='100%'/>
         </s:HGroup>
         <s:HGroup verticalAlign='middle' width='100%'>
           <s:Label text='Timeout:' width='72'/>
           <s:TextInput id='timeoutClockField' focusIn='onFieldFocusIn(event)'
               focusOut='onTimeoutClockFieldFocusOut(event)' restrict='0-9'
-              width='100%'/>
+              tabIndex='8' width='100%'/>
         </s:HGroup>
         <s:HGroup verticalAlign='middle' width='100%'>
           <s:Label text='Intermission:' width='72'/>
           <s:TextInput id='intermissionClockField'
               focusIn='onFieldFocusIn(event)'
               focusOut='onIntermissionClockFieldFocusOut(event)' restrict='0-9'
-              width='100%'/>
+              tabIndex='9' width='100%'/>
+        </s:HGroup>
+      </s:VGroup>
+    </s:HGroup>
+    <s:HGroup gap='12'>
+      <s:VGroup width='155'>
+        <s:HGroup verticalAlign='middle' width='100%'>
+          <s:Label text='Score:' width='54'/>
+          <s:TextInput id='homeScoreField' focusIn='onFieldFocusIn(event)'
+              focusOut='onHomeScoreFieldFocusOut(event)' restrict='0-9'
+              tabIndex='4' width='100%'/>
+        </s:HGroup>
+        <s:HGroup verticalAlign='middle' width='100%'>
+          <s:Label text='Timeouts:' width='54'/>
+          <s:TextInput id='homeTimeoutsField' focusIn='onFieldFocusIn(event)'
+              focusOut='onHomeTimeoutsFieldFocusOut(event)' restrict='0-9'
+              tabIndex='5' width='100%'/>
+        </s:HGroup>
+      </s:VGroup>
+      <s:VGroup width='155'>
+        <s:HGroup verticalAlign='middle' width='100%'>
+          <s:Label text='Score:' width='72'/>
+          <s:TextInput id='visitorScoreField' focusIn='onFieldFocusIn(event)'
+              focusOut='onVisitorScoreFieldFocusOut(event)' restrict='0-9'
+              tabIndex='10' width='100%'/>
+        </s:HGroup>
+        <s:HGroup verticalAlign='middle' width='100%'>
+          <s:Label text='Timeouts:' width='72'/>
+          <s:TextInput id='visitorTimeoutsField' focusIn='onFieldFocusIn(event)'
+              focusOut='onVisitorTimeoutsFieldFocusOut(event)' restrict='0-9'
+              tabIndex='11' width='100%'/>
         </s:HGroup>
       </s:VGroup>
     </s:HGroup>

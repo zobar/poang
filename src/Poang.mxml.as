@@ -64,6 +64,14 @@ public function set bout(value:Bout):void {
       periodList.selectedItem = bout.period
     if (timeoutClockField != focused)
       timeoutClockField.text = formatTime(bout.timeoutClock)
+    if (homeScoreField != focused)
+      homeScoreField.text = String(bout.homeScore)
+    if (homeTimeoutsField != focused)
+      homeTimeoutsField.text = String(bout.homeTimeouts)
+    if (visitorScoreField != focused)
+      visitorScoreField.text = String(bout.visitorScore)
+    if (visitorTimeoutsField != focused)
+      visitorTimeoutsField.text = String(bout.visitorTimeouts)
     if (displayGroup)
       updateDisplay(displayGroup.content)
     updatePeriods()
@@ -304,6 +312,14 @@ protected function onBoutPropertyChange(event:PropertyChangeEvent):void {
       }
       updateTeamDisplay('home')
       break
+    case 'homeScore':
+      if (homeScoreField != focused)
+        homeScoreField.text = value
+      break
+    case 'homeTimeouts':
+      if (homeTimeoutsField != focused)
+        homeTimeoutsField.text = value
+      break
 
     case 'visitorTeam':
       if (oldValue) {
@@ -315,6 +331,14 @@ protected function onBoutPropertyChange(event:PropertyChangeEvent):void {
             onVisitorTeamPropertyChange)
       }
       updateTeamDisplay('visitor')
+      break
+    case 'visitorScore':
+      if (visitorScoreField != focused)
+        visitorScoreField.text = value
+      break
+    case 'visitorTimeouts':
+      if (visitorTimeoutsField != focused)
+        visitorTimeoutsField.text = value
       break
   }
   updateProperty(property, value)
@@ -625,6 +649,10 @@ protected function onHomeJammerPropertyChange(event:PropertyChangeEvent):void {
   jammerPropertyChange('home', event.property, event.newValue)
 }
 
+protected function onHomeScoreFieldFocusOut(event:FocusEvent):void {
+  fieldFocusOut(event, 'homeScore', parseInt, String)
+}
+
 protected function onHomeTeamPropertyChange(event:PropertyChangeEvent):void {
   var property:Object = event.property
   var value:* = event.newValue
@@ -642,9 +670,17 @@ protected function onHomeTeamPropertyChange(event:PropertyChangeEvent):void {
   teamPropertyChange('home', event.property, value)
 }
 
+protected function onHomeTimeoutsFieldFocusOut(event:FocusEvent):void {
+  fieldFocusOut(event, 'homeTimeouts', parseInt, String)
+}
+
 protected function
     onVisitorJammerPropertyChange(event:PropertyChangeEvent):void {
   jammerPropertyChange('visitor', event.property, event.newValue)
+}
+
+protected function onVisitorScoreFieldFocusOut(event:FocusEvent):void {
+  fieldFocusOut(event, 'visitorScore', parseInt, String)
 }
 
 protected function onVisitorTeamPropertyChange(event:PropertyChangeEvent):void {
@@ -662,6 +698,10 @@ protected function onVisitorTeamPropertyChange(event:PropertyChangeEvent):void {
     }
   }
   teamPropertyChange('visitor', event.property, value)
+}
+
+protected function onVisitorTimeoutsFieldFocusOut(event:FocusEvent):void {
+  fieldFocusOut(event, 'visitorTimeouts', parseInt, String)
 }
 
 protected function jammerPropertyChange(which:String, property:Object,
