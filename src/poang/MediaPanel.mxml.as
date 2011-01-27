@@ -1,4 +1,5 @@
 import dpk.CheckBoxListItemRenderer
+import flash.display.InteractiveObject
 import flash.display.LoaderInfo
 import flash.events.Event
 import flash.events.FileListEvent
@@ -7,7 +8,13 @@ import flash.filesystem.File
 import flash.geom.Rectangle
 import flash.utils.Timer
 import mx.collections.ArrayCollection
+import mx.collections.ListCollectionView
+import mx.controls.listClasses.ListBase
+import mx.core.DragSource
+import mx.core.IUIComponent
 import mx.events.DataGridEvent
+import mx.events.DragEvent
+import mx.managers.DragManager
 
 [Bindable]
 public function get currentMedia():Media {
@@ -110,11 +117,67 @@ protected function set slideShowTimer(value:Timer):void {
 }
 protected var _slideShowTimer:Timer
 
+protected function acceptMediaDrag(event:DragEvent):Boolean {
+  var dragSource:DragSource = event.dragSource
+  if (event.action == DragManager.COPY &&
+      dragSource.hasFormat(ClipboardFormats.FILE_LIST_FORMAT)) {
+    var fileList:Array =
+        dragSource.dataForFormat(ClipboardFormats.FILE_LIST_FORMAT) as Array
+    for each (var file:File in fileList) {
+      if (['gif', 'jpeg', 'jpg', 'png', 'swf'].indexOf(file.extension) == -1)
+        return false
+    }
+    return true
+  }
+  return false
+}
+
 protected function onAddMediaClick(event:MouseEvent):void {
   if (!file)
     file = new File()
   file.browseForOpenMultiple('Open Media',
       [new FileFilter('Media', '*.gif;*.jpeg;*.jpg;*.png;*.swf')])
+}
+
+protected function onFileSelectMultiple(event:FileListEvent):void {
+  for each (var file:File in event.files)
+    Media.createMedia(file, Poang.app.library)
+}
+
+protected function onMediaDragDrop(event:DragEvent):void {
+  if (acceptMediaDrag(event)) {
+    var dragSource:DragSource = event.dragSource
+    var files:Array =
+        dragSource.dataForFormat(ClipboardFormats.FILE_LIST_FORMAT) as Array
+    var list:ListBase = ListBase(event.currentTarget)
+    var collection:ListCollectionView = ListCollectionView(list.dataProvider)
+    var index:int = list.calculateDropIndex()
+    var values:ArrayCollection = new ArrayCollection()
+    for each (var file:File in files)
+      values.addItem(Media.createMedia(file, Poang.app.library))
+    for (var i:int = 0; i < values.length; ++i)
+      collection.removeItemAt(collection.length - 1)
+    collection.addAllAt(values, index)
+  }
+}
+
+protected function onMediaDragEnter(event:DragEvent):void {
+  if (acceptMediaDrag(event)) {
+    var list:ListBase = ListBase(event.currentTarget)
+    DragManager.acceptDragDrop(list)
+    DragManager.showFeedback(DragManager.COPY)
+    list.showDropFeedback(event)
+    event.preventDefault()
+  }
+}
+
+protected function onMediaDragOver(event:DragEvent):void {
+  if (acceptMediaDrag(event)) {
+    var list:ListBase = ListBase(event.currentTarget)
+    DragManager.showFeedback(DragManager.COPY)
+    list.showDropFeedback(event)
+    event.preventDefault()
+  }
 }
 
 protected function onMediaItemEditBeginning(event:DataGridEvent):void {
@@ -142,11 +205,6 @@ protected function onRemoveMediaClick(event:MouseEvent):void {
       Array.DESCENDING | Array.NUMERIC)
   for each (var index:int in indices)
     media.removeItemAt(index)
-}
-
-protected function onFileSelectMultiple(event:FileListEvent):void {
-  for each (var file:File in event.files)
-    Media.createMedia(file, Poang.app.library)
 }
 
 protected function onSlideShowClick(event:MouseEvent):void {

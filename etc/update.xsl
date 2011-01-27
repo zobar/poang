@@ -6,6 +6,7 @@
       <li>Slide show</li>
       <li>Score &amp; timeouts editable from main screen</li>
       <li>Jam number always visible</li>
+      <li>Native drag for images &amp; media</li>
       <li>Smooth jammer animations</li>
     </ul>
   </changes>

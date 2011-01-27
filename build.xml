@@ -6,7 +6,7 @@
   </condition>
 
   <property name='configuration' value='debug'/>
-  <property name='version'       value='3.0.4'/>
+  <property name='version'       value='3.0.5'/>
 
   <property name='app.main' value='Poang'/>
   <property name='app.name' value='Poang'/>

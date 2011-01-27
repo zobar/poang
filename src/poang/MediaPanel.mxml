@@ -8,8 +8,11 @@
   ]]></fx:Metadata>
   <fx:Script source='MediaPanel.mxml.as'/>
   <mx:DataGrid id='mediaDataGrid' allowMultipleSelection='true'
-      dataProvider='{media}' dragEnabled='true' dragMoveEnabled='true'
-      draggableColumns='false' dropEnabled='true' editable='true' height='100%'
+      dataProvider='{media}' dragDrop='onMediaDragDrop(event)'
+      dragEnabled='true' dragEnter='onMediaDragEnter(event)'
+      dragMoveEnabled='true' draggableColumns='false'
+      dragOver='onMediaDragOver(event)' dropEnabled='true'
+      editable='true' height='100%'
       itemEditBeginning='onMediaItemEditBeginning(event)'
       resizableColumns='false' sortableColumns='false' tabFocusEnabled='false'
       verticalGridLines='false'

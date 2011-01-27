@@ -1,4 +1,5 @@
 package dpk {
+  import flash.desktop.ClipboardFormats
   import flash.display.Bitmap
   import flash.display.BitmapData
   import flash.display.DisplayObject
@@ -13,6 +14,10 @@ package dpk {
   import flash.net.URLRequest
   import flash.ui.Keyboard
   import flash.utils.ByteArray
+  import mx.core.DragSource
+  import mx.core.IUIComponent
+  import mx.events.DragEvent
+  import mx.managers.DragManager
   import mx.managers.IFocusManagerComponent
   import spark.components.supportClasses.SkinnableComponent
 
@@ -73,11 +78,28 @@ package dpk {
       addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown)
       addEventListener(MouseEvent.CLICK, onClick)
       addEventListener(MouseEvent.DOUBLE_CLICK, onDoubleClick)
+      addEventListener(DragEvent.DRAG_DROP, onDragDrop)
+      addEventListener(DragEvent.DRAG_ENTER, onDragEnter)
     }
 
     public function open():void {
       file.browseForOpen(title,
           [new FileFilter('Images', '*.gif;*.jpeg;*.jpg;*.png')])
+    }
+
+    protected function draggedFile(event:DragEvent):File {
+      var dragSource:DragSource = event.dragSource
+      var result:File = null
+      if (dragSource.hasFormat(ClipboardFormats.FILE_LIST_FORMAT)) {
+        var fileList:Array =
+            dragSource.dataForFormat(ClipboardFormats.FILE_LIST_FORMAT) as Array
+        if (fileList.length == 1) {
+          var file:File = fileList[0]
+          if (['gif', 'jpeg', 'jpg', 'png'].indexOf(file.extension) != -1)
+            result = file
+        }
+      }
+      return result
     }
 
     protected function onClick(event:MouseEvent):void {
@@ -144,6 +166,21 @@ package dpk {
       bitmapData = null
       data = null
       dispatchEvent(new Event(Event.CHANGE))
+    }
+
+    protected function onDragDrop(event:DragEvent):void {
+      var f:File = draggedFile(event)
+      if (f) {
+        file = f
+        file.load()
+      }
+    }
+
+    protected function onDragEnter(event:DragEvent):void {
+      if (draggedFile(event)) {
+        DragManager.acceptDragDrop(IUIComponent(event.target))
+        DragManager.showFeedback(DragManager.COPY)
+      }
     }
 
     override public function validateProperties():void {
