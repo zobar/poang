@@ -77,6 +77,7 @@ package framsta {
       super.updateHomeJammerImage(value)
       if (placeholder)
         placeholder.bitmapData = value
+      showTimeouts(timeoutsVisible)
     }
 
     override protected function updateHomeJammerName(value:String):void {
@@ -107,6 +108,7 @@ package framsta {
       super.updateVisitorJammerImage(value)
       if (placeholder)
         placeholder.bitmapData = value
+      showTimeouts(timeoutsVisible)
     }
 
     override protected function updateVisitorJammerName(value:String):void {

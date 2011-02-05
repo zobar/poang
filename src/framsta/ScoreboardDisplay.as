@@ -316,7 +316,7 @@ package framsta {
 
     protected function updateHomeName(value:String):void {
       if ('homeNameField' in this)
-        this.homeNameField.text = value
+        this.homeNameField.text = value ? value : ''
     }
 
     protected function updateHomeScore(value:int):void {
@@ -356,7 +356,7 @@ package framsta {
 
     protected function updateVisitorName(value:String):void {
       if ('visitorNameField' in this)
-        this.visitorNameField.text = value
+        this.visitorNameField.text = value ? value : ''
     }
 
     protected function updateVisitorScore(value:int):void {

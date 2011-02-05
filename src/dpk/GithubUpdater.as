@@ -15,7 +15,7 @@ package dpk {
   [Event(name='select')]
   [Event(name='updateAvailable', type='dpk.UpdateEvent')]
   public class GithubUpdater extends EventDispatcher {
-    protected static const GITHUB_BASE:String = 'http://github.com/'
+    protected static const GITHUB_BASE:String = 'https://github.com/'
     protected static const API_BASE:String = GITHUB_BASE + 'api/v2/xml/';
 
     [Bindable]

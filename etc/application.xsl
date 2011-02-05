@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<application xmlns='http://ns.adobe.com/air/application/2.5'
+<application xmlns='http://ns.adobe.com/air/application/2.0'
     xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
   <xsl:param name='version'/>
   <description>Roller derby scoreboard</description>
@@ -8,6 +8,7 @@
   <initialWindow>
     <content>Poang.swf</content>
   </initialWindow>
-  <versionNumber><xsl:value-of select='$version'/></versionNumber>
+  <version><xsl:value-of select='$version'/></version>
+  <!--<versionNumber><xsl:value-of select='$version'/></versionNumber>-->
 </application>
 

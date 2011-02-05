@@ -778,8 +778,9 @@ protected function updateDisplay(display:*):void {
 }
 
 protected function updateJammerDisplay(which:String, values:Object=null):Object {
-  var jammer:Person = bout[which + 'Team'].jammer
-  if (jammer) {
+  var team:Team = bout[which + 'Team']
+  var jammer:Person = team ? team.jammer : null
+  if (team && jammer) {
     if (!values) {
       if (!updates)
         updates = {}
