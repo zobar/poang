@@ -155,7 +155,7 @@ package dpk {
       var namespace:Namespace = descriptor.namespace()
       _updateInfo = XML(loader.data)
       if (updateInfo.version.toString() !=
-          descriptor.namespace::versionNumber.toString())
+          descriptor.namespace::version.toString())
         dispatchEvent(new UpdateEvent(UpdateEvent.UPDATE_AVAILABLE))
     }
 
